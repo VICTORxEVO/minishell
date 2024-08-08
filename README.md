@@ -1,2 +1,2 @@
 # minishell
-42 project about creating a program that do same job as the bash
+The 42 project minishell is a shell program. It provides a convenient interface to interact with the operating system.
