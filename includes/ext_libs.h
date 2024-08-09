@@ -1,5 +1,9 @@
+/**
+ * @details this header adds external libs like stdlib and also  same of libft functions
+ */
 #ifndef EXT_LIBS_H
 # define EXT_LIBS_H
+
 
 # include <unistd.h>
 # include <stdio.h>
@@ -10,7 +14,7 @@
 # include <stdlib.h>
 # include "minishell.h"
 
-typedef unsigned char	t_uc;
+typedef unsigned char	t_uc; //just a macro that i used in libft to avoid long line on norminette ;)
 
 int			ft_toupper(int x);
 int			ft_tolower(int x);
@@ -38,7 +42,6 @@ int			ft_isdigit(int x);
 int			ft_isascii(int x);
 int			ft_isalpha(int x);
 int			ft_isalnum(int x);
-// void		*ft_calloc(size_t n, size_t size);
 void		ft_bzero(void *s, size_t n);
 int			ft_atoi(const char *str);
 void		ft_putstr_fd(char *s, int fd);

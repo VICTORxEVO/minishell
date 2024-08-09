@@ -1,5 +1,9 @@
+/**
+ * @details this header about garbage collector, using linked list to store reference to all allocated memory
+ */
 #ifndef GC_H
 # define GC_H
+
 
 # include "ext_libs.h"
 # include "macros.h"
@@ -16,9 +20,21 @@ typedef struct s_gc
 }       t_gc;
 
 
-void		gc_lstclear(t_gc **lst);
+/**
+ * @param list refrance to t_gc
+ * @param flag data type need to freed:
+ * F_TMP for freeying up all tmp allocation (used after executing commands),
+ * F_ALL for freeying up all tmp and perm data (used after exiting the whole program) 
+ */
 void        clear(t_gc **list, char flag);
+
+// clear whole list
+void		gc_lstclear(t_gc **lst);
+
+//clear,print message and exit with exit_code
 void        pexit(t_gc **gc, char *msg, int exit_code);
+
+// set bytes to 0
 inline void ft_bzero(void *s, size_t n)
 {
 	while (n--)
@@ -27,6 +43,7 @@ inline void ft_bzero(void *s, size_t n)
 		s++;
 	}
 }
+
 inline void	*ft_calloc(size_t n, size_t size)
 {
 	void	*ptr;
@@ -72,6 +89,17 @@ inline void gc_add_node(t_gc *gc_list, void *data, char type)
     }
     gc_list->next = gc_new(data, type, gc_list);
 }
+
+/**
+ * @brief garbage collector function
+ * 
+ * @param size memory size needed just as malloc
+ * @param type type of data returned:
+ * D_TMP for temporary data that nedded for one commande cycle and freed at end of executing the commands,
+ * D_PERM for permanent data that nedded for the whole program.
+ * @param gc a double pointer refrence to the t_gc
+ * @return a pointer to memory allocated or exit on failer
+ */
 inline void *malloc_v2(size_t size, char type, t_gc **gc)
 {
     void *data;

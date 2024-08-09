@@ -1,5 +1,9 @@
+/**
+ * @details minishell main header still under devlopment 
+ */
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 
 
 # include "libft.h"
@@ -14,13 +18,9 @@ typedef struct s_lx
 }   t_lx;
 
 
-
-
-
-
 typedef struct s_core
 {
-    
+    char **env;
     t_core  **scopes;
     t_gc    *gc
 }   t_core;
