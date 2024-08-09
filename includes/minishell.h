@@ -22,8 +22,7 @@ typedef struct s_core
 {
     
     t_core  **scopes;
-    t_gc    *gc_tmp;
-    t_gc    *gc_perm;
+    t_gc    *gc
 }   t_core;
 
 

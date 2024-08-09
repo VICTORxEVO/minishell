@@ -4,10 +4,11 @@
 //this header have all macros used in the program
 
 # define PRGM_NAME "minishell"
-# define MALLOC_ERR "minishell: memory allocation failed !"
-
-
-
+# define MEM_ERR "minishell: malloc"
+# define D_TMP 0
+# define D_PERM 1
+# define F_ALL 10
+# define F_TMP 11
 
 
 

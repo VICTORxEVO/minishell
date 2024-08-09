@@ -38,7 +38,7 @@ int			ft_isdigit(int x);
 int			ft_isascii(int x);
 int			ft_isalpha(int x);
 int			ft_isalnum(int x);
-void		*ft_calloc(size_t n, size_t size);
+// void		*ft_calloc(size_t n, size_t size);
 void		ft_bzero(void *s, size_t n);
 int			ft_atoi(const char *str);
 void		ft_putstr_fd(char *s, int fd);

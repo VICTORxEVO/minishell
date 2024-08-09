@@ -1,9 +1,8 @@
 #include "minishell.h"
 
-void    pexit(t_core *core, char *msg, int exit_code)
+void    pexit(t_gc **gc, char *msg, int exit_code)
 {
-    clear(&core->gc_tmp);
-    clear(&core->gc_perm);
+    clear(gc, F_ALL);
     perror(msg);
     exit (exit_code);
 }
