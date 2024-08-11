@@ -7,15 +7,14 @@
 
 # include "ext_libs.h"
 # include "macros.h"
-
+# include "minishell.h"
 
 
 
 typedef struct s_gc
 {
     char    *type;
-    void    *d_tmp;
-    void    *d_perm;
+    void    *data;
     t_gc    *next;
 }       t_gc;
 
@@ -26,13 +25,10 @@ typedef struct s_gc
  * F_TMP for freeying up all tmp allocation (used after executing commands),
  * F_ALL for freeying up all tmp and perm data (used after exiting the whole program) 
  */
-void        clear(t_gc **list, char flag);
-
-// clear whole list
-void		gc_lstclear(t_gc **lst);
+void        clear(char flag);
 
 //clear,print message and exit with exit_code
-void        pexit(t_gc **gc, char *msg, int exit_code);
+void        pexit(char *msg, int exit_code);
 
 // set bytes to 0
 inline void ft_bzero(void *s, size_t n)
@@ -54,60 +50,45 @@ inline void	*ft_calloc(size_t n, size_t size)
     ft_bzero(ptr, n * size);
 	return (ptr);
 }
-inline t_gc	*gc_new(void *content, char flag, t_gc *gc)
+inline t_gc	*gc_new(void *data)
 {
 	t_gc	*new;
 
 	new = ft_calloc(1, sizeof(t_gc));
 	if (!new)
-		pexit(&gc, MEM_ERR, 1);
-    if (flag = D_TMP)
-        new->d_tmp = content;
-    else
-        new->d_perm = content;
+		pexit(MEM_ERR, 1);
+    new->data = data;
 }
-inline void gc_add_node(t_gc *gc_list, void *data, char type)
+inline void gc_add_node(void *data)
 {
+    t_gc *gc_list;
+
+    gc_list = get_core()->gc;
     while (gc_list->next)
     {
-        if (type == D_TMP)
-        {
-            if (!gc_list->d_tmp)
+            if (!gc_list->data)
             {
-                gc_list->d_tmp = data;
+                gc_list->data = data;
                 return ;
             }
-        }
-        else
-        {
-            if (!gc_list->d_perm)
-            {
-                gc_list->d_perm = data;
-                return ;
-            }
-        }
     }
-    gc_list->next = gc_new(data, type, gc_list);
+    gc_list->next = gc_new(data);
 }
 
 /**
  * @brief garbage collector function
  * 
  * @param size memory size needed just as malloc
- * @param type type of data returned:
- * D_TMP for temporary data that nedded for one commande cycle and freed at end of executing the commands,
- * D_PERM for permanent data that nedded for the whole program.
- * @param gc a double pointer refrence to the t_gc
  * @return a pointer to memory allocated or exit on failer
  */
-inline void *malloc_v2(size_t size, char type, t_gc **gc)
+inline void *galloc(size_t size)
 {
     void *data;
 
     data = ft_calloc(1, size);
     if (!data)
-        (pexit(gc, MEM_ERR, 1));
-    gc_add_node(*gc, data, type);
+        (pexit(MEM_ERR, 1));
+    gc_add_node(data);
     return (data);
 }
 

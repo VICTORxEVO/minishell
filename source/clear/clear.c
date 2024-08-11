@@ -5,40 +5,59 @@ static void safe_free(void *data)
     if (data)
     {
         free(data);
-        data= NULL;
+        data = NULL;
     }
 }
-void	gc_lstclear(t_gc **lst)
-{
-	t_gc	*tm;
 
-	if (!lst)
+static void env_lstclear(void)
+{
+    t_all *core;
+    t_env *tmp;
+
+    core = get_core();
+    while (core->env)
+    {
+        tmp = core->env->next;
+        safe_free(core->env->key);
+        safe_free(core->env->value);
+        core->env = tmp;
+    }
+}
+static void gc_lstclear(void)
+{
+	t_all	*core;
+    t_gc    *tmp;
+
+    core = get_core();
+	if (!core->gc)
 		return ;
-	while ((*lst) != NULL)
+	while (core->gc)
 	{
-		tm = (*lst)->next;
-		safe_free((*lst)->d_tmp);
-		safe_free((*lst)->d_perm);
-        safe_free(*lst);
-		*lst = tm;
+		tmp = core->gc->next;
+		safe_free(core->gc->data);
+        safe_free(core->gc);
+		core->gc = tmp;
 	}
-	*lst = NULL;
+	core->gc = NULL;
 }
 
-void clear(t_gc **list, char flag)
+void clear(char flag)
 {
-    t_gc *node;
+    t_gc *gc;
 
     if (flag == F_TMP)
     {
-        node = *list;
-        while (node->next)
+        gc = get_core()->gc;
+        while (gc->next)
         {
-            if (node->d_tmp)
-                safe_free(node->d_tmp);
-            node = node->next;
+            if (gc->data)
+                safe_free(gc->data);
+            gc = gc->next;
         }
-        return ;
     }
-    gc_lstclear(list);
+    else
+    {
+        gc_lstclear();
+        env_lstclear();
+    }
 }

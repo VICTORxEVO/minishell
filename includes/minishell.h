@@ -10,26 +10,47 @@
 # include "ext_libs.h"
 # include "gc.h"
 
-struct s_core t_core;
+
 
 typedef struct s_lx
 {
     
 }   t_lx;
 
-
-typedef struct s_core
+typedef struct s_env
 {
-    char **env;
-    t_core  **scopes;
-    t_gc    *gc
-}   t_core;
+    char *key;
+    char *value;
+    struct s_env *next;
+}       t_env;
+
+typedef struct s_cmd
+{
+
+
+}       t_cmd;
+
+
+typedef struct s_all
+{
+    t_env *env;
+    t_cmd  **scopes;
+    t_gc    *gc;
+    char exit_code;
+}   t_all;
+
+t_all *core;
 
 
 
 
 
-
+/*          >Utils functions<           */
+/**
+ * @brief this function called whatever you need to use the main struct, its like a global varibale
+ * @return refrence the t_core struct
+ */
+t_all   *get_core(void)
 
 
 
