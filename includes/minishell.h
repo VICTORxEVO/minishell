@@ -14,7 +14,9 @@
 
 typedef struct s_lx
 {
-    
+    unsigned char type;
+    char *contant;
+    struct s_lx *next;
 }   t_lx;
 
 typedef struct s_env
@@ -26,7 +28,10 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-
+    char *full_cmd;
+    char *cmd;
+    char *infile;
+    char *outfile;
 
 }       t_cmd;
 
@@ -34,6 +39,8 @@ typedef struct s_cmd
 typedef struct s_all
 {
     t_env *env;
+    unsigned int    cmd_count;
+    t_lx    *lexer;
     t_cmd  **scopes;
     t_gc    *gc;
     char exit_code;
