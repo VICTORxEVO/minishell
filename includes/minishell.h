@@ -28,8 +28,8 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-    char *full_cmd;
-    char *cmd;
+    char *cmd_string;
+    char **cmd;
     char *infile;
     char *outfile;
 
@@ -40,7 +40,8 @@ typedef struct s_all
 {
     t_env *env;
     unsigned int    cmd_count;
-    t_lx    *lexer;
+    unsigned int    pipe_count;
+    char *input_line;
     t_cmd  **scopes;
     t_gc    *gc;
     char exit_code;
