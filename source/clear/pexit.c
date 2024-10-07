@@ -6,6 +6,10 @@ void    pexit(char *msg, int exit_code)
 
     core = get_core();
     clear(F_ALL);
-    perror(msg);
+    ft_putstr_fd(PRGM_NAME, 2);
+    if (msg[0] == ':')
+        ft_putstr_fd(msg, 2);
+    else
+        perror(msg);
     exit (exit_code);
 }
