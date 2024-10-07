@@ -6,7 +6,6 @@
 
 
 
-# include "libft.h"
 # include "ext_libs.h"
 # include "gc.h"
 
@@ -28,8 +27,9 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-    char *full_cmd;
-    char *cmd;
+    char type;
+    char *delimiter;
+    char **cmd;
     char *infile;
     char *outfile;
 
@@ -40,13 +40,19 @@ typedef struct s_all
 {
     t_env *env;
     unsigned int    cmd_count;
-    t_lx    *lexer;
-    t_cmd  **scopes;
+    unsigned int    pipe_count;
+    char *in_line;
+    size_t inline_len;
+    t_cmd  **cmd_scope;
     t_gc    *gc;
+    t_lx *lexer;
     char exit_code;
 }   t_all;
-
 t_all *core;
+
+
+
+
 
 
 
@@ -57,8 +63,11 @@ t_all *core;
  * @brief this function called whatever you need to use the main struct, its like a global varibale
  * @return refrence the t_core struct
  */
-t_all   *get_core(void)
 
+t_all   *get_core(void);
+bool     ft_isword(int c);
+bool     ft_isspace(int c, char *str);
+bool     ft_istoken(int c);
 
 
 
