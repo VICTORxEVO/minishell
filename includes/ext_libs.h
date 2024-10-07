@@ -12,6 +12,7 @@
 # include <fcntl.h>
 # include <string.h>
 # include <stdlib.h>
+# include <stdbool.h>
 # include "minishell.h"
 
 typedef unsigned char	t_uc; //just a macro that i used in libft to avoid long line on norminette ;)
