@@ -23,22 +23,22 @@ static long long lexer_add_token(char type)
     
 }
 
-long long lexer_add(char *line, char type)
+long long lexer_add(char *line)
 {
-    if (type == TOKEN)
-    {
-        if (line[0] == '<' && line[1] == '<')
-            return (lexer_add_token(HERE_DOC));
-        else if (line[0] == '>' && line[1] == '>')
-            return (lexer_add_token(OUT_RDRT_APP));
-        else if (line[0] == '<')
-            return (lexer_add_token(IN_RDRT));
-        else if (line[0] == '>')
-            return (lexer_add_token(OUT_RDRT_OW));
-        else
-            return (lexer_add_token(PIPE));
-    }
-    else if (type == D_QUOTES || type == S_QUOTES)
-        return (lexer_add_quotes(type));
-    
+    if (line[0] == '<' && line[1] == '<')
+        return (lexer_add_token(HERE_DOC));
+    else if (line[0] == '>' && line[1] == '>')
+        return (lexer_add_token(OUT_RDRT_APP));
+    else if (line[0] == '<')
+        return (lexer_add_token(IN_RDRT));
+    else if (line[0] == '>')
+        return (lexer_add_token(OUT_RDRT_OW));
+    else if (line[0] == '|')
+        return (lexer_add_token(PIPE));
+    else if (line[0] == D_QUOTES)
+        return (lexer_add_word(D_QUOTES));
+    else if (line[0] == S_QUOTES)
+        return (lexer_add_word(S_QUOTES));
+    else
+        return (lexer_add_word(WORD));
 }
