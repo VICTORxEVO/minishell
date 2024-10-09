@@ -46,11 +46,18 @@
 // word type token 
 # define WORD 4
 
+//word in double quotes
+# define WORD_D_QUOTES 5
+
+//word in single quotes
+#define WORD_S_QUOTES 6
+
+
 // pipe type token
-# define PIPE 5
+# define PIPE 7
 
 // any token type
-# define TOKEN 6
+# define TOKEN 8
 
 
 
