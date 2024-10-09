@@ -63,7 +63,6 @@ t_all *core;
  * @brief this function called whatever you need to use the main struct, its like a global varibale
  * @return refrence the t_core struct
  */
-
 t_all   *get_core(void);
 bool     ft_isword(int c);
 bool     ft_isspace(int c, char *str);
