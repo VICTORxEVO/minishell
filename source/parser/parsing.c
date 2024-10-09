@@ -23,12 +23,12 @@ static void preprocess(char *line)
 
 void    parsing(char *env[])
 {
-    t_all *core
+    t_all *core;
 
     core = get_core();
     core->env = env;
     core->in_line = reader_loop();
     core->inline_len = ft_strlen(core->in_line);
-    preprocess(line);
-    load_elements(line);
+    preprocess(core->in_line);
+    load_elements(core->in_line);
 }

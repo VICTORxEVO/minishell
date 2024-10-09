@@ -10,13 +10,13 @@ void    load_elements(char *line)
         while (line[i] && ft_isspace(line[i], NULL))
             i++;
         if (ft_istoken(line[i]))
-            i += lexer_add(line + (i + 1), TOKEN);
+            i += lexer_add(line + (i + 1));
         else if (line[i] == D_QUOTES)
-            i += lexer_add(line + (i + 1), D_QUOTES);
+            i += lexer_add(line + (i + 1));
         else if (line[i] == S_QUOTES)
-            i += lexer_add(line + (i + 1), S_QUOTES);
+            i += lexer_add(line + (i + 1));
         else
-            i += lexer_add(line + (i + 1), WORD);
+            i += lexer_add(line + (i + 1));
     }
 }
 
