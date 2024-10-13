@@ -52,7 +52,9 @@ typedef struct s_all
 void    check_quotes(char *line);
 void    load_elements(char *line);
 void    parsing(char *env[]);
-long long lexer_add(char *line);
+long long lexer_add_token(char type);
+long long lexer_add_word(char type, char *line);
+
 
 
 
