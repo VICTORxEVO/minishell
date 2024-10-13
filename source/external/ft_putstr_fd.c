@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 18:37:32 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/08/07 12:14:35 by ysbai-jo         ###   ########.fr       */
+/*   Created: 2023/11/22 11:10:30 by ysbai-jo          #+#    #+#             */
+/*   Updated: 2024/10/12 19:20:19 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gc.h"
+#include <unistd.h>
 
-void	ft_lstclear(t_gc **lst)
+void	ft_putstr_fd(char *s, int fd)
 {
-	t_gc	*tm;
-
-	if (!lst)
-		return ;
-	while ((*lst) != NULL)
+	if (fd != -1 || s)
 	{
-		tm = (*lst)->next;
-		ft_lstdelone(*lst);
-		*lst = tm;
+		while (*s)
+			write(fd, s++, 1);
 	}
-	*lst = NULL;
 }
