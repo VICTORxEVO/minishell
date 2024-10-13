@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysbai-jo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 13:30:01 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2023/11/21 15:29:15 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/10/10 21:00:51 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ext_libs.h"
 
 static long	calc_len(long nbr)
 {
