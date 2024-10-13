@@ -23,7 +23,7 @@ void    load_elements(char *line)
             i += lexer_add_word(WORD_D_QUOTES, line + i) + 2;
         else if (line[i] == S_QUOTES)
             i += lexer_add_word(WORD_S_QUOTES, line + i) + 2;
-        else
+        else if (line[i] != 0)
             i += lexer_add_word(WORD, line + i);
     }
 }
