@@ -6,9 +6,12 @@ int main(int ac, char *av[], char *env[])
 	(void)av;
 	parsing(env);
 
-	t_all *core = get_core();
-	for(t_lx *lx = core->lexer; lx; lx = lx->next)
-		printf("lx type -> %C\tvalue ->%s\n", lx->type, lx->content);
+	t_lx *lexer = get_core()->lexer;
+	while(lexer)
+	{
+		printf("lx type ->%d, lx content ->%s\n", lexer->type, lexer->content);
+		lexer = lexer->next;
+	}
 	
 	return 0;
 }
