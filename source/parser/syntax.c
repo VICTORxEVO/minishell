@@ -20,11 +20,11 @@ void    load_elements(char *line)
         else if (line[i] == '|')
             i += lexer_add_token(PIPE);
         else if (line[i] == D_QUOTES)
-            i += lexer_add_word(WORD_D_QUOTES, line);
+            i += lexer_add_word(WORD_D_QUOTES, line + i) + 2;
         else if (line[i] == S_QUOTES)
-            i += lexer_add_word(WORD_S_QUOTES, line);
+            i += lexer_add_word(WORD_S_QUOTES, line + i) + 2;
         else
-            i += lexer_add_word(WORD, line);
+            i += lexer_add_word(WORD, line + i);
     }
 }
 

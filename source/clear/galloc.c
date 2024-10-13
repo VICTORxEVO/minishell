@@ -36,21 +36,21 @@ inline void gc_add_node(void *data)
     t_gc *gc_list;
 
     gc_list = get_core()->gc;
-    if (!gc_list->next)
+    if (!gc_list)
+        get_core()->gc = gc_new(data);
+    else
     {
-        gc_list->data = data;
-        return ;
-    }
-    while (gc_list->next)
-    {
-        if (!gc_list->data)
+        while (gc_list->next)
         {
-            gc_list->data = data;
-            return ;
+            if (!gc_list->data)
+            {
+                gc_list->data = data;
+                return ;
+            }
+            gc_list = gc_list->next;
         }
-        gc_list = gc_list->next;
+        gc_list->next = gc_new(data);
     }
-    gc_list->next = gc_new(data);
 }
 
 inline void *galloc(size_t size)
