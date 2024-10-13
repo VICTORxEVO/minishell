@@ -1,4 +1,4 @@
-#include "gc.h"
+#include "minishell.h"
 
 static void safe_free(void *data)
 {
@@ -17,10 +17,10 @@ static void env_lstclear(void)
     core = get_core();
     while (core->env)
     {
-        tmp = core->env->next;
-        safe_free(core->env->key);
-        safe_free(core->env->value);
-        core->env = tmp;
+        tmp = core->env_list->next;
+        safe_free(core->env_list->key);
+        safe_free(core->env_list->value);
+        core->env_list = tmp;
     }
 }
 static void gc_lstclear(void)
