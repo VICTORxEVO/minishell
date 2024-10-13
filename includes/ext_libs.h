@@ -13,7 +13,6 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include "minishell.h"
 
 typedef unsigned char	t_uc; //just a macro that i used in libft to avoid long line on norminette ;)
 
@@ -46,9 +45,9 @@ int			ft_isalnum(int x);
 void		ft_bzero(void *s, size_t n);
 int			ft_atoi(const char *str);
 void		ft_putstr_fd(char *s, int fd);
-void		ft_putnbr_fd(int n, int fd);
-void		ft_putendl_fd(char *s, int fd);
-void		ft_putchar_fd(char c, int fd);
 int			ft_isprint(int c);
+void        *ft_calloc(size_t n, size_t size);
+void        ft_bzero(void *s, size_t n);
+
 
 #endif

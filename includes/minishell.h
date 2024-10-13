@@ -6,15 +6,13 @@
 
 
 
-# include "ext_libs.h"
 # include "gc.h"
-
 
 
 typedef struct s_lx
 {
     unsigned char type;
-    char *contant;
+    char *content;
     struct s_lx *next;
 }   t_lx;
 
@@ -35,10 +33,10 @@ typedef struct s_cmd
 
 }       t_cmd;
 
-
 typedef struct s_all
 {
-    t_env *env;
+    t_env *env_list;
+    char **env;
     unsigned int    cmd_count;
     unsigned int    pipe_count;
     char *in_line;
@@ -47,10 +45,14 @@ typedef struct s_all
     t_gc    *gc;
     t_lx *lexer;
     char exit_code;
-}   t_all;
-t_all *core;
+}       t_all;
 
 
+
+void    check_quotes(char *line);
+void    load_elements(char *line);
+void    parsing(char *env[]);
+long long lexer_add(char *line);
 
 
 
@@ -67,9 +69,6 @@ t_all   *get_core(void);
 bool     ft_isword(int c);
 bool     ft_isspace(int c, char *str);
 bool     ft_istoken(int c);
-
-
-
 
 
 
