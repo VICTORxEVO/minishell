@@ -52,6 +52,7 @@ long long lexer_add_token(char type)
     {
         lexer = galloc(sizeof(t_lx));
         lexer->type = type;
+        lexer->content = strtkr_gen(type);
         get_core()->lexer = lexer;
     }
     else
@@ -60,6 +61,7 @@ long long lexer_add_token(char type)
             lexer = lexer->next;
         lexer->next = galloc(sizeof(t_lx));
         lexer->next->type = type;
+        lexer->next->content = strtkr_gen(type);
     }
     if (type == HERE_DOC || type == OUT_RDRT_APP)
         return (2); //skip the token by 2 in case of '<<' or '>>'
