@@ -14,21 +14,17 @@ static char *reader_loop(void)
     return (NULL);
 }
 
-static void preprocess(char *line)
-{
-    check_quotes(line);
-    check_pipe(line);
-    check_tokens(line);
-}
-
 void    parsing(char *env[])
 {
     t_all *core;
 
     core = get_core();
     core->env = env;
+    core->gc = ft_calloc(1, sizeof(t_gc));
+    core->lexer = galloc(sizeof(t_lx));
+    core->env_list = ft_calloc(1, sizeof(t_env));
     core->in_line = reader_loop();
     core->inline_len = ft_strlen(core->in_line);
-    preprocess(core->in_line);
+    check_quotes(core->in_line);
     load_elements(core->in_line);
 }
