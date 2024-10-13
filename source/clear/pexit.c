@@ -11,5 +11,6 @@ void    pexit(char *msg, int exit_code)
         ft_putstr_fd(msg, 2);
     else
         perror(msg);
+    free(core);
     exit (exit_code);
 }
