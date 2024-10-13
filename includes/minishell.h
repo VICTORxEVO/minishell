@@ -71,6 +71,7 @@ t_all   *get_core(void);
 bool     ft_isword(int c);
 bool     ft_isspace(int c, char *str);
 bool     ft_istoken(int c);
+char    *strtkr_gen(char type);
 
 
 
