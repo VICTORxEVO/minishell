@@ -4,19 +4,19 @@ void    load_elements(char *line)
 {
     long long i;
 
-    i = -1;
-    while (line[++i])
+    i = 0;
+    while (line[i])
     {
         while (line[i] && ft_isspace(line[i], NULL))
             i++;
         if (ft_istoken(line[i]))
-            i += lexer_add(line + (i + 1));
+            i += lexer_add(line + i);
         else if (line[i] == D_QUOTES)
-            i += lexer_add(line + (i + 1));
+            i += lexer_add(line + i);
         else if (line[i] == S_QUOTES)
-            i += lexer_add(line + (i + 1));
+            i += lexer_add(line + i);
         else
-            i += lexer_add(line + (i + 1));
+            i += lexer_add(line + i);
     }
 }
 
