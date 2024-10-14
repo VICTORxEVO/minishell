@@ -51,10 +51,7 @@ typedef struct s_all
 
 /*          >Parsing Funtions<           */
 /**
- * @brief loads all elements from the line into lexer
- * @param line the readline input line
  */
-void        load_elements(char *line);
 void        parsing(char *env[]);
 void        check_quotes(char *line);
 long long   lexer_add_token(char type);
