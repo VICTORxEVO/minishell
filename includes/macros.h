@@ -29,7 +29,7 @@
 # define D_QUOTES 34
 
 // single quotes ascii
-# define S_QUOTES 39 // single quotes ascii
+# define S_QUOTES 39
 
 // heredoc
 # define HERE_DOC 0
@@ -44,20 +44,19 @@
 # define OUT_RDRT_APP 3
 
 // word type token 
-# define WORD 4
+# define WORD 10
 
 //word in double quotes
-# define WORD_D_QUOTES 5
+# define WORD_D_QUOTES 11
 
 //word in single quotes
-#define WORD_S_QUOTES 6
-
+#define WORD_S_QUOTES 12
 
 // pipe type token
-# define PIPE 7
+# define PIPE 20
 
 // any token type
-# define TOKEN 8
+# define TOKEN 21
 
 
 
