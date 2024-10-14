@@ -8,9 +8,9 @@
 // macros for perror message
 # define PRGM_NAME "minishell"
 # define MEM_ERR ": malloc"
-# define DQ_ERR ": syntax error: unclosed token `\"'\n"
-# define SQ_ERR ": syntax error: unclosed token `''\n"
-# define PIPE_ERR ": syntax error: unclosed token `|'\n"
+# define DQ_ERR ": syntax error: unclosed token `\"'"
+# define SQ_ERR ": syntax error: unclosed token `''"
+# define PIPE_ERR ": syntax error: unclosed token `|'"
 
 
 /**
