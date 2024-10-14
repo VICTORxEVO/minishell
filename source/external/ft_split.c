@@ -6,11 +6,12 @@
 /*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 11:50:16 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/10/10 21:00:51 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/10/14 12:02:04 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ext_libs.h"
+#include "gc.h"
 
 static int	word_num(const char *s, const char x)
 {
@@ -57,7 +58,7 @@ static char	*do_word(const char *s, const char x, int *q_resume)
 	i = *q_resume;
 	while (s[i] && s[i++] != x)
 		len++;
-	word = (char *)malloc(sizeof(char) * (len + 1));
+	word = (char *)galloc(sizeof(char) * (len + 1));
 	if (!word)
 		return (NULL);
 	i = 0;
@@ -81,7 +82,7 @@ char	**ft_split(const char *s, char c)
 	if (!s)
 		return (NULL);
 	wn = word_num(s, c);
-	arr = malloc(sizeof(char *) * (wn + 1));
+	arr = galloc(sizeof(char *) * (wn + 1));
 	if (!arr)
 		return (NULL);
 	arr[wn] = 0;
