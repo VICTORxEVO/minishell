@@ -1,11 +1,26 @@
 #include "minishell.h"
 
-static void safe_free(void *data)
+static void re_zero(void)
 {
-    if (data)
+    t_all *core;
+    void *data;
+    unsigned char value;
+
+    core = get_core();
+    //keep env_list and exit code because its needed while program run time
+    data = (void *)core->env_list;
+    value = core->exit_code;
+    ft_bzero(get_core(), sizeof(t_all)); // init all struct with 0;
+    core->env_list = (t_env *)data;
+    core->exit_code = value;
+}
+
+static void safe_free(void **data)
+{
+    if (*data)
     {
-        free(data);
-        data = NULL;
+        free(*data);
+        *data = NULL;
     }
 }
 
@@ -18,8 +33,8 @@ static void env_lstclear(void)
     while (core->env)
     {
         tmp = core->env_list->next;
-        safe_free(core->env_list->key);
-        safe_free(core->env_list->value);
+        safe_free((void **)&core->env_list->key);
+        safe_free((void **)&core->env_list->value);
         core->env_list = tmp;
     }
 }
@@ -34,8 +49,8 @@ static void gc_lstclear(void)
 	while (core->gc)
 	{
 		tmp = core->gc->next;
-		safe_free(core->gc->data);
-        safe_free(core->gc);
+		safe_free((void **)&core->gc->data);
+        safe_free((void **)&core->gc);
 		core->gc = tmp;
 	}
 	core->gc = NULL;
@@ -43,21 +58,8 @@ static void gc_lstclear(void)
 
 void clear(char flag)
 {
-    t_gc *gc;
-
-    if (flag == F_TMP)
-    {
-        gc = get_core()->gc;
-        while (gc->next)
-        {
-            if (gc->data)
-                safe_free(gc->data);
-            gc = gc->next;
-        }
-    }
-    else
-    {
-        gc_lstclear();
+    gc_lstclear();
+    re_zero();
+    if (flag == F_ALL)
         env_lstclear();
-    }
 }
