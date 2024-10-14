@@ -13,7 +13,6 @@ typedef struct s_all t_all;
 
 typedef struct s_gc
 {
-    char    *type;
     void    *data;
     struct s_gc *next;
 }       t_gc;
