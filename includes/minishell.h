@@ -44,7 +44,7 @@ typedef struct s_all
     t_cmd  **cmd_scope;
     t_gc    *gc;
     t_lx *lexer;
-    char exit_code;
+    unsigned char exit_code;
 }       t_all;
 
 
@@ -72,6 +72,7 @@ bool     ft_isword(int c);
 bool     ft_isspace(int c, char *str);
 bool     ft_istoken(int c);
 char    *strtkr_gen(char type);
+void    reader_loop(void);
 
 
 
