@@ -1,5 +1,33 @@
 #include "minishell.h"
 
+static void    load_elements(char *line)
+{
+    long long i;
+
+    i = 0;
+    while (line[i])
+    {
+        while (line[i] && ft_isspace(line[i], NULL))
+            i++;
+        if (line[i + 1] && line[i] == '<' && line[i + 1] == '<')
+            i += lexer_add_token(HERE_DOC);
+        else if (line[i + 1] && line[i] == '>' && line[i + 1] == '>')
+            i += lexer_add_token(OUT_RDRT_APP);
+        else if (line[i] == '<')
+            i += lexer_add_token(IN_RDRT);
+        else if (line[i] == '>')
+            i += lexer_add_token(OUT_RDRT_OW);
+        else if (line[i] == '|')
+            i += lexer_add_token(PIPE);
+        else if (line[i] == D_QUOTES)
+            i += lexer_add_word(WORD_D_QUOTES, line + i) + 2;
+        else if (line[i] == S_QUOTES)
+            i += lexer_add_word(WORD_S_QUOTES, line + i) + 2;
+        else if (line[i] != 0)
+            i += lexer_add_word(WORD, line + i);
+    }
+}
+
 void    reader_loop(void)
 {
     char  *line;
@@ -27,4 +55,6 @@ void    parsing(char *env[])
     core->inline_len = ft_strlen(core->in_line);
     check_quotes(core->in_line);
     load_elements(core->in_line);
+    check_syntax(core->lexer);
+    load_cmd_list(core);
 }
