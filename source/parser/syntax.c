@@ -9,9 +9,9 @@ void    load_elements(char *line)
     {
         while (line[i] && ft_isspace(line[i], NULL))
             i++;
-        if (line[i] == '<' && line[i + 1] == '<')
+        if (line[i + 1] && line[i] == '<' && line[i + 1] == '<')
             i += lexer_add_token(HERE_DOC);
-        else if (line[i] == '>' && line[i + 1] == '>')
+        else if (line[i + 1] && line[i] == '>' && line[i + 1] == '>')
             i += lexer_add_token(OUT_RDRT_APP);
         else if (line[i] == '<')
             i += lexer_add_token(IN_RDRT);
