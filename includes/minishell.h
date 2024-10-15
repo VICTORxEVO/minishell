@@ -71,6 +71,7 @@ bool        ft_isspace(int c, char *str);
 bool        ft_istoken(int c);
 char        *strtkr_gen(char type);
 void        reader_loop(void);
+bool        could_expand(char *str);
 
 
 
