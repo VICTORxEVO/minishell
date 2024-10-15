@@ -25,6 +25,9 @@
  * @brief macros for tokens and syntax
  */
 
+// macro for empty variable
+# define EMPTY_VAR 0
+
 // double quotes ascii
 # define D_QUOTES 34
 
@@ -32,16 +35,16 @@
 # define S_QUOTES 39
 
 // heredoc
-# define HERE_DOC 0
+# define HERE_DOC 1
 
 // infile redirection in overwrite mode
-# define IN_RDRT 1
+# define IN_RDRT 2
 
 // outfile redirection in overwrite mode
-# define OUT_RDRT_OW 2
+# define OUT_RDRT_OW 3
 
 // outfile redirection in appende mode
-# define OUT_RDRT_APP 3
+# define OUT_RDRT_APP 4
 
 // word type token 
 # define WORD 10
