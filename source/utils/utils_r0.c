@@ -1,5 +1,18 @@
 #include "minishell.h"
 
+bool    could_expand(char *str)
+{
+    int i;
+
+    i = -1;
+    while (str[++i])
+    {
+        if (str[i] == '$' && !ft_isspace(str[i], NULL))
+            return (true);
+    }
+    return (false);
+}
+
 char    *strtkr_gen(char type)
 {
     if (type == HERE_DOC)
