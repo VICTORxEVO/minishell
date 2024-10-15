@@ -56,5 +56,6 @@ void    parsing(char *env[])
     check_quotes(core->in_line);
     load_elements(core->in_line);
     check_syntax(core->lexer);
+    expand_dollar(core->lexer);
     load_cmd_list(core);
 }
