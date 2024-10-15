@@ -2,7 +2,7 @@
 
 bool           ft_istoken(int c)
 {
-    return (c == '>' || c == '<' || c == '|');
+    return (c == '>' || c == '<' || c == '|' || (c >= HERE_DOC && c <= OUT_RDRT_APP));
 }
 
 static bool    ft_isspace2(char *str)
