@@ -34,7 +34,7 @@ void    reader_loop(void)
 
     while (true)
     {
-        line = readline("minishell> ");
+        line = readline(BOLD_MAGENTA"Eureka> "END);
         if (line == NULL || line[0] == 0 || ft_isspace(0, line))
             continue;
             
@@ -43,7 +43,7 @@ void    reader_loop(void)
         break;
     }
     if (!ft_strncmp(line, "exit", ft_strlen("exit")))
-        pexit(" :done!", 1); //tmp function just for debugging and see leaks 
+        pexit(": done!", 1); //tmp function just for debugging and see leaks 
 }
 
 void    parsing(char *env[])
@@ -55,7 +55,7 @@ void    parsing(char *env[])
     core->inline_len = ft_strlen(core->in_line);
     check_quotes(core->in_line);
     load_elements(core->in_line);
+    // expand_dollar(core->lexer);
     check_syntax(core->lexer);
-    expand_dollar(core->lexer);
-    load_cmd_list(core);
+    // load_cmd_list(core);
 }
