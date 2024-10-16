@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    load_cmd_list(t_all *core)
-{
+// void    load_cmd_list(t_all *core)
+// {
     
-}
+// }
