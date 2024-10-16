@@ -1,5 +1,22 @@
 #include "minishell.h"
 
+bool    is_pipe_err(t_lx *lx, t_lx *next_lx)
+{
+    if (lx->type == PIPE && (!next_lx || next_lx->type == PIPE))
+        return (true);
+    return (false);
+}
+
+bool    is_token_err(t_lx *lx, t_lx *next_lx)
+{
+    if (lx->type != PIPE && is_token(lx->type))
+    {
+        if (!next_lx || is_token(next_lx->type))
+            return(true);
+    }
+    return(false);
+}
+
 bool    could_expand(char *str)
 {
     int i;
