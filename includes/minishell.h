@@ -11,7 +11,7 @@
 
 typedef struct s_lx
 {
-    unsigned char   type;
+    char   type;
     char            *content;
     struct s_lx     *next;
 }   t_lx;
@@ -54,6 +54,7 @@ typedef struct s_all
  */
 void        parsing(char *env[]);
 void        check_quotes(char *line);
+void        check_syntax(t_lx *lexer);
 long long   lexer_add_token(char type);
 long long   lexer_add_word(char type, char *line);
 
@@ -68,10 +69,12 @@ long long   lexer_add_word(char type, char *line);
 t_all       *get_core(void);
 bool        ft_isword(int c);
 bool        ft_isspace(int c, char *str);
-bool        ft_istoken(int c);
+bool        is_token(int c);
 char        *strtkr_gen(char type);
 void        reader_loop(void);
 bool        could_expand(char *str);
+bool        is_token_err(t_lx *lx, t_lx *next_lx);
+bool        is_pipe_err(t_lx *lx, t_lx *next_lx);
 
 
 
