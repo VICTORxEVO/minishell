@@ -14,7 +14,7 @@ static char *lexer_get_word(char *line, char type, long long *i)
             ++(*i);
         return (ft_substr(line, 1, *i));
      }
-     while (line[*i] && !ft_isspace(line[*i], NULL))
+     while (line[*i] && !ft_isspace(line[*i], NULL) && !is_token(line[*i]))
         ++(*i);
     return (ft_substr(line, 0, *i));
 }
