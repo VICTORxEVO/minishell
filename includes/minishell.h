@@ -33,6 +33,12 @@ typedef struct s_cmd
 
 }       t_cmd;
 
+typedef struct s_var
+{
+    char *content;
+    struct s_var *next;
+}       t_var;
+
 typedef struct s_all
 {
     t_cmd           **cmd_scope;
@@ -45,6 +51,7 @@ typedef struct s_all
     char            **env;
     char            *in_line;
     size_t          inline_len;
+    t_var           *var_list;
 }       t_all;
 
 
@@ -57,6 +64,8 @@ void        check_quotes(char *line);
 void        check_syntax(t_lx *lexer);
 long long   lexer_add_token(char type);
 long long   lexer_add_word(char type, char *line);
+void        expand_dollar(t_lx *lexer);
+
 
 
 
@@ -75,6 +84,8 @@ void        reader_loop(void);
 bool        could_expand(char *str);
 bool        is_token_err(t_lx *lx, t_lx *next_lx);
 bool        is_pipe_err(t_lx *lx, t_lx *next_lx);
+char        *get_dollar(char *str);
+t_var       *handle_list(void);
 
 
 
