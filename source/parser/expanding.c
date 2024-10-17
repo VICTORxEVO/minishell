@@ -1,30 +1,71 @@
 #include "minishell.h"
 
-// static void    dq_word_expander(t_lx *lx, t_lx *next_lx)
-// {
+static int get_var(char *dollar_str, char *str)
+{
+    t_var *list;
 
-// }
+    list = handle_list();
+    if (str - dollar_str == 1 && *str == '$')
+    {
+        list->content = ft_itoa(getpid());
+        return (ft_strlen(list->content));
+    }
+    else
+    {
+        list->content = getenv(ft_substr(dollar_str, 1, (str - dollar_str) - 1));
+        if (list->content)
+            return (ft_strlen(list->content));
+        return (0);
+    }
+}
 
-// static void     word_expander(t_lx *lx, t_lx *next_lx)
-// {
-//     /*to do
-//     1. handle default case of dollar at the begging like "$path"
-//     if not found replace lexer->content with NULL and set type to EMPTY_VAR
-//     2. handel case of dollar at the middle like "ayoub$hamada"
-//     if not found take  string before '$' sign and ignore the rest
+static char *calc_max_len(char *str)
+{
+    char *new_str;
+    int len;
 
-//     if found sapce in both cases split it as seperate words
-//     */
-// }
+    len = 0;
+    new_str = get_dollar(str);
+    len += new_str - str;
+    while (new_str)
+    {
+        if (*str != '$')
+            len += new_str - str;
+        str = new_str + 1;
+        while (*str && *str != '$' && !ft_isspace(*str, NULL))
+            str++;
+        if (str == new_str + 1)
+            len += 1;
+        else
+            len += get_var(new_str, str);
+        new_str = get_dollar(new_str);
+    }
+    printf("final len is %d\n", len);
+    return (galloc(sizeof(char) * len + 1));
+}
 
-// void    expand_dollar(t_lx *lexer)
-// {
-//     while(lexer)
-//     {
-//         if (lexer->type == WORD && could_expand(lexer->content))
-//             word_expander(lexer, lexer->next);
-//         else if (lexer->type == WORD_D_QUOTES && could_expand(lexer->content))
-//             dq_word_expander(lexer, lexer->next);
-//         lexer = lexer->next;
-//     }
-// }
+
+static void    dq_word_expander(t_lx *lx)
+{
+    (void)lx;
+}
+
+static void     word_expander(t_lx *lx)
+{
+    char *new_str;
+
+    new_str = calc_max_len(lx->content);
+    (void)new_str;
+}
+
+void    expand_dollar(t_lx *lexer)
+{
+    while(lexer)
+    {
+        if (lexer->type == WORD && could_expand(lexer->content))
+            word_expander(lexer);
+        else if (lexer->type == WORD_D_QUOTES && could_expand(lexer->content))
+            dq_word_expander(lexer);
+        lexer = lexer->next;
+    }
+}
