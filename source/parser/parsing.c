@@ -55,7 +55,7 @@ void    parsing(char *env[])
     core->inline_len = ft_strlen(core->in_line);
     check_quotes(core->in_line);
     load_elements(core->in_line);
-    // expand_dollar(core->lexer);
+    expand_dollar(core->lexer);
     check_syntax(core->lexer);
     // load_cmd_list(core);
 }
