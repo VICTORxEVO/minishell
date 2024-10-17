@@ -58,7 +58,10 @@ void        check_syntax(t_lx *lexer);
 long long   lexer_add_token(char type);
 long long   lexer_add_word(char type, char *line);
 
-
+/*          >Execution Functions<           */
+/**
+ */
+int     is_builtin(char *cmd);
 
 
 /*          >Utils functions<           */
