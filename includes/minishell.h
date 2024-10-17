@@ -87,16 +87,4 @@ bool        is_pipe_err(t_lx *lx, t_lx *next_lx);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 #endif
