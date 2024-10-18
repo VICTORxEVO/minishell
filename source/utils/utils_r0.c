@@ -5,7 +5,7 @@ char *get_dollar(char *str)
     while(*str)
     {
         if (*str == '$')
-            return (str + 1);
+            return (str);
         str++;
     }
     return (NULL);
