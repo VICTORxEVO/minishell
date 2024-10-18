@@ -8,7 +8,7 @@ char *get_home_directory() {
     
     home = getenv("HOME");
     if (home == NULL) {
-        perror("cd: HOME not set\n");
+        perror(": cd: HOME not set");
         return (NULL);
     }
     return home;
