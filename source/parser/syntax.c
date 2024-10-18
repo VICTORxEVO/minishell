@@ -10,15 +10,15 @@ void    check_quotes(char *line)
     {
         if (line[i] == S_QUOTES)
         {
-            while (line[i] && line[i] != S_QUOTES)
-                i++;
+            while (line[++i] && line[i] != S_QUOTES)
+                continue;
             if (!line[i])
                 pexit(SQ_ERR, 1);
         }
         else if (line[i] == D_QUOTES)
         {
-            while (line[i] && line[i] != D_QUOTES)
-                i++;
+            while (line[++i] && line[i] != D_QUOTES)
+                continue;
             if (!line[i])
                 pexit(DQ_ERR, 1);
         }
