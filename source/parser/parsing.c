@@ -51,11 +51,11 @@ t_env   *fill_env_list(char *env[])
     t_env *env_list;
     t_env *new_node;
     t_env *head;
-
-    size_t i = 0;
-    size_t j = 0;
     char **key_val;
 
+    //todo:  to add the new struct for this 
+    size_t i = 0;
+    size_t j = 0;
     while (env[i])
         i++; 
     new_node = NULL;
@@ -81,7 +81,7 @@ t_env   *fill_env_list(char *env[])
         env_list->key =  key_val[0];
         env_list->value = key_val[1]; 
         env_list->next = NULL;
-        //to fix last line of env isn't displayed 
+        // todo : fix last line of env isn't displayed 
     }
     return (head);
 }
