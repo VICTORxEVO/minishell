@@ -21,6 +21,13 @@
 # define F_ALL 10
 # define F_TMP 11
 
+
+/**
+ * @brief macros for pathname
+ * 
+ * @see update_env(char *oldpwd); 
+*/
+# define PATH_MAX 1000
 /**
  * @brief macros for tokens and syntax
  */
@@ -119,10 +126,6 @@
 #define END "\033[0m"
 
 #endif // COLORS_H
-
-
-
-
 
 
 #endif
