@@ -86,11 +86,7 @@ bool        is_token_err(t_lx *lx, t_lx *next_lx);
 bool        is_pipe_err(t_lx *lx, t_lx *next_lx);
 char        *get_dollar(char *str);
 t_var       *handle_list(void);
-
-
-
-
-
+t_env       *fill_env_list(char *env[]);
 
 
 
