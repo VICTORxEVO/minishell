@@ -46,31 +46,44 @@ void    reader_loop(void)
         pexit(": done!", 1); //tmp function just for debugging and see leaks 
 }
 
-
 t_env   *fill_env_list(char *env[])
 {
     t_env *env_list;
+    t_env *new_node;
+    t_env *head;
 
     size_t i = 0;
     size_t j = 0;
     char **key_val;
 
     while (env[i])
-        i++;
-    env_list = (t_env *) ft_calloc(i,  sizeof(t_env));
-    //error
-    if (!env_list)
-        return (NULL);
+        i++; 
+    new_node = NULL;
+    env_list = NULL;
     while (j < i)
     {
+        new_node = (t_env *) ft_calloc(1,  sizeof(t_env));
+        //error
+        if (!new_node)
+            return (NULL);
+        if (!env_list)
+        {
+            env_list = new_node;
+            head = env_list;
+        }
+        else
+        {
+            env_list->next = new_node;
+            env_list = env_list->next;
+        }
         key_val = ft_split(env[j++], '=');
-        printf("key_val => [%s , %s]\n", key_val[0], key_val[1]); 
+        // printf("key_val => [%s , %s]\n", key_val[0], key_val[1]); 
         env_list->key =  key_val[0];
         env_list->value = key_val[1]; 
-        env_list = env_list->next;
+        env_list->next = NULL;
+        //to fix last line of env isn't displayed 
     }
-    env_list->next = NULL;
-    return (env_list);
+    return (head);
 }
 void    parsing(char *env[])
 {
@@ -80,12 +93,11 @@ void    parsing(char *env[])
     core->env = env;
     core->env_list = fill_env_list(env);
 
-    // while (core->env_list->next)
-    // {
-    //     printf("key = %s, val = %s\n", core->env_list->key, core->env_list->value);
-    //     core->env_list = core->env_list->next;
-    // }
-
+    while (core->env_list->next)
+    {
+        printf("key = %s, val = %s\n", core->env_list->key, core->env_list->value);
+        core->env_list = core->env_list->next;
+    }
     core->inline_len = ft_strlen(core->in_line);
     check_quotes(core->in_line);
     load_elements(core->in_line);
