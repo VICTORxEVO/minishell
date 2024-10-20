@@ -8,34 +8,46 @@ char *get_home_directory() {
     
     home = getenv("HOME");
     if (home == NULL) {
-        perror(": cd: HOME not set");
+        perror("cd: HOME not set\n");
         return (NULL);
     }
-    return home;
+    return (home);
 }
 
-int lsh_cd(t_cmd *cmd) {
-    if (cmd->cmd == NULL) {
-        fprintf(stderr, "lsh: expected argument to \"cd\"\n");
-    } else {
-        // Handle special cases
-        if (!cmd->cmd[1] || ft_strcmp(cmd->cmd[1], "~") == 0) {
-            chdir(getenv("HOME"));
-        } else if (ft_strcmp(cmd->cmd[1], "-") == 0) {
-            // Logic to change to the previous directory can be added here
-        } else {
-            // Change to the specified directory
-            if (chdir(cmd->cmd[1]) != 0) {
-                perror("lsh"); // Print error if chdir fails
-            }
+char  *update_env_cwd(char *oldpwd) {
+    char cwd[PATH_MAX];
+
+    if (getcwd(cwd, sizeof(cwd)) == NULL) {
+        perror("minishell: cd: getcwd");
+        return;
+    }
+    setenv("OLDPWD", oldpwd, 1);
+    setenv("PWD", cwd, 1);
+}
+
+
+int ft_cd(t_cmd * cmd)
+{
+
+    char cwd[PATH_MAX];
+    char *owd;
+    
+    if (!getcwd(cwd, sizeof(cwd)))
+        return (-1);
+    if (ft_strcmp(cmd->cmd[1], "~") == 0) {
+    {
+        update_env_cwd(cwd);
+        chdir(getenv("HOME"));
+    }
+    } else if (ft_strcmp(cmd->cmd[1], "-") == 0)
+    {
+        owd = update_env_cwd(cwd);
+        chdir(owd);
+    } else
+    {
+        if (chdir(cmd->cmd[1]) != 0) {
+            perror("error"); // Print error if chdir fails
         }
     }
-    return 1; // Return success
+    return (1); 
 }
-
-// int ft_cd(t_cmd *cmd)
-// {
-
-
-//     return (1);
-// }
