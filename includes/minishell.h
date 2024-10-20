@@ -62,6 +62,22 @@ long long   lexer_add_word(char type, char *line);
 /**
  */
 int     is_builtin(char *cmd);
+int     exec_builtin(t_cmd * cmd);
+
+
+/*          >bultin functions<           */
+
+int     ft_cd(t_cmd *cmd);
+int     ft_echo(t_cmd *cmd);
+int     ft_pwd(t_cmd *cmd);
+int     ft_env(t_cmd *cmd);
+int     ft_export(t_cmd *cmd);
+int     ft_unset(t_cmd *cmd);
+
+/*          builtin utils               */
+int     ft_setenv(char *name, char *val, int overwrite);
+
+
 
 
 /*          >Utils functions<           */
