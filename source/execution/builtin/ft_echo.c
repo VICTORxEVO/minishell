@@ -16,10 +16,9 @@ static size_t is_flag(char *prompt, int * flag_found)
         if (prompt[i] != 0)
         {
             *flag_found = 0;
-            printf("find convergence in [%s] at index [%zu]\n", prompt, i);
             return (0);
         }
-    } 
+    }
     return (i);
 }
 
@@ -31,10 +30,7 @@ int    ft_echo(t_cmd *cmd)
     i = 1;
     flag_found = 0;
     while (cmd->cmd[i] && is_flag(cmd->cmd[i], &flag_found))
-    {
         i++;
-        printf("next\n");
-    }
     while (cmd->cmd[i])
     {
         printf("%s", cmd->cmd[i]);
