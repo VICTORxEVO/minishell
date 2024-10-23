@@ -40,48 +40,38 @@ void    reader_loop(void)
             
         get_core()->in_line = line;
         gc_add_node(line);
+        add_history(line);
         break;
     }
     if (!ft_strncmp(line, "exit", ft_strlen("exit")))
         pexit(": done!", 1); //tmp function just for debugging and see leaks 
 }
 
-t_env   *fill_env_list(char *env[])
+static t_env   *fill_env_list(char *env[])
 {
     t_env *env_list;
-    t_env *new_node;
     t_env *head;
     char **key_val;
+    t_ndx index;
 
-    //todo:  to add the new struct for this 
-    size_t i = 0;
-    size_t j = 0;
-    while (env[i])
-        i++; 
-    new_node = NULL;
-    env_list = NULL;
-    while (j < i)
+    ft_bzero(&index, sizeof(t_ndx));
+    while (env[index.i])
     {
-        new_node = (t_env *) ft_calloc(1,  sizeof(t_env));
-        //error
-        if (!new_node)
-            return (NULL);
-        if (!env_list)
+        if (index.i == 0)
         {
-            env_list = new_node;
+            env_list = ft_calloc(1, sizeof(t_env));
             head = env_list;
         }
         else
         {
-            env_list->next = new_node;
+            while (env_list->next)
+                env_list = env_list->next;
+            env_list->next = ft_calloc(1, sizeof(t_env));
             env_list = env_list->next;
         }
-        key_val = ft_split(env[j++], '=');
-        // printf("key_val => [%s , %s]\n", key_val[0], key_val[1]); 
+        key_val = ft_split(env[index.i++], '=');
         env_list->key =  key_val[0];
-        env_list->value = key_val[1]; 
-        env_list->next = NULL;
-        // todo : fix last line of env isn't displayed 
+        env_list->value = key_val[1];
     }
     return (head);
 }
@@ -90,14 +80,7 @@ void    parsing(char *env[])
     t_all *core;
 
     core = get_core();
-    core->env = env;
     core->env_list = fill_env_list(env);
-
-    while (core->env_list->next)
-    {
-        printf("key = %s, val = %s\n", core->env_list->key, core->env_list->value);
-        core->env_list = core->env_list->next;
-    }
     core->inline_len = ft_strlen(core->in_line);
     check_quotes(core->in_line);
     load_elements(core->in_line);
