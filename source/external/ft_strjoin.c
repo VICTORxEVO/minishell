@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysbai-jo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 11:55:29 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2023/11/21 15:41:00 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/10/14 12:02:09 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ext_libs.h"
+#include "gc.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -22,7 +23,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
-	new = malloc(sizeof(char) * (s1_len + s2_len + 1));
+	new = galloc(sizeof(char) * (s1_len + s2_len + 1));
 	if (!new)
 		return (NULL);
 	ft_memcpy(new, s1, s1_len);

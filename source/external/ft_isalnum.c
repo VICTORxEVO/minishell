@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/28 11:52:51 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/08/07 12:16:59 by ysbai-jo         ###   ########.fr       */
+/*   Created: 2023/11/19 11:48:08 by ysbai-jo          #+#    #+#             */
+/*   Updated: 2024/10/12 19:30:08 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gc.h"
+#include "ext_libs.h"
 
-void	ft_lstadd_front(t_gc **lst, t_gc *new)
+int	ft_isalnum(int x)
 {
-	if (!new || !lst)
-		return ;
-	new->next = *lst;
-	*lst = new;
+	return ((ft_isdigit(x)) || (ft_isalpha(x)));
 }

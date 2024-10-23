@@ -10,11 +10,12 @@
 *.userosscache
 *.sln.docstates
 .vscode/
-minishell
-*.tldr
-*.supp
-objects/
 **/*.o
+objects/
+minishell
+**/*.tldr
+*.supp
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

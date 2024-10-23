@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 18:37:32 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/08/07 12:14:35 by ysbai-jo         ###   ########.fr       */
+/*   Created: 2024/10/17 15:01:30 by macbookpro        #+#    #+#             */
+/*   Updated: 2024/10/17 15:01:35 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gc.h"
+#include "ext_libs.h"
 
-void	ft_lstclear(t_gc **lst)
+
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	t_gc	*tm;
+	size_t	i;
 
-	if (!lst)
-		return ;
-	while ((*lst) != NULL)
+	i = 0;
+	while (s1[i] == s2[i])
 	{
-		tm = (*lst)->next;
-		ft_lstdelone(*lst);
-		*lst = tm;
+		if (s1[i] == '\0' && s2[i] == '\0')
+			return (0);
+		i++;
 	}
-	*lst = NULL;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 17:22:56 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/08/07 12:21:00 by ysbai-jo         ###   ########.fr       */
+/*   Created: 2023/11/22 11:10:30 by ysbai-jo          #+#    #+#             */
+/*   Updated: 2024/10/12 19:20:19 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gc.h"
+#include <unistd.h>
 
-t_gc	*ft_lstnew(void *content)
+void	ft_putstr_fd(char *s, int fd)
 {
-	t_gc	*new;
-
-	new = malloc(sizeof(t_gc));
-	if (!new)
-		return (NULL);
-	new->data = content;
-	new->next = NULL;
-	return (new);
+	if (fd != -1 || s)
+	{
+		while (*s)
+			write(fd, s++, 1);
+	}
 }

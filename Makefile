@@ -1,8 +1,9 @@
 #program name
-NAME = XXXXXXX
+NAME = minishell
 
 #cc compiler with all flags
-CCF = cc -Wall -Wextra -Werror
+CCF = cc -Wall -Wextra -Werror -g3
+LDFLAGS = -lreadline
 
 # Directories
 SRC_DIR := source
@@ -29,7 +30,7 @@ all: $(NAME)
 
 
 $(NAME): $(OBJ)
-		@$(CCF) $(OBJ) $(INC) -o $@
+		@$(CCF) $(OBJ) $(INC) -o $@ $(LDFLAGS)
 		@echo "compiling"
 		@sleep 0.5
 		@echo "$(NAME) is ready"

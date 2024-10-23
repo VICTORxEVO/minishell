@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysbai-jo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 13:30:01 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2023/11/21 15:29:15 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/10/14 12:01:57 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ext_libs.h"
+#include "gc.h"
 
 static long	calc_len(long nbr)
 {
@@ -37,7 +38,7 @@ char	*ft_itoa(int n)
 		return (ft_strdup("0"));
 	n_pro = n;
 	f_len = calc_len(n_pro);
-	cp = malloc(sizeof(char) * (f_len + 1));
+	cp = galloc(sizeof(char) * (f_len + 1));
 	if (!cp)
 		return (NULL);
 	cp[f_len--] = 0;
