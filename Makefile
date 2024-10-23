@@ -2,7 +2,7 @@
 NAME = minishell
 
 #cc compiler with all flags
-CCF = cc -Wall -Wextra -Werror -g3
+FLAGS = -Wall -Wextra -Werror -g3
 LDFLAGS = -lreadline
 
 # Directories
@@ -10,7 +10,7 @@ SRC_DIR := source
 OBJ_DIR := objects
 
 # Source and Object Files
-SRC := $(shell find $(SRC_DIR) -type f )
+SRC := $(shell find $(SRC_DIR) -type f -name "*.c")
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 
@@ -19,9 +19,9 @@ INC= -I./includes
 
 #debuging
 ifeq ($(DEBUG), GDB)
-	CCF += -g
+	FLAGS += -g
 else ifeq ($(DEBUG), ALL)
-	CCF += -g3 -fsanitize=address
+	FLAGS += -g3 -fsanitize=address
 endif
 
 .PHONY: all clean fclean re clear
@@ -30,7 +30,7 @@ all: $(NAME)
 
 
 $(NAME): $(OBJ)
-		@$(CCF) $(OBJ) $(INC) -o $@ $(LDFLAGS)
+		@cc $(FLAGS) $(OBJ) $(INC) -o $@ $(LDFLAGS)
 		@echo "compiling"
 		@sleep 0.5
 		@echo "$(NAME) is ready"
@@ -38,7 +38,7 @@ $(NAME): $(OBJ)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 		@mkdir -p $(@D)
-		@$(CCF) $(INC) -c $< -o $@
+		@cc $(FLAGS) $(INC) -c $< -o $@
 
 clean:
 		@rm -rf $(OBJ_DIR)
