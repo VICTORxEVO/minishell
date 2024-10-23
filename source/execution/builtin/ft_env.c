@@ -20,7 +20,7 @@ char    *ft_getenv(t_cmd *cmd)
     }
     while (env)
     {
-        if (ft_strcmp(env->key, cmd->cmd[1]))
+        if (ft_strcmp(env->key, cmd->cmd[1]) == 0)
             return (env->value);
         env = env->next;
     }
