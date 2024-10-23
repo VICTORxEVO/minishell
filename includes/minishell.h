@@ -23,29 +23,55 @@ typedef struct s_env
     struct s_env    *next;
 }       t_env;
 
+typedef struct s_file
+{
+    char mode;
+    char *content;
+    struct s_file *next;
+}       t_file;
+
+
 typedef struct s_cmd
 {
     char            type;
     char            *delimiter;
     char            **cmd;
-    char            *infile;
-    char            *outfile;
-
+    t_file          *infile;
+    t_file          *outfile;
+    struct s_cmd    *next;
 }       t_cmd;
+
+typedef struct s_var
+{
+    char *content;
+    char *start_addr;
+    char *end_addr;
+    struct s_var *next;
+}       t_var;
 
 typedef struct s_all
 {
-    t_cmd           **cmd_scope;
+    t_cmd           *cmd;
     t_env           *env_list;
     t_lx            *lexer;
     t_gc            *gc;
     unsigned int    cmd_count;
     unsigned int    pipe_count;
     unsigned char   exit_code;
-    char            **env;
     char            *in_line;
     size_t          inline_len;
+    t_var           *var_list;
 }       t_all;
+
+typedef struct s_ndx
+{
+    int i;
+    int j;
+    int k;
+    int l;
+    int m;
+    int n;
+}       t_ndx;
 
 
 
@@ -57,6 +83,8 @@ void        check_quotes(char *line);
 void        check_syntax(t_lx *lexer);
 long long   lexer_add_token(char type);
 long long   lexer_add_word(char type, char *line);
+void        expand_dollar(t_lx *lexer);
+
 
 /*          >Execution Functions<           */
 /**
@@ -94,12 +122,10 @@ void        reader_loop(void);
 bool        could_expand(char *str);
 bool        is_token_err(t_lx *lx, t_lx *next_lx);
 bool        is_pipe_err(t_lx *lx, t_lx *next_lx);
-
-
-
-
-
-
+char        *get_dollar(char *str);
+t_var       *handle_list(void);
+char        *get_end_addr(char *str);
+bool        possible_expand(char c);
 
 
 

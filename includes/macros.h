@@ -6,7 +6,7 @@
 
 
 // macros for perror message
-# define PRGM_NAME "minishell"
+# define PRGM_NAME "Eureka"
 # define MEM_ERR ": malloc"
 # define DQ_ERR ": syntax error: unclosed token `\"'"
 # define SQ_ERR ": syntax error: unclosed token `''"

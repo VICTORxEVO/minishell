@@ -40,22 +40,51 @@ void    reader_loop(void)
             
         get_core()->in_line = line;
         gc_add_node(line);
+        add_history(line);
         break;
     }
     if (!ft_strncmp(line, "exit", ft_strlen("exit")))
         pexit(": done!", 1); //tmp function just for debugging and see leaks 
 }
 
+static t_env   *fill_env_list(char *env[])
+{
+    t_env *env_list;
+    t_env *head;
+    char **key_val;
+    t_ndx index;
+
+    ft_bzero(&index, sizeof(t_ndx));
+    while (env[index.i])
+    {
+        if (index.i == 0)
+        {
+            env_list = ft_calloc(1, sizeof(t_env));
+            head = env_list;
+        }
+        else
+        {
+            while (env_list->next)
+                env_list = env_list->next;
+            env_list->next = ft_calloc(1, sizeof(t_env));
+            env_list = env_list->next;
+        }
+        key_val = ft_split(env[index.i++], '=');
+        env_list->key =  key_val[0];
+        env_list->value = key_val[1];
+    }
+    return (head);
+}
 void    parsing(char *env[])
 {
     t_all *core;
 
     core = get_core();
-    core->env = env;
+    core->env_list = fill_env_list(env);
     core->inline_len = ft_strlen(core->in_line);
     check_quotes(core->in_line);
     load_elements(core->in_line);
-    // expand_dollar(core->lexer);
+    expand_dollar(core->lexer);
     check_syntax(core->lexer);
     // load_cmd_list(core);
 }

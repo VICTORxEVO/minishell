@@ -1,5 +1,17 @@
 #include "minishell.h"
 
+char *get_dollar(char *str)
+{
+    while(*str)
+    {
+        if (*str == '$' && *(str + 1) && !ft_isspace(*(str + 1), NULL))
+            return (str);
+        str++;
+    }
+    return (NULL);
+}
+
+
 bool    is_pipe_err(t_lx *lx, t_lx *next_lx)
 {
     if (lx->type == PIPE && (!next_lx || next_lx->type == PIPE))
@@ -22,9 +34,9 @@ bool    could_expand(char *str)
     int i;
 
     i = -1;
-    while (str[++i])
+    while (str && str[++i])
     {
-        if (str[i] == '$' && !ft_isspace(str[i], NULL))
+        if (str[i] == '$' && str[i + 1] && !ft_isspace(str[i + 1], NULL))
             return (true);
     }
     return (false);

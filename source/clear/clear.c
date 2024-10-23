@@ -30,7 +30,7 @@ static void env_lstclear(void)
     t_env *tmp;
 
     core = get_core();
-    while (core->env)
+    while (core->env_list)
     {
         tmp = core->env_list->next;
         safe_free((void **)&core->env_list->key);

@@ -9,5 +9,5 @@ void    pexit(char *msg, int exit_code)
         perror(msg);
     clear(F_ALL);
     (void)exit_code;
-    // exit (exit_code);
+    exit (exit_code);
 }
