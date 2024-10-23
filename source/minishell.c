@@ -13,13 +13,13 @@ int main(int ac, char *av[], char *env[])
 		t_var *list = get_core()->var_list;
 		while(lexer)
 		{
-			printf("lx type -> %d, lx content ->\t%sEND\n", lexer->type, lexer->content);
+			printf("lx type -> %d, lx content ->\t%s\\0\n", lexer->type, lexer->content);
 			lexer = lexer->next;
 		}
 		printf("---------------\n");
 		while (list)
 		{
-        	printf ("list content is ->\t%s\n", list->content);
+        	printf ("list content is ->\t%s\\0\n", list->content);
         	list = list->next;
 		}
 		clear(F_TMP);
