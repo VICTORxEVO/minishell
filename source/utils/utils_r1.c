@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+bool    possible_expand(char c)
+{
+    return (c == '$' || c == '?' || ft_isspace(c, NULL));
+}
+
+char    *get_end_addr(char *str)
+{
+    while (*str)
+        str++;
+    return (str);
+}
+
+
+
 t_var *handle_list(void)
 {
     t_var *list;
