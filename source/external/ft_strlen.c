@@ -6,7 +6,7 @@
 /*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 13:28:39 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/10/10 21:00:51 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:31:19 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *str)
 	size_t	x;
 
 	x = 0;
-	while (str[x])
+	while (str && str[x])
 		x++;
 	return (x);
 }
