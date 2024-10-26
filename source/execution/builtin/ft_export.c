@@ -7,14 +7,10 @@
 
 int    ft_export(t_cmd *cmd)
 {
-    (void) cmd;
-    printf("is export\n");
+    if (cmd->cmd[1])
+        ft_add_export(cmd);
+    else
+        ft_print_export();
     return (1);
 }
 
-bool    is_in_env(t_cmd *cmd)
-{
-    //to do 
-    (void) cmd;
-    return (1);
-}
