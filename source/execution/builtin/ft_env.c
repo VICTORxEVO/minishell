@@ -43,9 +43,8 @@ int    ft_env(t_cmd *cmd)
     }
     while (env)
     {
-        printf("%s=%s", env->key, env->value);
+        printf("%s=%s\n", env->key, env->value);
         env = env->next;
     }
-    printf("\n");
     return (1);
 }
