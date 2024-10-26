@@ -1,54 +1,59 @@
 #include "minishell.h"
 
-static int get_var(char *dollar_str, char *str)
+static int get_var(char *var_str, int *index, char type)
 {
     t_var *list;
+    int len;
 
-    if (str == dollar_str + 1 && !*str)
-        return (1);
+    len = 0;
     list = handle_list();
-    list->start_addr = dollar_str;
-    list->end_addr = str;
-    if (str == dollar_str + 1 && *str == '$')
+    if (type == '$')
     {
         list->content = ft_itoa(getpid());
-        list->end_addr = str + 1;
+        (*index) += 1;
         return (ft_strlen(list->content));
     }
-    else if (str == dollar_str + 1 && *str == '?')
+    else if (type == '?')
     {
         list->content = ft_itoa(get_core()->exit_code);
-        list->end_addr = str + 1;
+        (*index) += 1;
         return (ft_strlen(list->content));
     }
-    list->content = getenv(ft_substr(dollar_str, 1,(str - dollar_str) - 1));
-    return (ft_strlen(list->content));
+    while(var_str[len] || ft_isspace(var_str[len], NULL) || var_str[len] == '$')
+        len++;
+    list->content = getenv(ft_substr(var_str, 0, len));
+    *index += len;
+    if (list->content)
+        return(ft_strlen(list->content));
+    //to do : handle start and end of the expanded varibale
+    return (0);
 }
 
 static char *calc_max_len(char *str)
 {
     char *dollar_str;
-    int len;
+    t_ndx   index;
+    bool    is_connect;
 
-    len = 0;
-    dollar_str = get_dollar(str);
-    len += dollar_str - str;
-    while (dollar_str)
+    is_connect = false;
+    ft_bzero(&index, sizeof(t_ndx));
+    index.d = get_dollar(str, &is_connect);
+    index.l += index.d;
+    while (index.d < ft_strlen(str))
     {
-        if ((*str == '$' && str > dollar_str + 1))
-            len += dollar_str - str;
-        str = dollar_str + 1;
-        while (*str && !possible_expand(*str))
-            str++;
-        len += get_var(dollar_str, str);
-        if (str == dollar_str + 1 && *str == '$')
-            dollar_str += 1;
-        dollar_str = get_dollar(dollar_str + 1);
+        index.i = index.d;
+        if (str[index.i] == '$')
+            index.l += get_var(&str[index.i], &index.i, str[index.i]);
+        else if (str[index.i] == '?')
+            index.l += get_var(&str[index.i], &index.i, str[index.i]);
+        else //if its a normal string
+            index.l += get_var(&str[index.i], &index.i, 'A');
+        index.d += get_dollar(&str[index.d + 1], &is_connect);
+        if (!is_connect)
+            index.l += index.d - index.i;
     }
-    dollar_str = get_end_addr(str);
-    len += dollar_str - str;
-    printf("final len is %d\n", len);
-    return (galloc(sizeof(char) * len + 1));
+    printf("final len ->%d\n", index.l);
+    return(galloc(sizeof(char) * (index.l + 1)));
 }
 
 static void     word_expander(t_lx *lx)
@@ -61,16 +66,14 @@ static void     word_expander(t_lx *lx)
     str = lx->content;
     new_str = calc_max_len(str);
     list = get_core()->var_list;
-    while (list)
+    while (list->next)
     {
-        size = list->start_addr - str;
-        ft_memcpy(new_str + ft_strlen(new_str), str, size);
-        ft_memcpy(new_str + ft_strlen(new_str), list->content, ft_strlen(list->content));
-        str = (char *)list->end_addr;
-        list = list->next;
+        // to do 
+        //1. copy string before content->start
+        //2. copy content 
+        //3. copy starting from  content->end to content->next->start
     }
-    ft_memcpy(new_str + ft_strlen(new_str), str, get_end_addr(str) - str);
-    printf("new lexer str -> %s\\0\n", new_str);
+    //copy the last content and the rest of string
 }
 static void split_content(char *lx_str, t_lx *lexer)
 {

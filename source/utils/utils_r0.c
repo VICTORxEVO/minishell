@@ -1,14 +1,19 @@
 #include "minishell.h"
 
-char *get_dollar(char *str)
+int     get_dollar(char *str, bool *flag)
 {
-    while(*str)
+    int i;
+
+    i = 0;
+    while(str[i])
     {
-        if (*str == '$' && *(str + 1) && !ft_isspace(*(str + 1), NULL))
-            return (str);
-        str++;
+        if (ft_isspace(str[i], NULL))
+            *flag = false;
+        if (str[i] == '$' && str[i + 1] && !ft_isspace(str[i + 1], NULL))
+            return (i + 1);
+        i++;
     }
-    return (NULL);
+    return (i);
 }
 
 
