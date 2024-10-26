@@ -39,7 +39,7 @@ int    ft_unset(t_cmd *cmd)
     env = get_core()->env_list;
     while (env && cmd->cmd[1])
     {
-        if (ft_strcmp(env->key, cmd->cmd[1]))
+        if (ft_strcmp(env->key, cmd->cmd[1]) == 0)
             return (ft_remove_node(cmd->cmd[1]), 0);
         env = env->next;
     }
