@@ -24,7 +24,7 @@ char    *ft_getenv(char *cmd)
             return (env->value);
         env = env->next;
     }
-    return (env);
+    return (NULL);
 }
 
 
