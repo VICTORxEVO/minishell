@@ -7,7 +7,7 @@
 #include "minishell.h"
 
 
-char    *ft_getenv(t_cmd *cmd)
+char    *ft_getenv(char *cmd)
 {
     t_env * env;
 
@@ -20,7 +20,7 @@ char    *ft_getenv(t_cmd *cmd)
     }
     while (env)
     {
-        if (ft_strcmp(env->key, cmd->cmd[1]) == 0)
+        if (ft_strcmp(env->key, cmd) == 0)
             return (env->value);
         env = env->next;
     }

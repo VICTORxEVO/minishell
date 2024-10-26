@@ -104,6 +104,7 @@ int     ft_unset(t_cmd *cmd);
 
 /*          builtin utils               */
 int     ft_setenv(char *name, char *val, int overwrite);
+char    *ft_getenv(char *cmd);
 
 
 
