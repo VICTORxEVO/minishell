@@ -21,8 +21,8 @@ char  *update_env_cwd(char *oldpwd) {
         perror("minishell: cd: getcwd");
         return;
     }
-    setenv("OLDPWD", oldpwd, 1);
-    setenv("PWD", cwd, 1);
+    ft_setenv("OLDPWD", oldpwd, 1);
+    ft_setenv("PWD", cwd, 1);
 }
 
 
