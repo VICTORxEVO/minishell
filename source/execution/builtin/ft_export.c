@@ -40,7 +40,7 @@ t_env *ft_copy_node(t_env *node)
     return (cpy_node);
 }
 
-t_env *ft_copy_export()
+t_env *ft_copy_env()
 {
     t_env *env;
     t_env *head;
@@ -61,19 +61,48 @@ t_env *ft_copy_export()
     return (head);
 }
 
-t_env *ft_sort_export()
-{
 
+void ft_swap_nodes(t_env *outer,  t_env *inner)
+{
+    char *key;
+    char *val;
+
+    key = inner->key;
+    val = inner->value;
+    inner->key =  outer->key;
+    inner->value = outer->value;
+    outer->key = key;
+    outer->value = val;
+}
+
+t_env *ft_sort_export(t_env *export)
+{
+    t_env *outer;
+    t_env *inner;
+
+    outer = export;
+    while (outer)
+    {
+        inner = outer->next;
+        while (inner)
+        {
+            if (ft_strcmp(outer->key, inner->key) > 0)
+                ft_swap_nodes(outer, inner);
+            inner = inner->next;
+        }
+        outer = outer->next;
+    }
+    return (export);
 }
 
 void ft_print_export()
 {
     t_env *export;
 
-    export = ft_copy_export();
+    export = ft_copy_env();
     ft_sort_export(export);
 
-    while ()
+    // while ()
 }
 
 int    ft_export(t_cmd *cmd)
