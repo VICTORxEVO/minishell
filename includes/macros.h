@@ -12,7 +12,7 @@
 # define SQ_ERR ": syntax error: unclosed token `''"
 # define PIPE_ERR ": syntax error: empty pipe `|'"
 # define TOKEN_ERR ": sytax_error: unexpected token after `"
-
+# define PTR_ERR ": clear_1data(): data pointer not found !"
 /**
  * @brief macros for "clear" function
  * 
@@ -61,7 +61,8 @@
 // any token type
 # define TOKEN -2
 
-
+//for all whitespace charachters
+# define SPACE " \t\v\n\r\f"
 
 
 
