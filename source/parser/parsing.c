@@ -31,6 +31,7 @@ static void    load_elements(char *line)
 void    reader_loop(void)
 {
     char  *line;
+    char  *previous_line;
 
     while (true)
     {
@@ -38,9 +39,11 @@ void    reader_loop(void)
         if (line == NULL || line[0] == 0 || ft_isspace(0, line))
             continue;
             
-        get_core()->in_line = line;
+        getcore()->in_line = line;
         gc_add_node(line);
-        add_history(line);
+        previous_line = getcore()->previous_line;
+        if (!(previous_line && !ft_strncmp(line, previous_line, -1)))
+            add_history(line);
         break;
     }
     if (!ft_strncmp(line, "exit", ft_strlen("exit")))
@@ -79,7 +82,7 @@ void    parsing(char *env[])
 {
     t_all *core;
 
-    core = get_core();
+    core = getcore();
     core->env_list = fill_env_list(env);
     core->inline_len = ft_strlen(core->in_line);
     check_quotes(core->in_line);
