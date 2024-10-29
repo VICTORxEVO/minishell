@@ -43,9 +43,9 @@ typedef struct s_cmd
 
 typedef struct s_var
 {
-    char *content;
-    char *start_addr;
-    char *end_addr;
+    char        *content;
+    int         start_ndx;
+    int         end_ndx;
     struct s_var *next;
 }       t_var;
 
@@ -61,6 +61,7 @@ typedef struct s_all
     char            *in_line;
     size_t          inline_len;
     t_var           *var_list;
+    char            *previous_line;
 }       t_all;
 
 typedef struct s_ndx
@@ -86,7 +87,7 @@ void        check_syntax(t_lx *lexer);
 long long   lexer_add_token(char type);
 long long   lexer_add_word(char type, char *line);
 void        expand_dollar(t_lx *lexer);
-
+int         get_var_special(int *index, char type);
 
 
 
@@ -96,7 +97,7 @@ void        expand_dollar(t_lx *lexer);
  * @brief this function called whatever you need to use the main struct, its like a global varibale
  * @return refrence the t_core struct
  */
-t_all       *get_core(void);
+t_all       *getcore(void);
 bool        ft_isword(int c);
 bool        ft_isspace(int c, char *str);
 bool        is_token(int c);
@@ -105,15 +106,16 @@ void        reader_loop(void);
 bool        could_expand(char *str);
 bool        is_token_err(t_lx *lx, t_lx *next_lx);
 bool        is_pipe_err(t_lx *lx, t_lx *next_lx);
-int         get_dollar(char *str, bool flag);
+int         get_dollar(char *str, bool *flag);
 t_var       *handle_list(void);
 char        *get_end_addr(char *str);
 bool        possible_expand(char c);
+void        strocpy(char *dest, const char * src, int len);
+bool        s_str_havespace(char *string);
 
 
 
-
-
+void        safe_free(void **data);
 
 
 
