@@ -4,24 +4,27 @@
 
 #include "minishell.h"
 
+// return 1 on success, key only
+//return 2 on success, (key, value)
+//return 0 on failure
 
+int ft_export_check(char *arg)
+{
+    size_t i;
+    size_t c_count;
+
+    i = 0;
+    if (arg && (!ft_isalpha(arg[0]) || ft_isdigit(arg[0])) &&  arg[0]!= '_')
+        return (0); 
+    if (i > 0 && ft_strchr(arg, '='))
+        return (2);
+    return (1);
+}
+
+// return 1 on failure
 int ft_add_export(t_cmd *cmd)
 {
-    t_env *t_env;
-    char *val;
-    char ** key_val;
 
-    val = NULL;
-
-    if (!ft_strchr(cmd->cmd[1], '='))
-        ft_setenv(cmd->cmd[1], ft_strchr(,'=') + 1,1);
-    
-    t_env = ft_getenv(cmd->cmd[1]); 
-    if (ft_strchr(cmd->cmd[1], '+'))
-
-
-    val = ft_strjoin(key_val, ft_strchr(cmd->cmd[1] ,'=') + 1);
-    ft_setenv(cmd->cmd[1],val,1);
     return (1);
 }
 
