@@ -25,6 +25,21 @@ int ft_add_export(t_cmd *cmd)
     return (1);
 }
 
+
+t_env *ft_copy_node(t_env *node)
+{
+    t_env *cpy_node;
+
+    if (!node)
+        return (NULL);
+    cpy_node = (t_env *) malloc(sizeof(t_env*));
+    cpy_node->key = node->key;
+    cpy_node->value = node->value;
+    cpy_node->next = NULL;
+
+    return (cpy_node);
+}
+
 t_env *copy_env()
 {
     t_env *env;
