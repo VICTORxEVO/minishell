@@ -40,7 +40,7 @@ t_env *ft_copy_node(t_env *node)
     return (cpy_node);
 }
 
-t_env *copy_env()
+t_env *ft_copy_export()
 {
     t_env *env;
     t_env *head;
@@ -61,12 +61,17 @@ t_env *copy_env()
     return (head);
 }
 
+t_env *ft_sort_export()
+{
+
+}
+
 void ft_print_export()
 {
     t_env *export;
 
-    export = copy_env();
-    sort_env(export);
+    export = ft_copy_export();
+    ft_sort_export(export);
 
     while ()
 }
