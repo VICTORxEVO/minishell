@@ -36,7 +36,6 @@ t_env *ft_copy_node(t_env *node)
     cpy_node->key = node->key;
     cpy_node->value = node->value;
     cpy_node->next = NULL;
-
     return (cpy_node);
 }
 
@@ -95,14 +94,40 @@ t_env *ft_sort_export(t_env *export)
     return (export);
 }
 
-void ft_print_export()
+void free_env(t_env *env)
+{
+    t_env *tmp;
+
+    tmp = env;
+    while (tmp)
+    {
+        if (tmp->key)
+            free(tmp->key);
+        if (tmp->value)
+            free(tmp->value);
+        free(tmp);
+        tmp = env->next;
+    }
+}
+
+int ft_print_export()
 {
     t_env *export;
+    t_env *tmp;
 
     export = ft_copy_env();
     ft_sort_export(export);
-
-    // while ()
+    tmp = export;
+    while (tmp)
+    {
+        if (tmp->value)
+            printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+        else
+            printf("declare -x %s\n", tmp->key); 
+        tmp = tmp->next;
+    }
+    free_env(export);
+    return (0);
 }
 
 int    ft_export(t_cmd *cmd)
