@@ -111,7 +111,7 @@ t_var       *handle_list(void);
 char        *get_end_addr(char *str);
 bool        possible_expand(char c);
 void        strocpy(char *dest, const char * src, int len);
-bool        s_str_havespace(char *string);
+bool        is_str_havespace(char *string);
 
 
 
