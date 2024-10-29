@@ -25,13 +25,13 @@ long long lexer_add_word(char type, char *line)
     long long i;
 
     i = 0;
-    lexer = get_core()->lexer;
+    lexer = getcore()->lexer;
     if (!lexer)
     {
         lexer = galloc(sizeof(t_lx));
         lexer->content = lexer_get_word(line, type, &i);
         lexer->type = type;
-        get_core()->lexer = lexer;
+        getcore()->lexer = lexer;
     }
     else
     {
@@ -47,13 +47,13 @@ long long lexer_add_token(char type)
 {
     t_lx *lexer;
 
-    lexer = get_core()->lexer;
+    lexer = getcore()->lexer;
     if (!lexer)
     {
         lexer = galloc(sizeof(t_lx));
         lexer->type = type;
         lexer->content = strtkr_gen(type);
-        get_core()->lexer = lexer;
+        getcore()->lexer = lexer;
     }
     else
     {

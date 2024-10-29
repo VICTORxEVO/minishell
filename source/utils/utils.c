@@ -33,7 +33,7 @@ bool	ft_isword(int c)
 	return (ft_isalpha(c) || ft_isalnum(c) || c == '$');
 }
 
-t_all	*get_core(void)
+t_all	*getcore(void)
 {
 	static t_all	core;
 

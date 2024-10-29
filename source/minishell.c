@@ -9,8 +9,8 @@ int main(int ac, char *av[], char *env[])
 		reader_loop();
 		parsing(env);
 
-		t_lx *lexer = get_core()->lexer;
-		t_var *list = get_core()->var_list;
+		t_lx *lexer = getcore()->lexer;
+		t_var *list = getcore()->var_list;
 		while(lexer)
 		{
 			printf("lx type -> %d, lx content ->\t%s\\0\n", lexer->type, lexer->content);
