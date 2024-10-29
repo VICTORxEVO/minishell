@@ -5,14 +5,16 @@ int     get_dollar(char *str, bool *flag)
     int i;
 
     i = 0;
+    *flag = false;
     while(str[i])
     {
         if (ft_isspace(str[i], NULL))
-            *flag = false;
+            *flag = true;
         if (str[i] == '$' && str[i + 1] && !ft_isspace(str[i + 1], NULL))
-            return (i + 1);
+            return (i);
         i++;
     }
+    *flag = true;
     return (i);
 }
 
