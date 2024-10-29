@@ -6,13 +6,13 @@
 /*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 13:28:30 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/10/27 16:14:52 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:58:56 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ext_libs.h"
 
-int	ft_strncmp(const char *str1, const char *str2, size_t n)
+int	ft_strncmp(const char *str1, const char *str2, ssize_t n)
 {
 	if (n < 0)
 	{

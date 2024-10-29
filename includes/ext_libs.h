@@ -22,7 +22,7 @@ char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_strtrim(char const *s1, char const *set);
 char		*ft_strrchr(const char *str, int c);
 char		*ft_strnstr(const char *big, const char *little, size_t len);
-int			ft_strncmp(const char *str1, const char *str2, size_t n);
+int         ft_strncmp(const char *str1, const char *str2, ssize_t n);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 size_t		ft_strlen(const char *str);
 size_t		ft_strlcpy(char *dest, const char *src, size_t size);
