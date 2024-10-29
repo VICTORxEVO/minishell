@@ -1,84 +1,82 @@
 #include "minishell.h"
 
-static int get_var(char *var_str, int *index, char type)
+static int get_var(char *var_str, int *index)
 {
     t_var *list;
     int len;
 
     len = 0;
     list = handle_list();
-    if (type == '$')
-    {
-        list->content = ft_itoa(getpid());
-        (*index) += 1;
-        return (ft_strlen(list->content));
-    }
-    else if (type == '?')
-    {
-        list->content = ft_itoa(get_core()->exit_code);
-        (*index) += 1;
-        return (ft_strlen(list->content));
-    }
-    while(var_str[len] || ft_isspace(var_str[len], NULL) || var_str[len] == '$')
+    while(var_str[len] && (!ft_isspace(var_str[len], NULL) && var_str[len] != '$'))
         len++;
     list->content = getenv(ft_substr(var_str, 0, len));
+    list->start_ndx = (*index) - 1;
     *index += len;
+    list->end_ndx = (*index);
     if (list->content)
         return(ft_strlen(list->content));
-    //to do : handle start and end of the expanded varibale
     return (0);
 }
 
-static char *calc_max_len(char *str)
+static char *create_str(char *str)
 {
-    char *dollar_str;
     t_ndx   index;
-    bool    is_connect;
+    bool    flag;
 
-    is_connect = false;
+    flag = false;
     ft_bzero(&index, sizeof(t_ndx));
-    index.d = get_dollar(str, &is_connect);
+    index.d = get_dollar(str, &flag);
     index.l += index.d;
-    while (index.d < ft_strlen(str))
+    while ((size_t)index.d < ft_strlen(str))
     {
-        index.i = index.d;
-        if (str[index.i] == '$')
-            index.l += get_var(&str[index.i], &index.i, str[index.i]);
-        else if (str[index.i] == '?')
-            index.l += get_var(&str[index.i], &index.i, str[index.i]);
+        index.i = index.d + 1;
+        if (str[index.i] == '$' || str[index.i] == '?')
+            index.l += get_var_special(&index.i, str[index.i]);
         else //if its a normal string
-            index.l += get_var(&str[index.i], &index.i, 'A');
-        index.d += get_dollar(&str[index.d + 1], &is_connect);
-        if (!is_connect)
+            index.l += get_var(&str[index.i], &index.i);
+        index.d += get_dollar(&str[index.d + 2], &flag) + 2;
+        if (flag)
             index.l += index.d - index.i;
     }
-    printf("final len ->%d\n", index.l);
     return(galloc(sizeof(char) * (index.l + 1)));
 }
 
 static void     word_expander(t_lx *lx)
 {
     char *new_str;
-    char *str;
     t_var *list;
     int size;
 
-    str = lx->content;
-    new_str = calc_max_len(str);
-    list = get_core()->var_list;
+    new_str = create_str(lx->content);
+    list = getcore()->var_list;
+    size = list->start_ndx;
+    strocpy(&new_str[ft_strlen(new_str)], lx->content, size);
     while (list->next)
     {
-        // to do 
-        //1. copy string before content->start
-        //2. copy content 
-        //3. copy starting from  content->end to content->next->start
+        strocpy(&new_str[ft_strlen(new_str)], list->content, -1);
+        size = list->next->start_ndx - list->end_ndx;
+        strocpy(&new_str[ft_strlen(new_str)], &lx->content[list->end_ndx], size);
+        list = list->next;
     }
+    strocpy(&new_str[ft_strlen(new_str)], list->content, -1);
+    strocpy(&new_str[ft_strlen(new_str)], &lx->content[list->end_ndx], -1);
     //copy the last content and the rest of string
 }
 static void split_content(char *lx_str, t_lx *lexer)
 {
-    (void)lx_str;
-    (void)lexer;
+    t_lx *next_node;
+    char *string;
+
+    next_node = lexer->next;
+    string = strtok(lexer->content, SPACE);
+    while (string)
+    {
+        lexer->next = galloc(sizeof(t_lx));
+        lexer = lexer->next;
+        lexer->content = string;
+        string = strtok(lexer->content, SPACE);
+    }
+    lexer->next = next_node;
 }
 
 void    expand_dollar(t_lx *lexer)
@@ -87,7 +85,7 @@ void    expand_dollar(t_lx *lexer)
     {
         if (could_expand(lexer->content))
             word_expander(lexer);
-        if (lexer->type == WORD)
+        if (lexer->type == WORD && is_str_havespace(lexer->content))
             split_content(lexer->content, lexer);
         lexer = lexer->next;
     }
