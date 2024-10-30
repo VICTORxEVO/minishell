@@ -47,7 +47,8 @@ void *galloc(size_t size);
 
 
 
-
+void        safe_free(void **data);
+void        clear_1data(void *data);
 
 
 
