@@ -2,7 +2,7 @@
 NAME = minishell
 
 #cc compiler with all flags
-FLAGS = -Wall -Wextra -Werror -g3
+FLAGS = -g3 -Wall -Wextra -Werror 
 LDFLAGS = -lreadline
 
 # Directories
