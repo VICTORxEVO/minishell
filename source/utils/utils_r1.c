@@ -4,16 +4,14 @@ bool    is_str_havespace(char *string)
 {
     int i;
 
-    i = 0;
-    while (string[i])
+    i = -1;
+    while (string[++i])
     {
         if (ft_isspace(string[i], NULL))
             return (true);
     }
     return (false);
 }
-
-
 
 void    strocpy(char *dest, const char *src, int len)
 {
