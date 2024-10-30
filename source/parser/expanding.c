@@ -60,7 +60,8 @@ static void     word_expander(t_lx *lx)
     }
     strocpy(&new_str[ft_strlen(new_str)], list->content, -1);
     strocpy(&new_str[ft_strlen(new_str)], &lx->content[list->end_ndx], -1);
-    //copy the last content and the rest of string
+    clear_1data(lx->content);
+    lx->content = new_str;
 }
 static void split_content(char *lx_str, t_lx *lexer)
 {
@@ -68,13 +69,13 @@ static void split_content(char *lx_str, t_lx *lexer)
     char *string;
 
     next_node = lexer->next;
-    string = strtok(lexer->content, SPACE);
+    string = strtok(lexer->content, IS_SPACE);
     while (string)
     {
         lexer->next = galloc(sizeof(t_lx));
         lexer = lexer->next;
         lexer->content = string;
-        string = strtok(lexer->content, SPACE);
+        string = strtok(NULL, IS_SPACE);
     }
     lexer->next = next_node;
 }
