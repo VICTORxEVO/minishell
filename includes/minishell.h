@@ -115,10 +115,6 @@ bool        is_str_havespace(char *string);
 
 
 
-void        safe_free(void **data);
-
-
-
 
 
 
