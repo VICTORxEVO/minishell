@@ -62,7 +62,7 @@
 # define TOKEN -2
 
 //for all whitespace charachters
-# define SPACE " \t\v\n\r\f"
+# define IS_SPACE " \t\v\n\r\f"
 
 
 
