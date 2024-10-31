@@ -21,96 +21,33 @@ int ft_export_check(char *arg)
     return (1);
 }
 
-// return 1 on failure
 int ft_add_export(t_cmd *cmd)
 {
-
-    return (1);
-}
-
-
-t_env *ft_copy_node(t_env *node)
-{
-    t_env *cpy_node;
-
-    if (!node)
-        return (NULL);
-    cpy_node = (t_env *) malloc(sizeof(t_env*));
-    cpy_node->key = node->key;
-    cpy_node->value = node->value;
-    cpy_node->next = NULL;
-    return (cpy_node);
-}
-
-t_env *ft_copy_env()
-{
     t_env *env;
-    t_env *head;
-    t_env *cpy;
-
-    env = get_core()->env_list;
-    if (!env)
-        return (NULL);
-    head = ft_copy_node(env);
-    cpy = head;
-    env = env->next;
-    while (env)
-    {
-        cpy->next = ft_copy_node(env);
-        cpy = cpy->next;
-        env = env->next;
-    }
-    return (head);
-}
-
-
-void ft_swap_nodes(t_env *outer,  t_env *inner)
-{
     char *key;
-    char *val;
+    char *value;
+    char *tmp;
+    char *equal_sign;
 
-    key = inner->key;
-    val = inner->value;
-    inner->key =  outer->key;
-    inner->value = outer->value;
-    outer->key = key;
-    outer->value = val;
-}
-
-t_env *ft_sort_export(t_env *export)
-{
-    t_env *outer;
-    t_env *inner;
-
-    outer = export;
-    while (outer)
+    env = get_core();
+    equal_sign = ft_strchr(cmd->cmd[1], '=');
+    if (equal_sign)
     {
-        inner = outer->next;
-        while (inner)
-        {
-            if (ft_strcmp(outer->key, inner->key) > 0)
-                ft_swap_nodes(outer, inner);
-            inner = inner->next;
-        }
-        outer = outer->next;
+        tmp = ft_strdup(cmd->cmd[1]); 
+        *ft_strchr(tmp, '=') = 0;
+        key = tmp;
+        value = ft_strchr(cmd->cmd[1], '=') + 1;
+        free(key);
+        if (value)
+            free(value);
     }
-    return (export);
-}
-
-void free_env(t_env *env)
-{
-    t_env *tmp;
-
-    tmp = env;
-    while (tmp)
+    else
     {
-        if (tmp->key)
-            free(tmp->key);
-        if (tmp->value)
-            free(tmp->value);
-        free(tmp);
-        tmp = env->next;
+        key = cmd->cmd[1];
+        value = 0;
     }
+    ft_setenv(key, value, 1);
+    return (1);
 }
 
 int ft_print_export()
@@ -135,7 +72,7 @@ int ft_print_export()
 
 int    ft_export(t_cmd *cmd)
 {
-    if (cmd->cmd[1])
+    if (cmd->cmd[1] && ft_export_check(cmd->cmd[1]))
         return (ft_add_export(cmd));
     else
         ft_print_export();
