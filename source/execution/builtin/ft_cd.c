@@ -23,6 +23,7 @@ char  *update_env_cwd(char *oldpwd) {
     }
     ft_setenv("OLDPWD", oldpwd, 1);
     ft_setenv("PWD", cwd, 1);
+    return (oldpwd);
 }
 
 int ft_cd(t_cmd * cmd)
@@ -31,11 +32,12 @@ int ft_cd(t_cmd * cmd)
     char cwd[PATH_MAX];
     char *owd;
     
+    owd = NULL;
     if (!getcwd(cwd, sizeof(cwd)))
         return (-1);
     if (!cmd->cmd[1] || ft_strcmp(cmd->cmd[1], "~") == 0) {
     {
-        update_env_cwd(cwd);
+        owd = update_env_cwd(cwd);
         chdir(ft_getenv("HOME"));
     }
     } else if (ft_strcmp(cmd->cmd[1], "-") == 0)
