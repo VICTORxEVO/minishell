@@ -3,7 +3,6 @@
 
 
 
-
 #include "minishell.h"
 
 
@@ -55,24 +54,27 @@ void    ft_remove_node(char *node)
  {
     t_env *env;
     t_env *prev;
+    bool found;
 
     env = get_core()->env_list;
     prev = env;
+    found = false;
     while (env)
     {
         if (ft_strcmp(key, env->key) == 0)
         {
             free(env->value);
             env->value = ft_strdup(val);
+            found = true;
             break;
         }
         prev = env;
         env = env->next;
     }
-    ft_add_node(prev,key ,val);
+    if (overwrite && !found)
+        ft_add_node(prev,key ,val);
     return (1);
  }
-
 
 int    ft_unset(t_cmd *cmd)
 {
