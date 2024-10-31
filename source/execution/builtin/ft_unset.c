@@ -70,6 +70,7 @@ void    ft_remove_node(char *node)
         env = env->next;
     }
     ft_add_node(prev,key ,val);
+    return (1);
  }
 
 
