@@ -32,7 +32,7 @@ int ft_cd(t_cmd * cmd)
     char cwd[PATH_MAX];
     char *owd;
     
-    owd = NULL;
+    owd = ft_getenv("OLDPWD");
     if (!getcwd(cwd, sizeof(cwd)))
         return (-1);
     if (!cmd->cmd[1] || ft_strcmp(cmd->cmd[1], "~") == 0) {
