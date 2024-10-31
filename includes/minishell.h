@@ -98,7 +98,7 @@ int     exec_builtin(t_cmd * cmd);
 int     ft_cd(t_cmd *cmd);
 int     ft_echo(t_cmd *cmd);
 int     ft_pwd(t_cmd *cmd);
-int     ft_env(t_cmd *cmd);
+int     ft_env();
 int     ft_export(t_cmd *cmd);
 int     ft_unset(t_cmd *cmd);
 

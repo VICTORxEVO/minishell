@@ -1,9 +1,5 @@
 
 
-
-
-
-
 #include "minishell.h"
 
 
@@ -28,19 +24,13 @@ char    *ft_getenv(char *cmd)
 }
 
 
-int    ft_env(t_cmd *cmd)
+int    ft_env()
 {
     t_env * env;
 
     env = get_core()->env_list;
-    if (env == NULL);
-    {
-        //print error here
-        //assign default environemt or print that the minishell mightn't function properly 
-        //same as bash
-        printf("\n");
+    if (env == NULL)
         return (0);
-    }
     while (env)
     {
         printf("%s=%s\n", env->key, env->value);
