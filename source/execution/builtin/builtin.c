@@ -29,13 +29,13 @@ int exec_builtin(t_cmd * cmd)
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
 		ft_echo(cmd);		
 	if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
-		ft_pwd(cmd);
+		ft_pwd();
 	if (ft_strcmp(cmd->cmd[0], "env") == 0)
-		ft_cd(cmd);
+		ft_env();
 	if (ft_strcmp(cmd->cmd[0], "export") == 0)
-		ft_cd(cmd);
+		ft_export(cmd);
 	if (ft_strcmp(cmd->cmd[0], "unset") == 0)
-		ft_cd(cmd);
+		ft_unset(cmd);
     return (0);
 }
 
