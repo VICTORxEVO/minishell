@@ -83,9 +83,17 @@ int ft_print_export()
 
 int    ft_export(t_cmd *cmd)
 {
-    if (cmd->cmd[1] && ft_export_check(cmd->cmd[1]))
-        return (ft_add_export(cmd));
-    else
+    size_t i;
+
+    i = 1;
+    while (cmd->cmd[i])
+    {
+        if (ft_export_check(cmd->cmd[i]))
+            ft_add_export(cmd->cmd[i]);
+        else
+            ft_print_export_error();
+    }
+    if (!cmd->cmd[1])
         ft_print_export();
     return (0);
 }
