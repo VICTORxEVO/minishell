@@ -4,6 +4,7 @@
 
 #include "minishell.h"
 
+// error to print =>  "bash_name": command (export): `user_input': not a valid identifier 
 int ft_export_check(char *arg)
 {
     size_t i;
