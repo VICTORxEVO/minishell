@@ -4,22 +4,32 @@
 
 #include "minishell.h"
 
-// return 1 on success, key only
-//return 2 on success, (key, value)
-//return 0 on failure
-
 int ft_export_check(char *arg)
 {
     size_t i;
-    size_t c_count;
+    bool plus;
 
-    i = 0;
-    if (arg && (!ft_isalpha(arg[0]) || ft_isdigit(arg[0])) &&  arg[0]!= '_')
-        return (0); 
-    if (i > 0 && ft_strchr(arg, '='))
-        return (2);
+    if (!arg)
+        return (0);
+    if ((arg[0] != '_') && !ft_isalpha(arg[0]))
+        return (0);
+    i = 1;
+    plus = false;
+    while (arg[i]) 
+    {
+        if ((arg[i] == '=') || (arg[i] == '+' && arg[i + 1] == '=') || arg[i] == '+' && plus)
+        {
+            i++;
+            plus = true;
+            continue;
+        }
+        if (!ft_isdigit(arg[i]) && !ft_isalpha(arg[i]) && !(arg[i] == '_'))
+            return (0);
+        i++; 
+    }
     return (1);
 }
+
 
 int ft_add_export(t_cmd *cmd)
 {
