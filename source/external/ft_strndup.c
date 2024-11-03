@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 21:31:45 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/03 21:37:38 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/03 21:44:05 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char *ft_strndup(const char *s, size_t n) {
     dup = (char *)galloc(len + 1);
     if (!dup)
         return NULL;
-    ft_strncpy(dup, s, len);
+    ft_strlcpy(dup, s, len);
     dup[len] = '\0';
     return dup;
 }
