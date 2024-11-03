@@ -50,31 +50,32 @@ void    ft_remove_node(char *node)
     }
 }
 
- int    ft_setenv(char *key, char *val, int overwrite)
- {
+int ft_setenv(char *key, char *val, int overwrite) 
+{
     t_env *env;
     t_env *prev;
     bool found;
 
-    env = get_core()->env_list;
-    prev = env;
+    env = get_core()->env_list; 
+    prev = NULL;
     found = false;
     while (env)
     {
         if (ft_strcmp(key, env->key) == 0)
         {
-            if (overwrite)
-                env->value = ft_strdup(val);
+            if (overwrite && val) 
+                env->value = val;
             found = true;
             break;
         }
         prev = env;
         env = env->next;
     }
-    if (overwrite && !found)
-        ft_add_node(prev,key ,val);
-    return (1);
- }
+    if (!found)
+        if (ft_add_node(prev, key, val) == 0)
+            return -1;
+    return 1; 
+}
 
 
 int    ft_unset(t_cmd *cmd)
