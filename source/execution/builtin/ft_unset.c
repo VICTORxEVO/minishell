@@ -12,16 +12,16 @@ int  ft_add_node(t_env *last_node,char *new_key, char *new_val)
 
     if (!last_node)
         return (0);
-    env = malloc(sizeof(t_env));
+    env = galloc(sizeof(t_env));
     if (!env)
         return (0);
-    env->key = ft_strdup(new_key);
-    env->value = ft_strdup(new_val);
+    env->key =  new_key;
+    env->value = new_val; 
     env->next = NULL;
     if (last_node && last_node->next == NULL)
         last_node->next = env;
     else
-        return (free(env), 0);
+        return (0);
     return (1); 
 }
 
@@ -63,8 +63,8 @@ void    ft_remove_node(char *node)
     {
         if (ft_strcmp(key, env->key) == 0)
         {
-            free(env->value);
-            env->value = ft_strdup(val);
+            if (overwrite)
+                env->value = ft_strdup(val);
             found = true;
             break;
         }
@@ -75,6 +75,7 @@ void    ft_remove_node(char *node)
         ft_add_node(prev,key ,val);
     return (1);
  }
+
 
 int    ft_unset(t_cmd *cmd)
 {
