@@ -72,19 +72,18 @@ t_env *ft_sort_export(t_env *export)
     }
     return (export);
 }
-
 void free_env(t_env *env)
 {
     t_env *tmp;
 
-    tmp = env;
-    while (tmp)
+    while (env)
     {
-        if (tmp->key)
-            free(tmp->key);
-        if (tmp->value)
-            free(tmp->value);
-        free(tmp);
         tmp = env->next;
+        if (env->key)
+            free(env->key);
+        if (env->value)
+            free(env->value);
+        free(env);
+        env = tmp;
     }
 }
