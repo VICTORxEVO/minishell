@@ -54,12 +54,9 @@ static int ft_add_export(char *arg)
     t_env *env;
     char *key;
     char *value;
-    char *tmp;
-    char *equal_sign;
 
     env = get_core()->env_list;
-    extract_key_value(arg, &key, &value); 
-
+    extract_key_value2(arg, &key, &value);     
     ft_setenv(key, value, 1); 
     return (1);
 }
@@ -80,7 +77,6 @@ static int ft_print_export()
             printf("declare -x %s\n", tmp->key); 
         tmp = tmp->next;
     }
-    free_env(export);
     return (0);
 }
 
