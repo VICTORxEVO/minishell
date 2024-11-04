@@ -37,7 +37,7 @@ static int ft_add_export2(char *arg)
     return (1);
 }
 
-static int ft_print_export2()
+static void ft_print_export2()
 {
     t_env *export;
     t_env *tmp;
@@ -53,7 +53,6 @@ static int ft_print_export2()
             printf("declare -x %s\n", tmp->key); 
         tmp = tmp->next;
     }
-    free_env(export);
 } 
 
 
