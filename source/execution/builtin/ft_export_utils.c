@@ -11,7 +11,7 @@ t_env *ft_copy_node(t_env *node)
 
     if (!node)
         return (NULL);
-    cpy_node = (t_env *) malloc(sizeof(t_env*));
+    cpy_node = (t_env *) galloc(sizeof(t_env*));
     cpy_node->key = node->key;
     cpy_node->value = node->value;
     cpy_node->next = NULL;
