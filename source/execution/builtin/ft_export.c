@@ -56,7 +56,7 @@ static int ft_add_export(char *arg)
     char *value;
 
     env = get_core()->env_list;
-    extract_key_value2(arg, &key, &value);     
+    extract_key_value(arg, &key, &value);     
     ft_setenv(key, value, 1); 
     return (1);
 }
