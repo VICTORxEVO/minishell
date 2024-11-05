@@ -41,53 +41,26 @@ static char *create_str(char *str)
     return(galloc(sizeof(char) * (index.l + 1)));
 }
 
-static void     word_expander(t_lx *lx)
+char    *expand_dollar(char *line)
 {
-    char *new_str;
+    char *expline;
     t_var *list;
     int size;
 
-    new_str = create_str(lx->content);
+    expline = create_str(line);
     list = getcore()->var_list;
     size = list->start_ndx;
-    strocpy(&new_str[ft_strlen(new_str)], lx->content, size);
+    strocpy(&expline[ft_strlen(expline)], line, size);
     while (list->next)
     {
-        strocpy(&new_str[ft_strlen(new_str)], list->content, -1);
+        strocpy(&expline[ft_strlen(expline)], list->content, -1);
         size = list->next->start_ndx - list->end_ndx;
-        strocpy(&new_str[ft_strlen(new_str)], &lx->content[list->end_ndx], size);
+        strocpy(&expline[ft_strlen(expline)], &line[list->end_ndx], size);
         list = list->next;
     }
-    strocpy(&new_str[ft_strlen(new_str)], list->content, -1);
-    strocpy(&new_str[ft_strlen(new_str)], &lx->content[list->end_ndx], -1);
-    clear_1data(lx->content);
-    lx->content = new_str;
-}
-static void split_content(char *lx_str, t_lx *lexer)
-{
-    t_lx *next_node;
-    char *string;
-
-    next_node = lexer->next;
-    string = strtok(lexer->content, IS_SPACE);
-    while (string)
-    {
-        lexer->next = galloc(sizeof(t_lx));
-        lexer = lexer->next;
-        lexer->content = string;
-        string = strtok(NULL, IS_SPACE);
-    }
-    lexer->next = next_node;
-}
-
-void    expand_dollar(t_lx *lexer)
-{
-    while(lexer)
-    {
-        if (could_expand(lexer->content))
-            word_expander(lexer);
-        if (lexer->type == WORD && is_str_havespace(lexer->content))
-            split_content(lexer->content, lexer);
-        lexer = lexer->next;
-    }
+    strocpy(&expline[ft_strlen(expline)], list->content, -1);
+    strocpy(&expline[ft_strlen(expline)], &line[list->end_ndx], -1);
+    clear_1data(line);
+    // clear_1list(list, "t_var");
+    return (expline);
 }

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void    load_elements(char *line)
+static void    lexing(char *line)
 {
     long long i;
 
@@ -19,11 +19,7 @@ static void    load_elements(char *line)
             i += lexer_add_token(OUT_RDRT_OW);
         else if (line[i] == '|')
             i += lexer_add_token(PIPE);
-        else if (line[i] == D_QUOTES)
-            i += lexer_add_word(WORD_D_QUOTES, line + i) + 2;
-        else if (line[i] == S_QUOTES)
-            i += lexer_add_word(WORD_S_QUOTES, line + i) + 2;
-        else if (line[i] != 0)
+        else if (line[i])
             i += lexer_add_word(WORD, line + i);
     }
 }
@@ -86,8 +82,28 @@ void    parsing(char *env[])
     core->env_list = fill_env_list(env);
     core->inline_len = ft_strlen(core->in_line);
     check_quotes(core->in_line);
-    load_elements(core->in_line);
-    expand_dollar(core->lexer);
-    check_syntax(core->lexer);
+    printf("line before->%s\n", core->in_line);
+    lexing(core->in_line);
+    t_lx *lexer = getcore()->lexer;
+	while(lexer)
+	{
+		printf("lx type -> %d, lx content ->\t%s\\0\n", lexer->type, lexer->content);
+		lexer = lexer->next;
+	}
+    printf("---------------------------\n");
+    if (could_expand(core->in_line))
+    {
+        core->in_line = expand_dollar(core->in_line);
+        lexing(core->in_line);
+        printf("line after->%s\n", core->in_line);
+        lexer = getcore()->lexer;
+	    while(lexer)
+	    {
+		    printf("lx type -> %d, lx content ->\t%s\\0\n", lexer->type, lexer->content);
+		    lexer = lexer->next;
+	    }
+    }
+    // check_syntax(core->lexer);
+    // final_touch(core->lexer); // remove all kind of quotes in begging or in middle 
     // load_cmd_list(core);
 }
