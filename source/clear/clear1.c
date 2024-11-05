@@ -9,7 +9,7 @@ void clear_1data(void *data)
     {
         if (list->data == data)
         {
-            safe_free((void **)data);
+            safe_free((void **)&list->data);
             return ;
         }
         list = list->next;
