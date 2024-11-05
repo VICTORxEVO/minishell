@@ -49,12 +49,6 @@
 // word type token 
 # define WORD 10
 
-//word in double quotes
-# define WORD_D_QUOTES 11
-
-//word in single quotes
-#define WORD_S_QUOTES 12
-
 // pipe type token
 # define PIPE -1
 
