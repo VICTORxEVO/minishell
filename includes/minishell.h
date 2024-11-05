@@ -86,7 +86,7 @@ void        check_quotes(char *line);
 void        check_syntax(t_lx *lexer);
 long long   lexer_add_token(char type);
 long long   lexer_add_word(char type, char *line);
-void        expand_dollar(t_lx *lexer);
+char        *expand_dollar(char *line);
 int         get_var_special(int *index, char type);
 
 
@@ -112,9 +112,14 @@ char        *get_end_addr(char *str);
 bool        possible_expand(char c);
 void        strocpy(char *dest, const char * src, int len);
 bool        is_str_havespace(char *string);
+void        addtolist(void *node, char *list_type);
+void        addoldhistory(void);
 
 
-
+/*          >Utils of parsing functions<           */
+/**
+ * 
+ */
 
 
 
