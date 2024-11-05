@@ -5,7 +5,6 @@
 # define MINISHELL_H
 
 
-
 # include "gc.h"
 
 
@@ -74,7 +73,6 @@ typedef struct s_ndx
 }       t_ndx;
 
 
-
 /*          >Parsing Funtions<           */
 /**
  */
@@ -97,15 +95,27 @@ int     exec_builtin(t_cmd * cmd);
 
 int     ft_cd(t_cmd *cmd);
 int     ft_echo(t_cmd *cmd);
-int     ft_pwd(t_cmd *cmd);
-int     ft_env(t_cmd *cmd);
+int     ft_pwd();
+int     ft_env();
 int     ft_export(t_cmd *cmd);
 int     ft_unset(t_cmd *cmd);
 
 /*          builtin utils               */
 int     ft_setenv(char *name, char *val, int overwrite);
+char    *ft_getenv(char *cmd);
 
 
+/*          builtin export utils        */
+t_env   *ft_copy_node(t_env *node);
+t_env   *ft_copy_env();
+t_env   *ft_sort_export(t_env *export);
+void    ft_swap_nodes(t_env *outer,  t_env *inner);
+void    free_env(t_env *env);
+
+
+/*          builtin export utils 2     */
+int ft_print_export();
+int ft_print_export_error2(char *cmd);
 
 
 /*          >Utils functions<           */
@@ -126,9 +136,6 @@ char        *get_dollar(char *str);
 t_var       *handle_list(void);
 char        *get_end_addr(char *str);
 bool        possible_expand(char c);
-
-
-
 
 
 

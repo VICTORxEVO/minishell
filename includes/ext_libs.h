@@ -31,6 +31,7 @@ size_t		ft_strlcat(char *dest, const char *src, size_t size);
 char		*ft_strjoin(char const *s1, char const *s2);
 void		ft_striteri(char *s, void (*f)(unsigned int, char *));
 char		*ft_strdup(const char *s);
+char		*ft_strndup(const char *s, size_t n);
 char		*ft_strchr(const char *str, int c);
 char		**ft_split(const char *s, char c);
 void		*ft_memset(void *dest, int c, size_t count);

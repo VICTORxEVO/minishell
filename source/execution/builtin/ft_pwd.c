@@ -26,7 +26,7 @@ int     ft_pwd()
     char cwd[PATH_MAX];
 
     if (getcwd(cwd, sizeof(cwd)) == NULL) {
-        // to add failure case with er
+        // to add failure case with erron
         pexit("pwd", 1); 
         return (1);
     }
