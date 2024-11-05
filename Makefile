@@ -2,7 +2,7 @@
 NAME = minishell
 
 #cc compiler with all flags
-FLAGS = -g3 -Wall -Wextra -Werror 
+FLAGS = -g3 #-Wall -Wextra -Werror 
 LDFLAGS = -lreadline
 
 # Directories
@@ -55,6 +55,10 @@ re: fclean all
 clear: re clean
 
 bclear: all clean
+
+run:
+	@$(MAKE) --no-print-directory re
+	@./minishell
 
 norm :
 		@norminette $(SRC) includes/
