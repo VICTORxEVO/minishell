@@ -112,6 +112,12 @@ t_env   *ft_sort_export(t_env *export);
 void    ft_swap_nodes(t_env *outer,  t_env *inner);
 void    free_env(t_env *env);
 
+
+/*          builtin export utils 2     */
+int ft_print_export();
+int ft_print_export_error2(char *cmd);
+
+
 /*          >Utils functions<           */
 /**
  * @brief this function called whatever you need to use the main struct, its like a global varibale

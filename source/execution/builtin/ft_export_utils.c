@@ -1,22 +1,18 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/05 16:00:50 by ael-moha          #+#    #+#             */
+/*   Updated: 2024/11/05 16:03:27 by ael-moha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 #include "minishell.h"
 
-
-
-t_env *ft_copy_node(t_env *node)
-{
-    t_env *cpy_node;
-
-    if (!node)
-        return (NULL);
-    cpy_node = (t_env *) galloc(sizeof(t_env*));
-    cpy_node->key = node->key;
-    cpy_node->value = node->value;
-    cpy_node->next = NULL;
-    return (cpy_node);
-}
 
 t_env *ft_copy_env()
 {
@@ -39,20 +35,6 @@ t_env *ft_copy_env()
     return (head);
 }
 
-
-void ft_swap_nodes(t_env *outer,  t_env *inner)
-{
-    char *key;
-    char *val;
-
-    key = inner->key;
-    val = inner->value;
-    inner->key =  outer->key;
-    inner->value = outer->value;
-    outer->key = key;
-    outer->value = val;
-}
-
 t_env *ft_sort_export(t_env *export)
 {
     t_env *outer;
@@ -72,6 +54,33 @@ t_env *ft_sort_export(t_env *export)
     }
     return (export);
 }
+
+t_env *ft_copy_node(t_env *node)
+{
+    t_env *cpy_node;
+
+    if (!node)
+        return (NULL);
+    cpy_node = (t_env *) galloc(sizeof(t_env*));
+    cpy_node->key = node->key;
+    cpy_node->value = node->value;
+    cpy_node->next = NULL;
+    return (cpy_node);
+}
+
+void ft_swap_nodes(t_env *outer,  t_env *inner)
+{
+    char *key;
+    char *val;
+
+    key = inner->key;
+    val = inner->value;
+    inner->key =  outer->key;
+    inner->value = outer->value;
+    outer->key = key;
+    outer->value = val;
+}
+
 void free_env(t_env *env)
 {
     t_env *tmp;
