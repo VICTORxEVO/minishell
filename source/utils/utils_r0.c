@@ -4,15 +4,19 @@ int     get_dollar(char *str, bool *flag)
 {
     int i;
 
-    i = 0;
+    i = -1;
     *flag = false;
-    while(str[i])
+    while(str[++i])
     {
+        if (str[i] == S_QUOTES)
+        {
+            while (str[++i] != S_QUOTES)
+                continue;
+        }
         if (ft_isspace(str[i], NULL))
             *flag = true;
         if (str[i] == '$' && str[i + 1] && !ft_isspace(str[i + 1], NULL))
             return (i);
-        i++;
     }
     *flag = true;
     return (i);
