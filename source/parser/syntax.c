@@ -4,23 +4,22 @@
 void    check_quotes(char *line)
 {
     long long i;
+    char quote;
 
     i = -1;
     while (line[++i])
     {
-        if (line[i] == S_QUOTES)
+        if (line[i] == S_QUOTES || line[i] == D_QUOTES)
         {
-            while (line[++i] && line[i] != S_QUOTES)
-                continue;
+            quote = line[i++];
+            while (line[i] && line[i] != quote)
+                i++;
             if (!line[i])
-                pexit(SQ_ERR, 1);
-        }
-        else if (line[i] == D_QUOTES)
-        {
-            while (line[++i] && line[i] != D_QUOTES)
-                continue;
-            if (!line[i])
+            {
+                if (quote == S_QUOTES)
+                    pexit(SQ_ERR, 1);
                 pexit(DQ_ERR, 1);
+            }
         }
     }
 }
