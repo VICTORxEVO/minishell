@@ -2,11 +2,10 @@
 
 void    addoldhistory(void)
 {
-    char home;
+    char *home;
     
 
     home = getenv("HOME");
     if (!home)
         exit (200);
-    
 }
