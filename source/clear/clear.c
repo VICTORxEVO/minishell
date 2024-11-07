@@ -63,6 +63,6 @@ void clear(char flag)
     if (flag == F_ALL)
     {
         env_lstclear();
-        free(getcore()->previous_line);
+        safe_free((void **)&getcore()->previous_line);
     }
 }
