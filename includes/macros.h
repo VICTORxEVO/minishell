@@ -58,7 +58,9 @@
 //for all whitespace charachters
 # define IS_SPACE " \t\v\n\r\f"
 
-
+//macro for strchrdup to use galloc or calloc
+# define GALLOC 0
+# define CALLOC 1
 
 
 
