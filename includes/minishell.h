@@ -14,6 +14,7 @@ typedef struct s_lx
     char   type;
     char            *content;
     struct s_lx     *next;
+    struct s_lx     *prev;
 }   t_lx;
 
 typedef struct s_env
@@ -113,15 +114,25 @@ bool        possible_expand(char c);
 void        strocpy(char *dest, const char * src, int len);
 bool        is_str_havespace(char *string);
 void        addtolist(void *node, char *list_type);
-void        addoldhistory(void);
+char        *strchrdup(char *str, char *delimit, bool type);
+
 
 
 /*          >Utils of parsing functions<           */
 /**
  * 
  */
+void        addoldhistory(void);
+char        *create_prompt(void);
 
 
+
+/**          >Printing/Debuging funtions<          */
+/**
+ * 
+ */
+void    print_lx(void);
+void    print_env(void);
 
 
 
