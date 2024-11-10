@@ -35,7 +35,7 @@ typedef struct s_file
 typedef struct s_cmd
 {
     char            type;
-    char            *delimiter;
+    char            **delimiters;
     char            **cmd;
     t_file          *infile;
     t_file          *outfile;
@@ -84,11 +84,9 @@ typedef struct s_ndx
  */
 void        parsing(char *env[]);
 void        check_quotes(char *line);
-void        check_syntax(t_lx *lexer);
-long long   lexer_add_token(char type);
-long long   lexer_add_word(char type, char *line);
 char        *expand_dollar(char *line);
 int         get_var_special(int *index, char type);
+void        lexing(char *line);
 
 
 
@@ -101,7 +99,7 @@ int         get_var_special(int *index, char type);
 t_all       *getcore(void);
 bool        ft_isword(int c);
 bool        ft_isspace(int c, char *str);
-bool        is_token(int c);
+bool        istoken(int c, bool type);
 char        *strtkr_gen(char type);
 void        reader_loop(void);
 bool        could_expand(char *str);
@@ -115,6 +113,7 @@ void        strocpy(char *dest, const char * src, int len);
 bool        is_str_havespace(char *string);
 void        addtolist(void *node, char *list_type);
 char        *strchrdup(char *str, char *delimit, bool type);
+void        *getlastnode(void *list, char *list_type);
 
 
 
@@ -135,8 +134,11 @@ void    print_lx(void);
 void    print_env(void);
 
 
-
-
+/**
+ * @brief Fills the environment list with environment variables
+ * @param env Array of environment variable strings
+ */
+void fill_env_list(char *env[]);
 
 
 
