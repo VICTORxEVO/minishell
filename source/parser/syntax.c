@@ -23,15 +23,3 @@ void    check_quotes(char *line)
         }
     }
 }
-
-void    check_syntax(t_lx *lexer)
-{
-    while (lexer)
-    {
-        if (is_token_err(lexer, lexer->next))
-            pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, lexer->content), "'"), 1);
-        else if (is_pipe_err(lexer, lexer->next))
-            pexit(PIPE_ERR, 1);
-        lexer = lexer->next;
-    }
-}
