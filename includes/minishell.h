@@ -103,8 +103,6 @@ bool        istoken(int c, bool type);
 char        *strtkr_gen(char type);
 void        reader_loop(void);
 bool        could_expand(char *str);
-bool        is_token_err(t_lx *lx, t_lx *next_lx);
-bool        is_pipe_err(t_lx *lx, t_lx *next_lx);
 int         get_dollar(char *str, bool *flag);
 t_var       *handle_list(void);
 char        *get_end_addr(char *str);
