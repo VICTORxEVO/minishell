@@ -1,9 +1,13 @@
 #include "minishell.h"
 
-bool	is_token(int c)
+bool	istoken(int c, bool type)
 {
+	if (type == ALL_TKN)
 	return (c == '>' || c == '<' || c == '|' || (c >= HERE_DOC
 			&& c <= OUT_RDRT_APP) || c == PIPE);
+	else
+		return (c == '>' || c == '<' || c == '|' || (c >= HERE_DOC
+			&& c <= OUT_RDRT_APP));
 }
 
 static bool	ft_isspace2(char *str)
