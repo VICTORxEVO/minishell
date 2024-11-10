@@ -25,45 +25,7 @@ void    reader_loop(void)
     if (!ft_strncmp(line, "exit", ft_strlen("exit")))
         pexit(": done!", 1); //tmp function just for debugging and see leaks 
 }
-static void    lexing(char *line)
-{
-    long long i;
 
-    i = 0;
-    while (line[i])
-    {
-        while (line[i] && ft_isspace(line[i], NULL))
-            i++;
-        if (line[i + 1] && line[i] == '<' && line[i + 1] == '<')
-            i += lexer_add_token(HERE_DOC);
-        else if (line[i + 1] && line[i] == '>' && line[i + 1] == '>')
-            i += lexer_add_token(OUT_RDRT_APP);
-        else if (line[i] == '<')
-            i += lexer_add_token(IN_RDRT);
-        else if (line[i] == '>')
-            i += lexer_add_token(OUT_RDRT_OW);
-        else if (line[i] == '|')
-            i += lexer_add_token(PIPE);
-        else if (line[i])
-            i += lexer_add_word(WORD, line + i);
-    }
-}
-
-
-static void   fill_env_list(char *env[])
-{
-    t_env *env_node;
-    int i;
-
-    i = -1;
-    while (env[++i])
-    {
-        env_node = ft_calloc(1, sizeof(t_env));
-        env_node->key = strchrdup(env[i], ft_strchr(env[i], '='), CALLOC);
-        env_node->value = strchrdup(ft_strchr(env[i], '=') + 1, NULL, CALLOC);
-        addtolist(env_node, "t_env");
-    }
-}
 void    parsing(char *env[])
 {
     t_all *core;
@@ -75,6 +37,7 @@ void    parsing(char *env[])
     lexing(core->in_line);
     // print_env();
     print_lx();
+    // core->in_line = heredoc_case(getcore()->lexer);
     if (could_expand(core->in_line))
     {
         pexit(": feature not availble yet, please try another thing!", 1);
@@ -83,7 +46,6 @@ void    parsing(char *env[])
         printf("line after->%s\n", core->in_line);
         print_lx();
     }
-    check_syntax(core->lexer);
     // final_touch(core->lexer); // remove all kind of quotes in begging or in middle 
-    load_cmd_list(core);
+    // load_cmd_list(core);
 }
