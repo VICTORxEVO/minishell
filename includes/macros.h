@@ -10,8 +10,7 @@
 # define MEM_ERR ": malloc"
 # define DQ_ERR ": syntax error: unclosed token `\"'"
 # define SQ_ERR ": syntax error: unclosed token `''"
-# define PIPE_ERR ": syntax error: empty pipe `|'"
-# define TOKEN_ERR ": sytax_error: unexpected token after `"
+# define TOKEN_ERR ": syntax error near token `"
 # define PTR_ERR ": clear_1data(): data pointer not found !"
 /**
  * @brief macros for "clear" function
@@ -62,8 +61,9 @@
 # define GALLOC 0
 # define CALLOC 1
 
-
-
+//flags for istoken funtion if check all tokens or exclude pipe token
+# define ALL_TKN 1
+# define NON_PIPE 0
 
 
 
