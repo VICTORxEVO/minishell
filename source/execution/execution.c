@@ -54,7 +54,7 @@ static void ft_print_export2()
     }
 } 
 
-static t_env   *fill_env_list(char *env[])
+static t_env   *fill_env_list2(char *env[])
 {
     t_env *env_list;
     t_env *head;
@@ -166,8 +166,6 @@ int main (int ac, char **av, char **env)
 	// while (cmd_args[i])
 	// 	printf("%s, ", cmd_args[i++]);
 	// printf("\n");
-
-
 	
 	// ft_print_export2();
     // printf("adding export = ayoub\n");

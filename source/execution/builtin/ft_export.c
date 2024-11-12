@@ -60,6 +60,12 @@ static int ft_add_export(char *arg)
     ft_setenv(key, value, 1); 
     return (1);
 }
+int ft_print_export_error(char *cmd)
+{
+    printf("error exit %d\n", cmd);
+
+    return (1);
+}
 
 int    ft_export(t_cmd *cmd)
 {
