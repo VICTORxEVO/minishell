@@ -13,6 +13,8 @@ OBJ_DIR := objects
 SRC := $(shell find $(SRC_DIR) -type f -name "*.c")
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
+SRC_TEST := $(filter-out $(SRC_DIR)/minishell.c, $(SRC))
+OBJ_TEST :=$(SRC_TEST:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 #include header
 INC= -I./includes
@@ -24,10 +26,7 @@ else ifeq ($(DEBUG), ALL)
 	FLAGS += -g3 -fsanitize=address
 endif
 
-.PHONY: all clean fclean re clear
-
 all: $(NAME)
-
 
 $(NAME): $(OBJ)
 		@cc $(FLAGS) $(OBJ) $(INC) -o $@ $(LDFLAGS)
@@ -35,6 +34,11 @@ $(NAME): $(OBJ)
 		@sleep 0.5
 		@echo "$(NAME) is ready"
 
+test: $(OBJ_TEST)
+		@cc $(FLAGS) $(OBJ_TEST) $(INC) -o $(NAME) $(LDFLAGS)
+		@echo "compiling test"
+		@sleep 0.5
+		@echo "$(NAME) test is ready"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 		@mkdir -p $(@D)
@@ -43,7 +47,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 clean:
 		@rm -rf $(OBJ_DIR)
 		@echo "cleaning..."
-
 
 fclean: clean
 		@rm -f $(NAME)
@@ -62,3 +65,5 @@ run:
 
 norm :
 		@norminette $(SRC) includes/
+
+.PHONY: all clean fclean re clear
