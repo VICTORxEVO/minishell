@@ -64,5 +64,6 @@ void clear(char flag)
     {
         env_lstclear();
         safe_free((void **)&getcore()->previous_line);
+        safe_free((void **)&getcore()->path);
     }
 }
