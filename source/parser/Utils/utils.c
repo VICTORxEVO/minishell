@@ -1,5 +1,35 @@
 #include "minishell.h"
 
+bool checkspace_str(char *str)
+{
+	int i;
+	char quote;
+	char len;
+
+	len = ft_strlen(str);
+	while (++i < len)
+	{
+		if (ft_isspace(str[i], NULL))
+			return (true);
+		if (str[i] == S_QUOTES || str[i] == D_QUOTES)
+		{
+			quote = str[i++];
+			while (str[i] != quote)
+				i++;
+		}
+	}
+}
+
+bool	needspliting(t_lx *lexer, t_lx *prev_lexer)
+{
+	if (lexer && lexer->type == WORD)
+	{
+		if (!prev_lexer || (prev_lexer && prev_lexer->type == WORD))
+				return (checkspace_str(lexer->content));
+	}
+}
+
+
 static char *get_current_dir(void)
 {
     char cwd[PATH_MAX];
