@@ -64,3 +64,31 @@ char    *expand_dollar(char *line)
     // clear_1list(list, "t_var");
     return (expline);
 }
+
+void    expanding(t_lx *lexer)
+{
+    char *new_content;
+    t_lx *new_list;
+    t_lx *last_node;
+
+    while (lexer)
+    {
+        if (lexer->type == WORD && needexpand(lexer->content))
+        {
+            new_content = expand_dollar(lexer->content);
+            clear_1data(lexer->content);
+            lexer->content = new_content;
+        }
+        lexer = lexer->next;
+    }
+    lexer = getlastnode(getcore()->lexer, "t_lx");
+    while (lexer)
+    {
+        if (needspliting(lexer, lexer->prev))
+        {
+            new_list = splitcontent(lexer->content);
+            lexer = addnewlist(new_list, lexer, lexer->prev, lexer->next);
+        }
+        lexer = lexer->prev;
+    }
+}
