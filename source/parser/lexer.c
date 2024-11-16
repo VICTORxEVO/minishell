@@ -50,6 +50,8 @@ static long long lexer_add_token(char type)
     else if (prev_nd && istoken(prev_nd->type, NON_PIPE))
         pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, prev_nd->content), "'"), 1);
     addtolist(lexer, "t_lx");
+    if (type == PIPE)
+        getcore()->pipe_count++;
     if (type == HERE_DOC || type == OUT_RDRT_APP)
         return (2); //skip the token by 2 in case of '<<' or '>>'
     return (1); //skip the token by 1 in case or '<' or '>'
