@@ -34,11 +34,9 @@ typedef struct s_file
 
 typedef struct s_cmd
 {
-    char            type;
-    char            **delimiters;
-    char            **cmd;
-    t_file          *infile;
-    t_file          *outfile;
+    t_lx            *scope;
+    int             ifd;
+    int             ofd;
     struct s_cmd    *next;
 }       t_cmd;
 
@@ -56,6 +54,7 @@ typedef struct s_all
     t_env           *env_list;
     t_lx            *lexer;
     t_gc            *gc;
+    char            **path;
     unsigned int    cmd_count;
     unsigned int    pipe_count;
     unsigned char   exit_code;
@@ -87,7 +86,7 @@ void        check_quotes(char *line);
 char        *expand_dollar(char *line);
 int         get_var_special(int *index, char type);
 void        lexing(char *line);
-
+void        expanding(t_lx *lexer);
 
 
 
@@ -102,7 +101,7 @@ bool        ft_isspace(int c, char *str);
 bool        istoken(int c, bool type);
 char        *strtkr_gen(char type);
 void        reader_loop(void);
-bool        could_expand(char *str);
+bool        needexpand(char *str);
 int         get_dollar(char *str, bool *flag);
 t_var       *handle_list(void);
 char        *get_end_addr(char *str);
@@ -112,7 +111,7 @@ bool        is_str_havespace(char *string);
 void        addtolist(void *node, char *list_type);
 char        *strchrdup(char *str, char *delimit, bool type);
 void        *getlastnode(void *list, char *list_type);
-
+t_lx        *splitcontent(char *str);
 
 
 /*          >Utils of parsing functions<           */
@@ -121,6 +120,9 @@ void        *getlastnode(void *list, char *list_type);
  */
 void        addoldhistory(void);
 char        *create_prompt(void);
+bool        needspliting(t_lx *lexer, t_lx *prev_lexer);
+bool        checkspace_str(char *str);
+void        final_touch(t_lx *lexer);
 
 
 
@@ -138,7 +140,15 @@ void    print_env(void);
  */
 void fill_env_list(char *env[]);
 
-
+/**
+ * @brief Adds a new lexer list segment between existing nodes
+ * @param new_list New lexer list to insert
+ * @param lexer Current lexer node 
+ * @param prev_lx Previous lexer node
+ * @param next_lx Next lexer node
+ * @return Pointer to the inserted list
+ */
+t_lx *addnewlist(t_lx *new_list, t_lx *lexer, t_lx *prev_lx, t_lx *next_lx);
 
 
 #endif
