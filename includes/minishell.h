@@ -112,7 +112,7 @@ void        addtolist(void *node, char *list_type);
 char        *strchrdup(char *str, char *delimit, bool type);
 void        *getlastnode(void *list, char *list_type);
 t_lx        *splitcontent(char *str);
-void        fill_path(void)
+void        fill_path(void);
 
 
 /*          >Utils of parsing functions<           */
