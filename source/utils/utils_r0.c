@@ -22,7 +22,7 @@ int     get_dollar(char *str, bool *flag)
     return (i);
 }
 
-bool    could_expand(char *str)
+bool    needexpand(char *str)
 {
     int i;
 
