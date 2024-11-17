@@ -35,9 +35,9 @@ inline void gc_add_node(void *data)
 {
     t_gc *gc_list;
 
-    gc_list = get_core()->gc;
+    gc_list = getcore()->gc;
     if (!gc_list)
-        get_core()->gc = gc_new(data);
+        getcore()->gc = gc_new(data);
     else
     {
         while (gc_list->next)

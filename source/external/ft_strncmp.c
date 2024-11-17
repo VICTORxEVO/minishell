@@ -6,15 +6,28 @@
 /*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 13:28:30 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/10/10 21:00:51 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/11/10 15:04:17 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ext_libs.h"
 
-int	ft_strncmp(const char *str1, const char *str2, size_t n)
+int	ft_strncmp(const char *str1, const char *str2, ssize_t n)
 {
-	while ((*str1 || *str2) && n--)
+	if (n < 0)
+	{
+		while ((*str1 || *str2))
+		{
+			if (*str1 == *str2)
+			{
+				str1++;
+				str2++;
+			}
+			else
+				return (*(t_uc *)str1 - *(t_uc *)str2);
+		}
+	}
+	while ((*str1 || *str2) && n-- > 0)
 	{
 		if (*str1 == *str2)
 		{

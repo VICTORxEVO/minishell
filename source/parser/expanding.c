@@ -1,91 +1,93 @@
 #include "minishell.h"
 
-static int get_var(char *dollar_str, char *str)
+static int get_var(char *var_str, int *index)
 {
     t_var *list;
-
-    if (str == dollar_str + 1 && !*str)
-        return (1);
-    list = handle_list();
-    list->start_addr = dollar_str;
-    list->end_addr = str;
-    if (str == dollar_str + 1 && *str == '$')
-    {
-        list->content = ft_itoa(getpid());
-        list->end_addr = str + 1;
-        return (ft_strlen(list->content));
-    }
-    else if (str == dollar_str + 1 && *str == '?')
-    {
-        list->content = ft_itoa(get_core()->exit_code);
-        list->end_addr = str + 1;
-        return (ft_strlen(list->content));
-    }
-    list->content = getenv(ft_substr(dollar_str, 1,(str - dollar_str) - 1));
-    return (ft_strlen(list->content));
-}
-
-static char *calc_max_len(char *str)
-{
-    char *dollar_str;
     int len;
 
     len = 0;
-    dollar_str = get_dollar(str);
-    len += dollar_str - str;
-    while (dollar_str)
-    {
-        if ((*str == '$' && str > dollar_str + 1))
-            len += dollar_str - str;
-        str = dollar_str + 1;
-        while (*str && !possible_expand(*str))
-            str++;
-        len += get_var(dollar_str, str);
-        if (str == dollar_str + 1 && *str == '$')
-            dollar_str += 1;
-        dollar_str = get_dollar(dollar_str + 1);
-    }
-    dollar_str = get_end_addr(str);
-    len += dollar_str - str;
-    printf("final len is %d\n", len);
-    return (galloc(sizeof(char) * len + 1));
+    list = handle_list();
+    while(var_str[len] && ft_isalnum(var_str[len]))
+        len++;
+    list->content = getenv(ft_substr(var_str, 0, len));
+    list->start_ndx = (*index) - 1;
+    *index += len;
+    list->end_ndx = (*index);
+    if (list->content)
+        return(ft_strlen(list->content));
+    return (0);
 }
 
-static void     word_expander(t_lx *lx)
+static char *create_str(char *str)
 {
-    char *new_str;
-    char *str;
+    t_ndx   index;
+    bool    flag;
+
+    flag = false;
+    ft_bzero(&index, sizeof(t_ndx));
+    index.d = get_dollar(str, &flag);
+    index.l += index.d;
+    while ((size_t)index.d < ft_strlen(str))
+    {
+        index.i = index.d + 1;
+        if (str[index.i] == '$' || str[index.i] == '?')
+            index.l += get_var_special(&index.i, str[index.i]);
+        else //if its a normal string
+            index.l += get_var(&str[index.i], &index.i);
+        index.d += get_dollar(&str[index.d + 2], &flag) + 2;
+        if (flag)
+            index.l += index.d - index.i;
+    }
+    return(galloc(sizeof(char) * (index.l + 1)));
+}
+
+char    *expand_dollar(char *line)
+{
+    char *expline;
     t_var *list;
     int size;
 
-    str = lx->content;
-    new_str = calc_max_len(str);
-    list = get_core()->var_list;
-    while (list)
+    expline = create_str(line);
+    list = getcore()->var_list;
+    size = list->start_ndx;
+    strocpy(&expline[ft_strlen(expline)], line, size);
+    while (list->next)
     {
-        size = list->start_addr - str;
-        ft_memcpy(new_str + ft_strlen(new_str), str, size);
-        ft_memcpy(new_str + ft_strlen(new_str), list->content, ft_strlen(list->content));
-        str = (char *)list->end_addr;
+        strocpy(&expline[ft_strlen(expline)], list->content, -1);
+        size = list->next->start_ndx - list->end_ndx;
+        strocpy(&expline[ft_strlen(expline)], &line[list->end_ndx], size);
         list = list->next;
     }
-    ft_memcpy(new_str + ft_strlen(new_str), str, get_end_addr(str) - str);
-    printf("new lexer str -> %s\\0\n", new_str);
-}
-static void split_content(char *lx_str, t_lx *lexer)
-{
-    (void)lx_str;
-    (void)lexer;
+    strocpy(&expline[ft_strlen(expline)], list->content, -1);
+    strocpy(&expline[ft_strlen(expline)], &line[list->end_ndx], -1);
+    clear_1data(line);
+    // clear_1list(list, "t_var");
+    return (expline);
 }
 
-void    expand_dollar(t_lx *lexer)
+void    expanding(t_lx *lexer)
 {
-    while(lexer)
+    char *new_content;
+    t_lx *new_list;
+
+    while (lexer)
     {
-        if (could_expand(lexer->content))
-            word_expander(lexer);
-        if (lexer->type == WORD)
-            split_content(lexer->content, lexer);
+        if (lexer->type == WORD && needexpand(lexer->content))
+        {
+            new_content = expand_dollar(lexer->content);
+            clear_1data(lexer->content);
+            lexer->content = new_content;
+        }
         lexer = lexer->next;
+    }
+    lexer = getlastnode(getcore()->lexer, "t_lx");
+    while (lexer)
+    {
+        if (needspliting(lexer, lexer->prev))
+        {
+            new_list = splitcontent(lexer->content);
+            lexer = addnewlist(new_list, lexer, lexer->prev, lexer->next);
+        }
+        lexer = lexer->prev;
     }
 }

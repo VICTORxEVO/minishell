@@ -1,9 +1,13 @@
 #include "minishell.h"
 
-bool	is_token(int c)
+bool	istoken(int c, bool type)
 {
+	if (type == ALL_TKN)
 	return (c == '>' || c == '<' || c == '|' || (c >= HERE_DOC
 			&& c <= OUT_RDRT_APP) || c == PIPE);
+	else
+		return (c == '>' || c == '<' || c == '|' || (c >= HERE_DOC
+			&& c <= OUT_RDRT_APP));
 }
 
 static bool	ft_isspace2(char *str)
@@ -33,7 +37,7 @@ bool	ft_isword(int c)
 	return (ft_isalpha(c) || ft_isalnum(c) || c == '$');
 }
 
-t_all	*get_core(void)
+t_all	*getcore(void)
 {
 	static t_all	core;
 

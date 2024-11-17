@@ -2,8 +2,8 @@
 NAME = minishell
 
 #cc compiler with all flags
+FLAGS = -g3 -Wall -Wextra -Werror 
 # CCF = cc -Wall -Wextra -Werror -g3
-CCF = cc -g3
 LDFLAGS = -lreadline
 
 # Directories
@@ -11,40 +11,43 @@ SRC_DIR := source
 OBJ_DIR := objects
 
 # Source and Object Files
-SRC := $(shell find $(SRC_DIR) -type f )
+SRC := $(shell find $(SRC_DIR) -type f -name "*.c")
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
+SRC_TEST := $(filter-out $(SRC_DIR)/minishell.c, $(SRC))
+OBJ_TEST :=$(SRC_TEST:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 #include header
 INC= -I./includes
 
 #debuging
 ifeq ($(DEBUG), GDB)
-	CCF += -g
+	FLAGS += -g
 else ifeq ($(DEBUG), ALL)
-	CCF += -g3 -fsanitize=address
+	FLAGS += -g3 -fsanitize=address
 endif
-
-.PHONY: all clean fclean re clear
 
 all: $(NAME)
 
-
 $(NAME): $(OBJ)
-		@$(CCF) $(OBJ) $(INC) -o $@ $(LDFLAGS)
+		@cc $(FLAGS) $(OBJ) $(INC) -o $@ $(LDFLAGS)
 		@echo "compiling"
 		@sleep 0.5
 		@echo "$(NAME) is ready"
 
+test: $(OBJ_TEST)
+		@cc $(FLAGS) $(OBJ_TEST) $(INC) -o $(NAME) $(LDFLAGS)
+		@echo "compiling test"
+		@sleep 0.5
+		@echo "$(NAME) test is ready"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 		@mkdir -p $(@D)
-		@$(CCF) $(INC) -c $< -o $@
+		@cc $(FLAGS) $(INC) -c $< -o $@
 
 clean:
 		@rm -rf $(OBJ_DIR)
 		@echo "cleaning..."
-
 
 fclean: clean
 		@rm -f $(NAME)
@@ -57,5 +60,11 @@ clear: re clean
 
 bclear: all clean
 
+run:
+	@$(MAKE) --no-print-directory re
+	@./minishell
+
 norm :
 		@norminette $(SRC) includes/
+
+.PHONY: all clean fclean re clear

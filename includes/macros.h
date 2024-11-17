@@ -10,9 +10,8 @@
 # define MEM_ERR ": malloc"
 # define DQ_ERR ": syntax error: unclosed token `\"'"
 # define SQ_ERR ": syntax error: unclosed token `''"
-# define PIPE_ERR ": syntax error: empty pipe `|'"
-# define TOKEN_ERR ": sytax_error: unexpected token after `"
-
+# define TOKEN_ERR ": syntax error near token `"
+# define PTR_ERR ": clear_1data(): data pointer not found !"
 /**
  * @brief macros for "clear" function
  * 
@@ -56,26 +55,25 @@
 // word type token 
 # define WORD 10
 
-//word in double quotes
-# define WORD_D_QUOTES 11
-
-//word in single quotes
-#define WORD_S_QUOTES 12
-
 // pipe type token
 # define PIPE -1
 
 // any token type
 # define TOKEN -2
 
+//for all whitespace charachters
+# define IS_SPACE " \t\v\n\r\f"
 
+//macro for strchrdup to use galloc or calloc
+# define GALLOC 0
+# define CALLOC 1
 
+//flags for istoken funtion if check all tokens or exclude pipe token
+# define ALL_TKN 1
+# define NON_PIPE 0
 
-
-
-
-
-
+//bash special charachters
+# define SP_CHARACTERS "?*&|;"
 
 
 

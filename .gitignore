@@ -15,6 +15,8 @@ objects/
 minishell
 **/*.tldr
 *.supp
+*.gdb
+
 test*.c
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

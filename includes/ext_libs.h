@@ -13,6 +13,8 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <linux/limits.h>
+#include <assert.h>
 
 typedef unsigned char	t_uc; //just a macro that i used in libft to avoid long line on norminette ;)
 
@@ -50,6 +52,7 @@ void		ft_putstr_fd(char *s, int fd);
 int			ft_isprint(int c);
 void        *ft_calloc(size_t n, size_t size);
 void        ft_bzero(void *s, size_t n);
+char        *ft_strtrim(char const *s1, char const *set);
 
 
 #endif

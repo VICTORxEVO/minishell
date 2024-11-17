@@ -25,7 +25,7 @@ typedef struct s_gc
  */
 void        clear(char flag);
 
-extern t_all   *get_core(void);
+extern t_all   *getcore(void);
 
 //clear,print message and exit with exit_code
 void        pexit(char *msg, int exit_code);
@@ -47,7 +47,8 @@ void *galloc(size_t size);
 
 
 
-
+void        safe_free(void **data);
+void        clear_1data(void *data);
 
 
 
