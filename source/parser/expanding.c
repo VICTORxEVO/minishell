@@ -7,7 +7,7 @@ static int get_var(char *var_str, int *index)
 
     len = 0;
     list = handle_list();
-    while(var_str[len] && (!ft_isspace(var_str[len], NULL) && var_str[len] != '$'))
+    while(var_str[len] && ft_isalnum(var_str[len]))
         len++;
     list->content = getenv(ft_substr(var_str, 0, len));
     list->start_ndx = (*index) - 1;
@@ -69,7 +69,6 @@ void    expanding(t_lx *lexer)
 {
     char *new_content;
     t_lx *new_list;
-    t_lx *last_node;
 
     while (lexer)
     {
