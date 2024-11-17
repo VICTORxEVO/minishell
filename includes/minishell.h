@@ -5,7 +5,6 @@
 # define MINISHELL_H
 
 
-
 # include "gc.h"
 
 
@@ -129,7 +128,38 @@ void        expanding(t_lx *lexer);
  * @param core Main shell structure containing lexer tokens
  */
 void        load_cmd_list(t_all *core);
+/*          >Execution Functions<           */
+/**
+ */
+int     is_builtin(char *cmd);
+int     exec_builtin(t_cmd * cmd);
 
+
+/*          >bultin functions<           */
+
+int     ft_cd(t_cmd *cmd);
+int     ft_echo(t_cmd *cmd);
+int     ft_pwd();
+int     ft_env();
+int     ft_export(t_cmd *cmd);
+int     ft_unset(t_cmd *cmd);
+
+/*          builtin utils               */
+int     ft_setenv(char *name, char *val, int overwrite);
+char    *ft_getenv(char *cmd);
+
+
+/*          builtin export utils        */
+t_env   *ft_copy_node(t_env *node);
+t_env   *ft_copy_env();
+t_env   *ft_sort_export(t_env *export);
+void    ft_swap_nodes(t_env *outer,  t_env *inner);
+void    free_env(t_env *env);
+
+
+/*          builtin export utils 2     */
+int ft_print_export();
+int ft_print_export_error(char *cmd);
 
 
 /*          >Utils functions<           */
@@ -166,7 +196,6 @@ char        *create_prompt(void);
 bool        needspliting(t_lx *lexer, t_lx *prev_lexer);
 bool        checkspace_str(char *str);
 void        final_touch(t_lx *lexer);
-
 
 
 /**          >Printing/Debuging funtions<          */

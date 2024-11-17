@@ -11,6 +11,3 @@ int main(int ac, char *av[], char *env[])
 		parsing();
 		clear(F_TMP);
 	}
-	
-	return 0;
-}
