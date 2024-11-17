@@ -65,7 +65,8 @@
 # define ALL_TKN 1
 # define NON_PIPE 0
 
-
+//bash special charachters
+# define SP_CHARACTERS "?*&|;"
 
 
 
