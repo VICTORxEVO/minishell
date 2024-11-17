@@ -30,7 +30,7 @@ static int ft_add_export2(char *arg)
     char *tmp;
     char *equal_sign;
     
-    env = get_core()->env_list;
+    env = getcore()->env_list;
     extract_key_value2(arg, &key, &value);  
     ft_setenv(key, value, 1); 
     return (1);
@@ -144,7 +144,7 @@ int    ft_export2(t_cmd *cmd)
 //test builtin
 int main (int ac, char **av, char **env)
 {
-    t_all * core = get_core();
+    t_all * core = getcore();
     core->env_list = fill_env_list2(env);	
 
 	char *cmd_str[]= {"export", "hello=yes", "hello","keyonly", "_=value", "_FINAL", NULL};
