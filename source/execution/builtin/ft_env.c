@@ -7,7 +7,7 @@ char    *ft_getenv(char *cmd)
 {
     t_env * env;
 
-    env = get_core()->env_list;
+    env = getcore()->env_list;
     if (!env)
     {
         // to check in case of no env exist.
@@ -28,7 +28,7 @@ int    ft_env()
 {
     t_env * env;
 
-    env = get_core()->env_list;
+    env = getcore()->env_list;
     if (env == NULL)
         return (0);
     while (env)

@@ -49,6 +49,11 @@ int ft_cd(t_cmd * cmd)
             //to add, program name instead of "bash"
             printf("bash: cd: %s: No such file or directory\n", owd);
         }
-    } 
+    }
+    else if (cmd->cmd[1])
+    {
+         if (!chdir(cmd->cmd[1]))
+            printf("can't move to path \n");
+    }
     return (1); 
 }
