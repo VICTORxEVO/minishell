@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_export_utils.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 16:00:50 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/10 14:56:11 by ael-moha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 
@@ -19,7 +7,7 @@ t_env *ft_copy_env()
     t_env *head;
     t_env *cpy;
 
-    env = get_core()->env_list;
+    env = getcore()->env_list;
     if (!env)
         return (NULL);
     head = ft_copy_node(env);
