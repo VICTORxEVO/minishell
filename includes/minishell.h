@@ -34,6 +34,7 @@ typedef struct s_file
 typedef struct s_cmd
 {
     t_lx            *scope;
+    char            **cmd;
     int             ifd;
     int             ofd;
     struct s_cmd    *next;
