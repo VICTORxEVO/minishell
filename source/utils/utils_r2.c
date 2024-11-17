@@ -51,5 +51,5 @@ char    *strchrdup(char *str, char *delimit, bool type)
     }
     if (type == CALLOC)
         return(ft_csubstr(str, 0, i));
-    ft_substr(str, 0, i);
+    return (ft_substr(str, 0, i));
 }

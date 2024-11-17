@@ -7,6 +7,7 @@ bool checkspace_str(char *str)
 	char len;
 
 	len = ft_strlen(str);
+    i = -1;
 	while (++i < len)
 	{
 		if (ft_isspace(str[i], NULL))
@@ -18,6 +19,7 @@ bool checkspace_str(char *str)
 				i++;
 		}
 	}
+    return (false);
 }
 
 bool	needspliting(t_lx *lexer, t_lx *prev_lexer)
@@ -27,6 +29,7 @@ bool	needspliting(t_lx *lexer, t_lx *prev_lexer)
 		if (!prev_lexer || (prev_lexer && prev_lexer->type == WORD))
 				return (checkspace_str(lexer->content));
 	}
+    return (false);
 }
 
 
@@ -159,4 +162,33 @@ void print_lx(void)
         lexer = lexer->next;
     }
     printf("\n=====================\n");
+}
+
+void print_cmd(void)
+{
+    t_cmd *cmd = getcore()->cmd;
+    int i = 1;
+
+    if (!cmd) {
+        printf(BOLD_RED "Command list is empty\n" END);
+        return;
+    }
+
+    printf("\n" BOLD_CYAN "=== Command List ===" END "\n\n");
+    while (cmd) {
+        printf(BOLD_YELLOW "Command %d:" END "\n", i++);
+        printf(BOLD_GREEN "  Input  FD: " END "%d\n", cmd->ifd);
+        printf(BOLD_GREEN "  Output FD: " END "%d\n", cmd->ofd);
+
+        t_lx *scope = cmd->scope;
+        printf(BOLD_MAGENTA "  Scope:" END "\n");
+        while (scope) {
+            printf(BOLD_BLUE "    Content: " END "%s\n", scope->content);
+            scope = scope->next;
+        }
+
+        cmd = cmd->next;
+        printf("\n");
+    }
+    printf(BOLD_CYAN "=====================\n" END);
 }
