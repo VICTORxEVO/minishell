@@ -2,13 +2,15 @@
 
 t_lx    *splitcontent(char *str)
 {
-    
+    (void)str;
+    return ((t_lx *)0);
 }
 
 t_lx    *addnewlist(t_lx *new_list, t_lx *lexer, t_lx *prev_lx, t_lx *next_lx)
 {
     t_lx *newlisttail;
 
+    newlisttail = new_list;
     while(newlisttail->next)
         newlisttail = newlisttail->next;
     if (!prev_lx)
