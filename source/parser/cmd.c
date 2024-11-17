@@ -47,7 +47,7 @@ static char *getnewstr(char *str)
 
 static bool havequotes(t_lx *lexer)
 {
-    if (lexer->type = WORD)
+    if (lexer->type == WORD)
     {
         if (ft_strchr(lexer->content, S_QUOTES))
             return (true);
@@ -69,6 +69,7 @@ void    final_touch(t_lx *lexer)
             clear_1data(lexer->content);
             lexer->content = new_str;
         }
+        lexer = lexer->next;
     }
 }
 
@@ -79,5 +80,20 @@ void    load_cmd_list(t_all *core)
 
     lexer = core->lexer;
     core->cmd_count = core->pipe_count + 1;
-    // to add scopes ....
+    cmd = galloc(sizeof(t_cmd));
+    while (lexer)
+    {
+        if (!cmd->scope)
+        {
+            cmd->scope = lexer;
+            addtolist(cmd, "t_cmd");
+        }
+        if (lexer->type == PIPE)
+        {
+            lexer->prev->next = NULL;
+            lexer->next->prev = NULL;
+            cmd = galloc(sizeof(t_cmd));
+        }
+        lexer = lexer->next;
+    }
 }
