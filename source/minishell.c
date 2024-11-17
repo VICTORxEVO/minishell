@@ -8,7 +8,7 @@ int main(int ac, char *av[], char *env[])
 	while (true)
 	{
 		reader_loop();
-		parsing(env);
+		parsing();
 		clear(F_TMP);
 	}
 	
