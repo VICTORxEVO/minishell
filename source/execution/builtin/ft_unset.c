@@ -30,14 +30,14 @@ void    ft_remove_node(char *node)
     t_env *env;
     t_env *prev;
 
-    env = get_core()->env_list;
+    env = getcore()->env_list;
     prev = NULL;
     while (env)
     {
         if (ft_strcmp(env->key, node) == 0)
         {
             if (prev == NULL)
-                get_core()->env_list = env->next;
+                getcore()->env_list = env->next;
             else
                 prev->next = env->next;
             free(env->key);
@@ -56,7 +56,7 @@ int ft_setenv(char *key, char *val, int overwrite)
     t_env *prev;
     bool found;
 
-    env = get_core()->env_list; 
+    env = getcore()->env_list; 
     prev = NULL;
     found = false;
     while (env)
@@ -82,7 +82,7 @@ int    ft_unset(t_cmd *cmd)
 {
     t_env *env;
 
-    env = get_core()->env_list;
+    env = getcore()->env_list;
     while (env && cmd->cmd[1])
     {
         if (ft_strcmp(env->key, cmd->cmd[1]) == 0)
