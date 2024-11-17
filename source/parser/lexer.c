@@ -5,7 +5,7 @@ static  void checklastnode(t_lx *lastnode)
     if (istoken(lastnode->type, ALL_TKN))
         pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, lastnode->content), "'"), 1);
 }
-static char *lexer_get_word(char *line, char type, long long *i)
+static char *lexer_get_word(char *line, long long *i)
 {
     char quote;
 
@@ -24,7 +24,7 @@ static char *lexer_get_word(char *line, char type, long long *i)
     return (ft_substr(line, 0, *i));
 }
 
-static long long lexer_add_word(char type, char *line)
+static long long lexer_add_word(char *line)
 {
     t_lx *lexer;
     long long i;
@@ -32,7 +32,7 @@ static long long lexer_add_word(char type, char *line)
     i = 0;
     lexer = galloc(sizeof(t_lx));
     lexer->type = WORD;
-    lexer->content = lexer_get_word(line, WORD, &i);
+    lexer->content = lexer_get_word(line, &i);
     addtolist(lexer, "t_lx");
     return (i);
 }
@@ -66,18 +66,18 @@ void    lexing(char *line)
     {
         while (line[i] && ft_isspace(line[i], NULL))
             i++;
-        if (!ft_strncmp(line, "<<", 2))
+        if (!ft_strncmp(&line[i], "<<", 2))
             i += lexer_add_token(HERE_DOC);
-        else if (!ft_strncmp(line, ">>", 2))
+        else if (!ft_strncmp(&line[i], ">>", 2))
             i += lexer_add_token(OUT_RDRT_APP);
-        else if (!ft_strncmp(line, "<", 1))
+        else if (!ft_strncmp(&line[i], "<", 1))
             i += lexer_add_token(IN_RDRT);
-        else if (!ft_strncmp(line, ">", 1))
+        else if (!ft_strncmp(&line[i], ">", 1))
             i += lexer_add_token(OUT_RDRT_OW);
-        else if (!ft_strncmp(line, "|", 1))
+        else if (!ft_strncmp(&line[i], "|", 1))
             i += lexer_add_token(PIPE);
         else if (line[i])
-            i += lexer_add_word(WORD, line + i);
+            i += lexer_add_word(line + i);
     }
     checklastnode((t_lx *)getlastnode(getcore()->lexer, "t_lx"));
 }
