@@ -22,12 +22,6 @@
 
 
 /**
- * @brief macros for pathname
- * 
- * @see update_env(char *oldpwd); 
-*/
-# define PATH_MAX 1000
-/**
  * @brief macros for tokens and syntax
  */
 
