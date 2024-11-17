@@ -78,15 +78,57 @@ typedef struct s_ndx
 
 
 
-/*          >Parsing Funtions<           */
+/*          >Parsing Functions<           */
 /**
+ * @brief Main parsing function that handles the command line input
+ * @details Processes user input through lexical analysis, expansion and command loading
  */
-void        parsing(char *env[]);
+void        parsing(void);
+
+/**
+ * @brief Validates quote pairs in the input string
+ * @details Checks for matching single and double quotes, exits with error if unmatched
+ * @param line Input string to check
+ */
 void        check_quotes(char *line);
+
+/**
+ * @brief Expands environment variables in a string
+ * @details Replaces $VAR with its value from environment
+ * @param line String containing variables to expand
+ * @return New string with expanded variables
+ */
 char        *expand_dollar(char *line);
+
+/**
+ * @brief Handles special variable expansion for $$ and $?
+ * @details Expands $$ to PID and $? to last exit code
+ * @param index Current position in string
+ * @param type Type of special variable ('$' or '?')
+ * @return Length of expanded value
+ */
 int         get_var_special(int *index, char type);
+
+/**
+ * @brief Performs lexical analysis on input string
+ * @details Splits input into tokens (words, operators, etc)
+ * @param line Input string to tokenize
+ */
 void        lexing(char *line);
+
+/**
+ * @brief Expands variables in lexer tokens
+ * @details Processes variable expansion for each word token
+ * @param lexer Linked list of lexer tokens
+ */
 void        expanding(t_lx *lexer);
+
+/**
+ * @brief Creates command structures from lexer tokens
+ * @details Groups tokens into command structures with I/O redirections
+ * @param core Main shell structure containing lexer tokens
+ */
+void        load_cmd_list(t_all *core);
 
 
 
@@ -133,6 +175,7 @@ void        final_touch(t_lx *lexer);
  */
 void    print_lx(void);
 void    print_env(void);
+void    print_cmd(void);
 
 
 /**
