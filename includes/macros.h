@@ -69,6 +69,15 @@
 //bash special charachters
 # define SP_CHARACTERS "?*&|;"
 
+//child process macro
+# define CHILD 1
+
+//read side of the pipe
+#define READ 0
+
+//write side of the pipe
+# define WRITE 1
+
 
 
 #ifndef COLORS_H
