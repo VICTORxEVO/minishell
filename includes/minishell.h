@@ -53,6 +53,7 @@ typedef struct s_all
     t_cmd           *cmd;
     t_env           *env_list;
     t_lx            *lexer;
+    char            **env;
     t_gc            *gc;
     char            **path;
     unsigned int    cmd_count;
