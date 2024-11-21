@@ -70,7 +70,7 @@
 # define SP_CHARACTERS "?*&|;"
 
 //child process macro
-# define CHILD 1
+# define CHILD 0
 
 //read side of the pipe
 #define READ 0
@@ -78,7 +78,20 @@
 //write side of the pipe
 # define WRITE 1
 
+//dup2 exit code
+# define DUP2_CODE 2
 
+//close exit code
+# define CLOSE_CODE 3
+
+//pipe exit code
+# define PIPE_CODE 4
+
+//read exit code
+# define READ_CODE 5
+
+//heredoc tmp file name 
+# define HERE_DOC_FILE "/tmp/tmp.hzxcd512ek"
 
 #ifndef COLORS_H
 # define COLORS_H
