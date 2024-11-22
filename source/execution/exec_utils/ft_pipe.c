@@ -13,16 +13,16 @@ void	create_pipe(int pipefd[2])
 	}
 }
 
-static int	fork_process(void)
-{
-	pid_t	pid;
+// static int	fork_process(void)
+// {
+// 	pid_t	pid;
 
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	return (pid);
-}
+// 	pid = fork();
+// 	if (pid == -1)
+// 	{
+// 		perror("fork");
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	return (pid);
+// }
 
