@@ -142,47 +142,47 @@ int    ft_export2(t_cmd *cmd)
 //3 -> setup todo for all builtins 
 
 //test builtin
-int main (int ac, char **av, char **env)
-{
-    t_all * core = getcore();
-    core->env_list = fill_env_list2(env);	
+// int main (int ac, char **av, char **env)
+// {
+//     t_all * core = getcore();
+//     core->env_list = fill_env_list2(env);	
 
-	char *cmd_str[]= {"export", "hello=yes", "hello","keyonly", "_=value", "_FINAL", NULL};
+// 	char *cmd_str[]= {"export", "hello=yes", "hello","keyonly", "_=value", "_FINAL", NULL};
 
-	t_cmd *cmd  = galloc(sizeof(t_cmd*));
-	cmd->cmd  = cmd_str; 
+// 	t_cmd *cmd  = galloc(sizeof(t_cmd*));
+// 	cmd->cmd  = cmd_str; 
 
-	ft_export2(cmd);
-    ft_print_export2();
-	// size_t len =  sizeof(cmd_str)  / sizeof(char *);
+// 	ft_export2(cmd);
+//     ft_print_export2();
+// 	size_t len =  sizeof(cmd_str)  / sizeof(char *);
 
-	// char **cmd_args = galloc(sizeof(char*) * len); 
-	// size_t i = -1;
+// 	char **cmd_args = galloc(sizeof(char*) * len); 
+// 	size_t i = -1;
 	
-	// while (cmd_str[++i])
-	// 	cmd_args[i] = cmd_str[i];
+// 	while (cmd_str[++i])
+// 		cmd_args[i] = cmd_str[i];
 
-	// i = 0;
-	// while (cmd_args[i])
-	// 	printf("%s, ", cmd_args[i++]);
-	// printf("\n");
+// 	i = 0;
+// 	while (cmd_args[i])
+// 		printf("%s, ", cmd_args[i++]);
+// 	printf("\n");
 	
-	// ft_print_export2();
-    // printf("adding export = ayoub\n");
-    // printf("adding export = aziz=great\n");
-    // printf("adding export = karim=\"\"\n");
-    // printf("===================\n");
-    // ft_add_export2("ayoub");
-    // ft_add_export2("aziz=great");
-    // ft_add_export2("karim=");
-    // ft_add_export2("said+=karim");
-    // printf("-----------exprot checks ------------\n");
+// 	ft_print_export2();
+//     printf("adding export = ayoub\n");
+//     printf("adding export = aziz=great\n");
+//     printf("adding export = karim=\"\"\n");
+//     printf("===================\n");
+//     ft_add_export2("ayoub");
+//     ft_add_export2("aziz=great");
+//     ft_add_export2("karim=");
+//     ft_add_export2("said+=karim");
+//     printf("-----------exprot checks ------------\n");
 
-    // printf("%d\n" ,ft_export_check2("ayoub"));
-    // printf("%d\n" ,ft_export_check2("aziz=great"));
-    // printf("%d\n" ,ft_export_check2("karim="));
-    // printf("%d\n" ,ft_export_check2("_+=arim"));
-    // printf("===================\n");
- // ft_print_export2();
-	return (0);
-}
+//     printf("%d\n" ,ft_export_check2("ayoub"));
+//     printf("%d\n" ,ft_export_check2("aziz=great"));
+//     printf("%d\n" ,ft_export_check2("karim="));
+//     printf("%d\n" ,ft_export_check2("_+=arim"));
+//     printf("===================\n");
+//  ft_print_export2();
+// 	return (0);
+// }
