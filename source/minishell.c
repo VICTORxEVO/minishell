@@ -9,5 +9,5 @@ int main(int ac, char *av[], char *env[])
 	{
 		reader_loop();
 		parsing();
-		clear(F_TMP);
+		clear(FREE_TEMP);
 	}

@@ -23,7 +23,7 @@ void    reader_loop(void)
         break ;
     }
     if (!ft_strncmp(line, "exit", ft_strlen("exit")))
-        pexit(": done!", F_ALL); //tmp function just for debugging and see leaks 
+        pexit(": done!", FREE_ALL); //tmp function just for debugging and see leaks 
 }
 
 void    parsing(void)

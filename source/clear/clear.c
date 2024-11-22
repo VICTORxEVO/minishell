@@ -60,7 +60,7 @@ void clear(char flag)
 {
     gc_lstclear();
     re_zero();
-    if (flag == F_ALL)
+    if (flag == FREE_ALL)
     {
         env_lstclear();
         safe_free((void **)&getcore()->previous_line);
