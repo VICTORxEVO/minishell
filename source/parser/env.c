@@ -45,6 +45,7 @@ void   fill_env_list(char *env[])
     int i;
 
     i = -1;
+    getcore()->env = env;
     while (env[++i])
     {
         env_node = ft_calloc(1, sizeof(t_env));
