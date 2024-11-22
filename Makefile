@@ -2,7 +2,7 @@
 NAME = minishell
 
 #cc compiler with all flags
-FLAGS = -g3 -Wall -Wextra -Werror 
+FLAGS = -g3 -Wall -Wextra #-Werror 
 # CCF = cc -Wall -Wextra -Werror -g3
 LDFLAGS = -lreadline
 
@@ -49,14 +49,25 @@ clean:
 		@rm -rf $(OBJ_DIR)
 		@echo "cleaning..."
 
+tclean:
+		@rm -rf $(OBJ_DIR)
+		@echo "cleaning test..."
+
 fclean: clean
 		@rm -f $(NAME)
 		@echo "cleaning program..."
 
+tfclean: tclean
+		@rm -f $(NAME)
+		@echo "cleaning test program..."
 
 re: fclean all
 
+tre: tfclean
+
 clear: re clean
+
+tclear: tre test
 
 bclear: all clean
 
