@@ -16,6 +16,8 @@
 # include <linux/limits.h>
 # include <assert.h>
 # include <sys/wait.h>
+# include <signal.h>
+
 
 typedef unsigned char	t_uc; //just a macro that i used in libft to avoid long line on norminette ;)
 
