@@ -5,66 +5,136 @@
 # define MACROS_H
 
 
-// macros for perror message
-# define PRGM_NAME "Eureka"
-# define MEM_ERR ": malloc"
-# define DQ_ERR ": syntax error: unclosed token `\"'"
-# define SQ_ERR ": syntax error: unclosed token `''"
-# define TOKEN_ERR ": syntax error near token `"
-# define PTR_ERR ": clear_1data(): data pointer not found !"
 /**
- * @brief macros for "clear" function
+ * Error Message Macros
+ * These macros define standard error messages used throughout the shell program
+ */
+
+/** Program name displayed in error messages */
+#define PRGM_NAME "Eureka"
+
+/** Double quote syntax error message for unclosed quotes */
+#define DQ_ERR ": syntax error: unclosed token `\"'"
+
+/** Single quote syntax error message for unclosed quotes */  
+#define SQ_ERR ": syntax error: unclosed token `''"
+
+/** Generic token syntax error message */
+#define TOKEN_ERR ": syntax error near token `"
+
+/** Invalid pointer error message for data cleanup */
+#define PTR_ERR ": clear_1data(): data pointer not found !"
+
+
+/**
+ * @brief Clear operation modes
+ * @details Specifies which memory blocks should be cleared during cleanup operations
  * 
- * @see galloc()
+ * @note Used by clear() function to determine cleanup scope
+ * @see galloc() Function responsible for memory allocation
+ * @see clear() Function that performs the cleanup
  */
-# define F_ALL 10
-# define F_TMP 11
+typedef enum e_clear_mode {
+    FREE_ALL = 10,  /**< Free all allocated memory blocks in the program */
+    FREE_TEMP = 11  /**< Free only temporary memory blocks */
+} t_clear_mode;
+
+/**
+ * @brief ASCII quote character values
+ * @details Contains ASCII values for quote characters used in parsing
+ */
+typedef enum e_quote_type {
+    D_QUOTES = 34,  /**< ASCII value for double quote (") character */
+    S_QUOTES = 39   /**< ASCII value for single quote (') character */
+} t_quote_type;
 
 
 /**
- * @brief macros for tokens and syntax
+ * @brief Enum representing all token types in the shell
+ *
+ * This enumeration defines constants for:
+ * @param PIPE (-1): Pipe operator token to connect commands
+ * @param TOKEN (-2): Generic token identifier
+ * @param HERE_DOC (1): Read input from a here document (<<)
+ * @param IN_RDRT (2): Input file redirection (<)
+ * @param OUT_RDRT_OW (3): Output file redirection, overwrite mode (>)
+ * @param OUT_RDRT_APP (4): Output file redirection, append mode (>>)
+ * @param WORD (10): Regular command or argument token
+ *
+ * Usage examples:
+ * - PIPE: cmd1 | cmd2
+ * - HERE_DOC: cmd << EOF
+ * - IN_RDRT: cmd < input.txt
+ * - OUT_RDRT_OW: cmd > output.txt
+ * - OUT_RDRT_APP: cmd >> output.txt
+ * - WORD: Regular command names and arguments
  */
+typedef enum e_token_type
+{
+    PIPE = -1,           /* Pipe operator token */
+    TOKEN = -2,          /* Generic token identifier */
+    HERE_DOC = 1,        /* Here document redirection */
+    IN_RDRT = 2,         /* Input file redirection */
+    OUT_RDRT_OW = 3,     /* Output file redirection (overwrite mode) */
+    OUT_RDRT_APP = 4,    /* Output file redirection (append mode) */
+    WORD = 10            /* Regular word token */
+} t_token_type;
 
-// macro for empty variable
-# define EMPTY_VAR 0
 
-// double quotes ascii
-# define D_QUOTES 34
+/**
+ * @brief System call error codes
+ * @details Enumeration of error codes used to identify which system call failed
+ *          during process execution and error handling
+ */
+typedef enum e_error_code
+{
+    DUP2_CODE = 2,   /**< Error code for dup2() system call failure */
+    CLOSE_CODE,      /**< Error code for close() system call failure */
+    PIPE_CODE,       /**< Error code for pipe() system call failure */
+    READ_CODE,       /**< Error code for read() system call failure */
+    OPEN_CODE,       /**< Error code for open() system call failure */
+    WRITE_CODE,      /**< Error code for write() system call failure */
+    FORK_CODE,       /**< Error code for fork() system call failure */
+    READLINE_CODE    /**< Error code for readline() function failure */
+} t_error_code;
 
-// single quotes ascii
-# define S_QUOTES 39
 
-// heredoc
-# define HERE_DOC 1
+/**
+ * @brief Enum representing pipe ends in a Unix pipe
+ * 
+ * In Unix/Linux systems, pipes have two ends:
+ * - READ_END (0): The reading end of the pipe where data is received
+ * - WRITE_END (1): The writing end of the pipe where data is sent
+ */
+typedef enum e_pipe_end
+{
+    READ_END = 0,    /* File descriptor for reading from pipe */
+    WRITE_END = 1    /* File descriptor for writing to pipe */
+} t_pipe_end;
 
-// infile redirection in overwrite mode
-# define IN_RDRT 2
 
-// outfile redirection in overwrite mode
-# define OUT_RDRT_OW 3
+/**
+ * @brief Memory allocation type flags
+ * @details Specifies which allocation function to use in strchrdup
+ */
+typedef enum e_allocation_type {
+    GALLOC = 0,    /**< Use galloc allocation function */
+    CALLOC = 1     /**< Use calloc allocation function */
+} t_allocation_type;
 
-// outfile redirection in appende mode
-# define OUT_RDRT_APP 4
 
-// word type token 
-# define WORD 10
+/**
+ * @brief Token checking mode flags
+ * @details Specifies which tokens to check in istoken function
+ */
+typedef enum e_token_check_mode {
+    NON_PIPE = 0,  /**< Check all tokens except pipe token */
+    ALL_TKN = 1    /**< Check all tokens including pipe token */
+} t_token_check_mode;
 
-// pipe type token
-# define PIPE -1
-
-// any token type
-# define TOKEN -2
 
 //for all whitespace charachters
 # define IS_SPACE " \t\v\n\r\f"
-
-//macro for strchrdup to use galloc or calloc
-# define GALLOC 0
-# define CALLOC 1
-
-//flags for istoken funtion if check all tokens or exclude pipe token
-# define ALL_TKN 1
-# define NON_PIPE 0
 
 //bash special charachters
 # define SP_CHARACTERS "?*&|;"
@@ -72,29 +142,11 @@
 //child process macro
 # define CHILD 0
 
-//read side of the pipe
-#define READ 0
-
-//write side of the pipe
-# define WRITE 1
-
-//dup2 exit code
-# define DUP2_CODE 2
-
-//close exit code
-# define CLOSE_CODE 3
-
-//pipe exit code
-# define PIPE_CODE 4
-
-//read exit code
-# define READ_CODE 5
-
 //heredoc tmp file name 
 # define HERE_DOC_FILE "/tmp/tmp.hzxcd512ek"
 
-#ifndef COLORS_H
-# define COLORS_H
+// macro for empty variable
+# define EMPTY_VAR 0
 
 // Regular text colors
 #define BLACK "\033[0;30m"
@@ -138,8 +190,6 @@
 
 // Reset color
 #define END "\033[0m"
-
-#endif // COLORS_H
 
 
 #endif
