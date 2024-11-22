@@ -135,7 +135,9 @@ void        load_cmd_list(t_all *core);
  */
 int     is_builtin(char *cmd);
 int     exec_builtin(t_cmd * cmd);
-
+int     ifd(char *filename);
+int     ofd(char *filename, char mode);
+void    hd_fork(char *tmpfile, char *delimit);
 
 /*          >bultin functions<           */
 
