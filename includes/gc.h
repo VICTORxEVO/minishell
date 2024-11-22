@@ -20,8 +20,8 @@ typedef struct s_gc
 /**
  * @param list refrance to t_gc
  * @param flag data type need to freed:
- * F_TMP for freeying up all tmp allocation (used after executing commands),
- * F_ALL for freeying up all tmp and perm data (used after exiting the whole program) 
+ * FREE_TEMP for freeying up all tmp allocation (used after executing commands),
+ * FREE_ALL for freeying up all tmp and perm data (used after exiting the whole program) 
  */
 void        clear(char flag);
 
