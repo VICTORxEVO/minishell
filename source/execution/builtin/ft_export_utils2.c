@@ -20,9 +20,3 @@ int ft_print_export()
     }
     return (0);
 }
-
-int ft_print_export_error2(char *cmd)
-{
-    printf("Eureka: export: %s: not a valid identifier\n", cmd);
-    return (0);
-} 
