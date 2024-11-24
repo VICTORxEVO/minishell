@@ -30,20 +30,21 @@ static int ft_export_check(char *arg)
     return (0);
 }
 
-static int extract_key_value(const char *arg, char **key, char **value) {
-    char *equal_sign = ft_strchr(arg, '=');
-
-    if (!equal_sign)
+static int parse_key_value(const char *arg, char **key, char **value) {
+    char *equal_sign_pos;
+    
+    equal_sign_pos = ft_strchr(arg, '=');
+    if (!equal_sign_pos)
     {
         *key = ft_strdup(arg);
         *value = NULL;
         return (*key) ? 1 : 0;
     }
-    *key = ft_strndup(arg, equal_sign - arg); 
-    if (*(equal_sign + 1) == '\0')
+    *key = ft_strndup(arg, equal_sign_pos - arg); 
+    if (*(equal_sign_pos + 1) == '\0')
         *value = ft_strdup("");
     else 
-        *value = ft_strdup(equal_sign + 1);
+        *value = ft_strdup(equal_sign_pos + 1);
     return (*key && *value) ? 1 : 0;
 }
 
@@ -54,14 +55,14 @@ static int ft_add_export(char *arg)
     char *value;
 
     env = getcore()->env_list;
-    extract_key_value(arg, &key, &value);     
+    parse_key_value(arg, &key, &value);     
     ft_setenv(key, value, 1); 
     return (1);
 }
 
-static void ft_print_export_error()
+static void ft_print_export_error(char *var)
 {
-    printf("Eureka: export: `command': not a valid identifier\n");
+    printf("Eureka: export: `%s': not a valid identifier\n", var);
 } 
 
 int    ft_export(t_cmd *cmd)
@@ -74,7 +75,7 @@ int    ft_export(t_cmd *cmd)
         if (ft_export_check(cmd->cmd[i]))
             ft_add_export(cmd->cmd[i]);
         else
-            ft_print_export_error();
+            ft_print_export_error(cmd->cmd[i]);
     }
     if (!cmd->cmd[1])
         ft_print_export();
