@@ -164,8 +164,7 @@ void    free_env(t_env *env);
 
 
 /*          builtin export utils 2     */
-int ft_print_export();
-int ft_print_export_error(char *cmd);
+int         ft_print_export();
 
 
 /*          >Utils functions<           */

@@ -5,31 +5,29 @@
 #include "minishell.h"
 
 
-// error to print =>  "bash_name": command (export): `user_input': not a valid identifier 
 static int ft_export_check(char *arg)
 {
-    size_t i;
-    bool plus;
+    int i;
 
-    if (!arg)
+    if (!arg || !arg[0])
         return (0);
-    if ((arg[0] != '_') && !ft_isalpha(arg[0]))
+    i = 0;
+
+    if (!ft_isalpha(arg[i]) && arg[i] != '_')
         return (0);
-    i = 1;
-    plus = false;
-    while (arg[i]) 
+    while (arg[++i])
     {
-        if ((arg[i] == '=') || (arg[i] == '+' && arg[i + 1] == '=') || arg[i] == '+' && plus)
+        if (arg[i] == '+')
         {
-            i++;
-            plus = true;
-            continue;
+            if (arg[i + 1] != '=')
+                return (0);
         }
-        if (!ft_isdigit(arg[i]) && !ft_isalpha(arg[i]) && !(arg[i] == '_'))
+        else if (arg[i] == '=')
+            return (1);
+        else if (!ft_isalnum(arg[i]) && arg[i] != '_')
             return (0);
-        i++; 
     }
-    return (1);
+    return (0);
 }
 
 static int extract_key_value(const char *arg, char **key, char **value) {
@@ -55,29 +53,10 @@ static int ft_add_export(char *arg)
     char *key;
     char *value;
 
-    env = get_core()->env_list;
+    env = getcore()->env_list;
     extract_key_value(arg, &key, &value);     
     ft_setenv(key, value, 1); 
     return (1);
-}
-
-static int ft_print_export()
-{
-    t_env *export;
-    t_env *tmp;
-
-    export = ft_copy_env();
-    ft_sort_export(export);
-    tmp = export;
-    while (tmp)
-    {
-        if (tmp->value)
-            printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
-        else
-            printf("declare -x %s\n", tmp->key); 
-        tmp = tmp->next;
-    }
-    return (0);
 }
 
 static void ft_print_export_error()
