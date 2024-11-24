@@ -11,3 +11,4 @@ int main(int ac, char *av[], char *env[])
 		parsing();
 		clear(FREE_TEMP);
 	}
+}
