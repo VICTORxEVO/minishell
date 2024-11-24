@@ -138,6 +138,8 @@ int     exec_builtin(t_cmd * cmd);
 int     ifd(char *filename);
 int     ofd(char *filename, char mode);
 void    hd_fork(char *tmpfile, char *delimit);
+int     hd(char *delimit);
+
 
 /*          >bultin functions<           */
 

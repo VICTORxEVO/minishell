@@ -13,7 +13,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include <linux/limits.h>
+# include <limits.h>
 # include <assert.h>
 # include <sys/wait.h>
 # include <signal.h>

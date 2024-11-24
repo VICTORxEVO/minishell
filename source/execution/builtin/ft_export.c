@@ -5,7 +5,7 @@
 #include "minishell.h"
 
 
-// return 0 in case of error
+// error to print =>  "bash_name": command (export): `user_input': not a valid identifier 
 static int ft_export_check(char *arg)
 {
     size_t i;
@@ -55,35 +55,50 @@ static int ft_add_export(char *arg)
     char *key;
     char *value;
 
-    env = getcore()->env_list;
+    env = get_core()->env_list;
     extract_key_value(arg, &key, &value);     
     ft_setenv(key, value, 1); 
     return (1);
 }
-int ft_print_export_error(char *cmd)
-{
-    printf("error exit %d\n", cmd);
 
-    return (1);
+static int ft_print_export()
+{
+    t_env *export;
+    t_env *tmp;
+
+    export = ft_copy_env();
+    ft_sort_export(export);
+    tmp = export;
+    while (tmp)
+    {
+        if (tmp->value)
+            printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+        else
+            printf("declare -x %s\n", tmp->key); 
+        tmp = tmp->next;
+    }
+    return (0);
 }
+
+static void ft_print_export_error()
+{
+    printf("Eureka: export: `command': not a valid identifier\n");
+} 
 
 int    ft_export(t_cmd *cmd)
 {
     size_t i;
-    int exit_status;
 
     i = 1;
-    exit_status = 0;
     while (cmd->cmd[i])
     {
         if (ft_export_check(cmd->cmd[i]))
             ft_add_export(cmd->cmd[i]);
         else
-            exit_status = ft_print_export_error(cmd->cmd[i]);
-        i++;
+            ft_print_export_error();
     }
     if (!cmd->cmd[1])
         ft_print_export();
-    return (exit_status);
+    return (0);
 }
 

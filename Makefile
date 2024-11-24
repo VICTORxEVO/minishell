@@ -63,7 +63,7 @@ tfclean: tclean
 
 re: fclean all
 
-tre: tfclean
+tre: tfclean test
 
 clear: re clean
 
