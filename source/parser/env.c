@@ -34,43 +34,22 @@
 //     return (newpath);
 // }
 
-size_t ft_arraylen(char **array)
-{
-    size_t i;
 
-    if (!array)
-        return (0);
-    i = 0;
-    while (array[i])
-        i++;
-    return (i);
-}
-
-void    fill_path(void)
+void    ft_update_path(void)
 {
-    size_t i;
-    size_t len;
     t_env *env;
 
-    //to do:add load PATH variable to core->path
-    env = getcore()->env_list; 
+    env = getcore()->env_list;
+    while (getcore()->path)
     while (env && env->key)
     {
         if (ft_strncmp("PATH", env->key, -1) == 0)
+        {
+            getcore()->path = ft_split_malloc(env->value, ':');
             break;
+        }
         env = env->next;
     }
-    if (!env || !env->key || ft_strncmp("PATH", env->key, -1))
-        return (getcore()->path = NULL, (void)0);
-    char **paths = ft_split(env->value, ':');
-  if (!paths)
-        return (getcore()->path = NULL, (void)0); 
-    len = ft_arraylen(paths);
-    i = -1;
-    getcore()->path = (char **)ft_calloc(len + 1, sizeof(char **));
-    while (++i < len)
-        getcore()->path[i] = ft_strdup(paths[i]);
-    getcore()->path[i] = 0;
 }
 
 void   fill_env_list(char *env[])

@@ -189,7 +189,7 @@ void        addtolist(void *node, char *list_type);
 char        *strchrdup(char *str, char *delimit, bool type);
 void        *getlastnode(void *list, char *list_type);
 t_lx        *splitcontent(char *str);
-void        fill_path(void);
+void        ft_update_path(void);
 void        free_array(char **array);
 
 
