@@ -39,6 +39,7 @@ char		*ft_strdup(const char *s);
 char		*ft_strndup(const char *s, size_t n);
 char		*ft_strchr(const char *str, int c);
 char		**ft_split(const char *s, char c);
+char	    **ft_split_malloc(const char *s, char c);
 void		*ft_memset(void *dest, int c, size_t count);
 void		*ft_memmove(void *dest, const void *src, size_t count);
 void		*ft_memcpy(void *dest, const void *src, size_t n);
