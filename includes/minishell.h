@@ -185,7 +185,7 @@ char        *get_end_addr(char *str);
 bool        possible_expand(char c);
 void        strocpy(char *dest, const char * src, int len);
 bool        is_str_havespace(char *string);
-void        addtolist(void *node, char *list_type);
+void        addtolist(void *node, char *list_type, void *head);
 char        *strchrdup(char *str, char *delimit, bool type);
 void        *getlastnode(void *list, char *list_type);
 t_lx        *splitcontent(char *str);
