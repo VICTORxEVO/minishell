@@ -39,7 +39,7 @@ void    parsing(void)
     {
         printf(BOLD_RED "Feature not available: This functionality is still under development. Please try again later.\n" END);
         return ;
-        // expanding(core->lexer);
+        expanding(core->lexer);
     }
     final_touch(core->lexer); // remove all kind of quotes in begging or in middle 
     
