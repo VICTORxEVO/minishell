@@ -29,6 +29,16 @@ static void     addenv(t_env *node)
         env_list->next = (t_env *)node;
     } 
 }
+static void     addlexerhead(t_lx *node, t_lx *head)
+{
+        while(head->next)
+            head = head->next;
+        head->next = node;
+        node->prev = head;
+}
+
+
+
 
 static void    addlexer(t_lx *node)
 {
@@ -49,10 +59,12 @@ static void    addlexer(t_lx *node)
     }
 }
 
-void    addtolist(void *node, char *list_type)
+void    addtolist(void *node, char *list_type, void *head)
 {
-    if (!ft_strncmp(list_type, "t_lx", -1))
+    if (!ft_strncmp(list_type, "t_lx", -1) && !head)
         addlexer((t_lx *)node);
+    if (!ft_strncmp(list_type, "t_lx", -1) && head)
+        addlexerhead((t_lx *)node, (t_lx *)head);
     else if (!ft_strncmp(list_type, "t_env", -1))
         addenv((t_env *)node);
     else if (!ft_strncmp(list_type, "t_cmd", -1))
@@ -67,4 +79,24 @@ void    *getlastnode(void *list, char *list_type)
             list = ((t_lx *)list)->next;
     }
      return (list);
+}
+
+static  clear_t_vat(t_var *list)
+{
+    t_var *tmp;
+
+    while(list)
+    {
+        tmp = list->next;
+        clear_1data(list->content);
+        clear_1data(list);
+        list = tmp;
+    }
+    getcore()->var_list = NULL;
+}
+
+void    clear_1list(void *list, char *list_type)
+{
+    if (ft_strncmp(list_type, "t_var", -1))
+        clear_t_vat((t_var *)list);
 }
