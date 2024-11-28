@@ -33,7 +33,7 @@ static long long lexer_add_word(char *line)
     lexer = galloc(sizeof(t_lx));
     lexer->type = WORD;
     lexer->content = lexer_get_word(line, &i);
-    addtolist(lexer, "t_lx");
+    addtolist(lexer, "t_lx", NULL);
     return (i);
 }
 static long long lexer_add_token(char type)
@@ -49,7 +49,7 @@ static long long lexer_add_token(char type)
         pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, "|"), "'"), 1);
     else if (prev_nd && istoken(prev_nd->type, NON_PIPE))
         pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, prev_nd->content), "'"), 1);
-    addtolist(lexer, "t_lx");
+    addtolist(lexer, "t_lx", NULL);
     if (type == PIPE)
         getcore()->pipe_count++;
     if (type == HERE_DOC || type == OUT_RDRT_APP)
