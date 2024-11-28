@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 21:31:45 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/03 21:52:19 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:36:22 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "ext_libs.h"
-#include "gc.h"
+#include "minishell.h"
 
 char *ft_strndup(const char *s, size_t n) {
     size_t len;
