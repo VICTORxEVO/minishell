@@ -40,7 +40,7 @@ void    ft_update_path(void)
     t_env *env;
 
     env = getcore()->env_list;
-    while (getcore()->path)
+    free_array(getcore()->path);
     while (env && env->key)
     {
         if (ft_strncmp("PATH", env->key, -1) == 0)
