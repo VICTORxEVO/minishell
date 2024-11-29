@@ -80,23 +80,3 @@ void    *getlastnode(void *list, char *list_type)
     }
      return (list);
 }
-
-static  clear_t_vat(t_var *list)
-{
-    t_var *tmp;
-
-    while(list)
-    {
-        tmp = list->next;
-        clear_1data(list->content);
-        clear_1data(list);
-        list = tmp;
-    }
-    getcore()->var_list = NULL;
-}
-
-void    clear_1list(void *list, char *list_type)
-{
-    if (ft_strncmp(list_type, "t_var", -1))
-        clear_t_vat((t_var *)list);
-}
