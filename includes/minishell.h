@@ -63,6 +63,7 @@ typedef struct s_all
     size_t          inline_len;
     t_var           *var_list;
     char            *previous_line;
+    bool            error_flag;
 }       t_all;
 
 typedef struct s_ndx
@@ -84,14 +85,14 @@ typedef struct s_ndx
  * @brief Main parsing function that handles the command line input
  * @details Processes user input through lexical analysis, expansion and command loading
  */
-void        parsing(void);
+bool        parsing(void);
 
 /**
  * @brief Validates quote pairs in the input string
  * @details Checks for matching single and double quotes, exits with error if unmatched
  * @param line Input string to check
  */
-void        check_quotes(char *line);
+bool        check_quotes(char *line);
 int         skipquotes(char *str);
 bool        wordstart(char a, char b, int i, int maxlen);
 
@@ -117,7 +118,7 @@ int         get_var_special(int *index, char type);
  * @details Splits input into tokens (words, operators, etc)
  * @param line Input string to tokenize
  */
-void        lexing(char *line);
+bool        lexing(char *line);
 
 /**
  * @brief Expands variables in lexer tokens
