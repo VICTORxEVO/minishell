@@ -13,7 +13,11 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include <limits.h>
+# ifdef __APPLE__
+#   include <limits.h>
+# else
+#   include <linux/limits.h>
+# endif
 # include <assert.h>
 # include <sys/wait.h>
 # include <signal.h>
