@@ -14,11 +14,8 @@ bool    check_quotes(char *line)
             quote = line[i++];
             while (line[i] && line[i] != quote)
                 i++;
-            if (!line[i])
-            {
-                if (quote == S_QUOTES)
+            if (line[i] != quote)
                     return (pexit(DQ_ERR, 1), false);
-            }
         }
     }
     return (true);
