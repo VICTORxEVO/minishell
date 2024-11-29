@@ -75,7 +75,6 @@ void    expanding(t_lx *lexer)
         if (lexer->type == WORD && needexpand(lexer->content))
         {
             new_content = expand_dollar(lexer->content);
-            clear_1data(lexer->content);
             lexer->content = ft_strtrim(new_content, IS_SPACE); 
             clear_1data(new_content);
         }
