@@ -36,11 +36,7 @@ void    parsing(void)
     lexing(core->in_line);
     print_lx();
     if (needexpand(core->in_line))
-    {
-        printf(BOLD_RED "Feature not available: This functionality is still under development. Please try again later.\n" END);
-        return ;
         expanding(core->lexer);
-    }
     final_touch(core->lexer); // remove all kind of quotes in begging or in middle 
     
     printf(BOLD_MAGENTA "╔══════════════════════════════════════════════════════╗\n");
