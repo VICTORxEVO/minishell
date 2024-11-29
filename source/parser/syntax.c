@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 
-void    check_quotes(char *line)
+bool    check_quotes(char *line)
 {
     long long i;
     char quote;
@@ -17,9 +17,9 @@ void    check_quotes(char *line)
             if (!line[i])
             {
                 if (quote == S_QUOTES)
-                    pexit(SQ_ERR, 1);
-                pexit(DQ_ERR, 1);
+                    return (pexit(DQ_ERR, 1), false);
             }
         }
     }
+    return (true);
 }

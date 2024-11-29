@@ -23,17 +23,17 @@ void    reader_loop(void)
         break ;
     }
     if (!ft_strncmp(line, "exit", ft_strlen("exit")))
-        pexit(": done!", FREE_ALL); //tmp function just for debugging and see leaks 
+        return (pexit(": done!", 0), clear(FREE_ALL), exit(0)); //tmp function just for debugging and see leaks 
 }
 
-void    parsing(void)
+bool    parsing(void)
 {
     t_all *core;
 
     core = getcore();
     core->inline_len = ft_strlen(core->in_line);
-    check_quotes(core->in_line);
-    lexing(core->in_line);
+    if (!check_quotes(core->in_line) || !lexing(core->in_line))
+        return (false);
     print_lx();
     if (needexpand(core->in_line))
         expanding(core->lexer);
@@ -51,4 +51,5 @@ void    parsing(void)
     printf("╚════════════════════════════════════════════════════╝\n" END);
     
     print_cmd();
+    return (true);
 }

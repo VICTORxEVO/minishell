@@ -1,9 +1,13 @@
 #include "minishell.h"
 
-static  void checklastnode(t_lx *lastnode)
+static  bool checklastnode(t_lx *lastnode)
 {
     if (istoken(lastnode->type, ALL_TKN))
+    {
         pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, lastnode->content), "'"), 1);
+        return (false);
+    }
+    return(true);
 }
 static char *lexer_get_word(char *line, long long *i)
 {
@@ -57,7 +61,7 @@ static long long lexer_add_token(char type)
     return (1); //skip the token by 1 in case or '<' or '>'
 }
 
-void    lexing(char *line)
+bool    lexing(char *line)
 {
     long long i;
 
@@ -78,6 +82,10 @@ void    lexing(char *line)
             i += lexer_add_token(PIPE);
         else if (line[i])
             i += lexer_add_word(line + i);
+        if (getcore()->error_flag)
+            return (false);
     }
-    checklastnode((t_lx *)getlastnode(getcore()->lexer, "t_lx"));
+    if (!checklastnode((t_lx *)getlastnode(getcore()->lexer, "t_lx")))
+        return(false);
+    return (true);
 }
