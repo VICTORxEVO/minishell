@@ -92,6 +92,8 @@ void        parsing(void);
  * @param line Input string to check
  */
 void        check_quotes(char *line);
+int         skipquotes(char *str);
+bool         wordstart(char a, char b, int i, int maxlen);
 
 /**
  * @brief Expands environment variables in a string
