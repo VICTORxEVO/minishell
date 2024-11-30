@@ -61,7 +61,7 @@ char    *expand_dollar(char *line)
     strocpy(&expline[ft_strlen(expline)], list->content, -1);
     strocpy(&expline[ft_strlen(expline)], &line[list->end_ndx], -1);
     clear_1data(line);
-    // clear_1list(list, "t_var");
+    clear_1list(list, "t_var");
     return (expline);
 }
 
@@ -75,8 +75,8 @@ void    expanding(t_lx *lexer)
         if (lexer->type == WORD && needexpand(lexer->content))
         {
             new_content = expand_dollar(lexer->content);
-            clear_1data(lexer->content);
-            lexer->content = new_content;
+            lexer->content = ft_strtrim(new_content, IS_SPACE); 
+            clear_1data(new_content);
         }
         lexer = lexer->next;
     }

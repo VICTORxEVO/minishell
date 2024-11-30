@@ -6,7 +6,7 @@
 /*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 11:55:45 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/10/14 12:02:12 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/11/29 17:14:38 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	s_l = ft_strlen(s);
 	if (start >= s_l)
-		return (ft_calloc(1, sizeof(char)));
+		return (galloc(sizeof(char)));
 	if (start + len >= s_l)
 	{
 		sub = galloc(sizeof(char) * (s_l - start + 1));

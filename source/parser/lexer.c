@@ -1,9 +1,13 @@
 #include "minishell.h"
 
-static  void checklastnode(t_lx *lastnode)
+static  bool checklastnode(t_lx *lastnode)
 {
     if (istoken(lastnode->type, ALL_TKN))
+    {
         pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, lastnode->content), "'"), 1);
+        return (false);
+    }
+    return(true);
 }
 static char *lexer_get_word(char *line, long long *i)
 {
@@ -33,7 +37,7 @@ static long long lexer_add_word(char *line)
     lexer = galloc(sizeof(t_lx));
     lexer->type = WORD;
     lexer->content = lexer_get_word(line, &i);
-    addtolist(lexer, "t_lx");
+    addtolist(lexer, "t_lx", NULL);
     return (i);
 }
 static long long lexer_add_token(char type)
@@ -49,7 +53,7 @@ static long long lexer_add_token(char type)
         pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, "|"), "'"), 1);
     else if (prev_nd && istoken(prev_nd->type, NON_PIPE))
         pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, prev_nd->content), "'"), 1);
-    addtolist(lexer, "t_lx");
+    addtolist(lexer, "t_lx", NULL);
     if (type == PIPE)
         getcore()->pipe_count++;
     if (type == HERE_DOC || type == OUT_RDRT_APP)
@@ -57,7 +61,7 @@ static long long lexer_add_token(char type)
     return (1); //skip the token by 1 in case or '<' or '>'
 }
 
-void    lexing(char *line)
+bool    lexing(char *line)
 {
     long long i;
 
@@ -78,6 +82,10 @@ void    lexing(char *line)
             i += lexer_add_token(PIPE);
         else if (line[i])
             i += lexer_add_word(line + i);
+        if (getcore()->error_flag)
+            return (false);
     }
-    checklastnode((t_lx *)getlastnode(getcore()->lexer, "t_lx"));
+    if (!checklastnode((t_lx *)getlastnode(getcore()->lexer, "t_lx")))
+        return(false);
+    return (true);
 }

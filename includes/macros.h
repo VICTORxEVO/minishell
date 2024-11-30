@@ -95,6 +95,7 @@ typedef enum e_error_code
     OPEN_CODE,       /**< Error code for open() system call failure */
     WRITE_CODE,      /**< Error code for write() system call failure */
     FORK_CODE,       /**< Error code for fork() system call failure */
+    MALLOC_CODE,     /**< Error code for malloc() function failure */
     READLINE_CODE    /**< Error code for readline() function failure */
 } t_error_code;
 

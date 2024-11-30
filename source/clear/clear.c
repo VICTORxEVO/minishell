@@ -26,16 +26,17 @@ void safe_free(void **data)
 
 static void env_lstclear(void)
 {
-    t_all *core;
+    t_env *env_list;
     t_env *tmp;
 
-    core = getcore();
-    while (core->env_list)
+    env_list = getcore()->env_list;
+    while (env_list)
     {
-        tmp = core->env_list->next;
-        safe_free((void **)&core->env_list->key);
-        safe_free((void **)&core->env_list->value);
-        core->env_list = tmp;
+        tmp = env_list->next;
+        safe_free((void **)&env_list->key);
+        safe_free((void **)&env_list->value);
+        safe_free((void **)&env_list);
+        env_list = tmp;
     }
 }
 static void gc_lstclear(void)

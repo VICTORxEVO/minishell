@@ -86,7 +86,7 @@ void    load_cmd_list(t_all *core)
         if (!cmd->scope)
         {
             cmd->scope = lexer;
-            addtolist(cmd, "t_cmd");
+            addtolist(cmd, "t_cmd", NULL);
         }
         if (lexer->type == PIPE)
         {
