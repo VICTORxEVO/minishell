@@ -116,25 +116,25 @@ static int ft_print_export_error2(char *cmd)
     return (0);
 } 
 
-int    ft_export2(t_cmd *cmd)
-{
-    size_t i;
-    int exit_status;
+// int    ft_export2(t_cmd *cmd)
+// {
+//     size_t i;
+//     int exit_status;
 
-    i = 1;
-    exit_status = 0;
-    while (cmd->cmd[i])
-    {
-        if (ft_export_check3(cmd->cmd[i]))
-            ft_add_export3(cmd->cmd[i]);
-        else
-            exit_status = ft_print_export_error2(cmd->cmd[i]);
-        i++;
-    }
-    if (!cmd->cmd[1])
-        ft_print_export2();
-    return (0);
-}
+//     i = 1;
+//     exit_status = 0;
+//     while (cmd->cmd[i])
+//     {
+//         if (ft_export_check3(cmd->cmd[i]))
+//             ft_add_export3(cmd->cmd[i]);
+//         else
+//             exit_status = ft_print_export_error2(cmd->cmd[i]);
+//         i++;
+//     }
+//     if (!cmd->cmd[1])
+//         ft_print_export2();
+//     return (0);
+// }
 
 
 //TO DOs : 1 ->fix export [x]
@@ -225,7 +225,7 @@ void run_tests() {
     }
 }
 
-int main() {
-    run_tests();
-    return 0;
-}
+// int main() {
+//     run_tests();
+//     return 0;
+// }
