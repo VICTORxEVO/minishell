@@ -49,7 +49,5 @@ bool    parsing(void)
     printf(BOLD_CYAN "\n╔═══════════════════ COMMAND LIST ═══════════════════╗\n");
     printf("║         Displaying parsed command structure         ║\n");
     printf("╚════════════════════════════════════════════════════╝\n" END);
-    
-    print_cmd();
     return (true);
 }
