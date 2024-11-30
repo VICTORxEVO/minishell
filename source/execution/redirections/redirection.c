@@ -11,3 +11,8 @@ int     redirection(char *filename, char mode, int oldfd)
     if (oldfd > 2)
         close (oldfd);
 }
+
+bool    prepare_ifof(void)
+{
+    
+}
