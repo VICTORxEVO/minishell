@@ -142,6 +142,7 @@ int     ifd(char *filename);
 int     ofd(char *filename, char mode);
 void    hd_fork(char *tmpfile, char *delimit);
 int     hd(char *delimit);
+void    execution(void);
 
 
 /*          >bultin functions<           */
