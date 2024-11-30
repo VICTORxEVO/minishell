@@ -149,6 +149,10 @@ typedef enum e_token_check_mode {
 // macro for empty variable
 # define EMPTY_VAR 0
 
+//mods for load_cmd
+# define COUNT 0
+# define LOAD 1
+
 // Regular text colors
 #define BLACK "\033[0;30m"
 #define RED "\033[0;31m"
