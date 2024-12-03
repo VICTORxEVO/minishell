@@ -138,11 +138,53 @@ void        load_cmd_list(t_all *core);
  */
 int     is_builtin(char *cmd);
 int     exec_builtin(t_cmd * cmd);
-int     ifd(char *filename);
-int     ofd(char *filename, char mode);
-void    hd_fork(char *tmpfile, char *delimit);
-int     hd(char *delimit);
 void    execution(void);
+
+
+
+
+/*          >Redirection Functions<           */
+/**
+ * @brief Opens a file for input redirection
+ * @details Opens the specified file in read-only mode
+ * @param filename Name of the file to open
+ * @return File descriptor of the opened file, or -1 on error
+ */
+int     ifd(char *filename);
+
+/**
+ * @brief Opens a file for output redirection
+ * @details Opens the specified file in write or append mode based on the mode parameter
+ * @param filename Name of the file to open
+ * @param mode Mode to open the file in (overwrite or append)
+ * @return File descriptor of the opened file, or -1 on error
+ */
+int     ofd(char *filename, char mode);
+
+/**
+ * @brief Forks a process to handle here-document input
+ * @details Creates a child process to read input until the delimiter is encountered
+ * @param tmpfile Name of the temporary file to store the here-document input
+ * @param delimit Delimiter string to end the here-document input
+ */
+void    hd_fork(char *tmpfile, char *delimit);
+
+/**
+ * @brief Handles here-document input
+ * @details Reads input from the user until the delimiter is encountered and stores it in a temporary file
+ * @param delimit Delimiter string to end the here-document input
+ * @return File descriptor of the temporary file containing the here-document input
+ */
+int     hd(char *delimit);
+
+/**
+ * @brief Duplicates file descriptors for input and output redirection
+ * @details Uses dup2 to duplicate the file descriptors for standard input and output
+ * @param ifd Input file descriptor to duplicate
+ * @param ofd Output file descriptor to duplicate
+ * @return true on success, false on error
+ */
+bool    duping(int ifd, int ofd);
 
 
 /*          >bultin functions<           */
