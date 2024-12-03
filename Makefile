@@ -27,6 +27,48 @@ else ifeq ($(DEBUG), ALL)
 	FLAGS += -g3 -fsanitize=address
 endif
 
+UNAME_S := $(shell uname -s)
+
+# Detect operating system
+UNAME_S := $(shell uname -s)
+
+# Define memory test commands
+VALGRIND_CMD = valgrind \
+    --suppressions=readline.supp \
+    --leak-check=full \
+    --show-leak-kinds=all \
+    --track-fds=yes \
+    --track-origins=yes \
+    --error-limit=no \
+    --trace-children=yes \
+    --child-silent-after-fork=no \
+    --num-callers=50 \
+    --expensive-definedness-checks=yes \
+    --malloc-fill=0x42 \
+    --free-fill=0x43 \
+    ./minishell
+
+ASAN_CMD = ASAN_OPTIONS=detect_leaks=1 ./minishell
+
+# Suppression file content
+define READLINE_SUPP
+{
+   ignore_readline_leaks
+   Memcheck:Leak
+   ...
+   obj:/**/libreadline.so*
+}
+endef
+export READLINE_SUPP
+
+# Set the appropriate command based on OS
+ifeq ($(UNAME_S),Linux)
+	MEMTEST_CMD = $(VALGRIND_CMD)
+else ifeq ($(UNAME_S),Darwin)
+	MEMTEST_CMD = $(ASAN_CMD)
+endif
+
+
 all: $(NAME)
 
 $(NAME): $(OBJ)
@@ -78,4 +120,26 @@ run:
 norm :
 		@norminette $(SRC) includes/
 
-.PHONY: all clean fclean re clear
+
+#Function to check and update suppression file
+check_supp:
+	@if [ ! -f readline.supp ] || ! grep -q "ignore_readline_leaks" readline.supp; \
+	then \
+		echo "$$READLINE_SUPP" > readline.supp; \
+		echo "Created/Updated readline.supp"; \
+	fi
+
+
+memtest: clear check_supp
+	@echo "$$READLINE_SUPP" > readline.supp
+	@$(MEMTEST_CMD)
+
+# Separate targets remain unchanged
+memtest-linux: clear
+	@$(VALGRIND_CMD)
+
+memtest-mac: clear
+	@$(ASAN_CMD)
+
+# Add to PHONY targets
+.PHONY: all clean fclean re clear memtest memtest-linux memtest-mac
