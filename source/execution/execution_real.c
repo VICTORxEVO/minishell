@@ -1,10 +1,5 @@
 #include "minishell.h"
 
-
-
-
-
-
 unsigned int count_or_back(t_cmd *cmd, bool type)
 {
     unsigned int i;
@@ -44,4 +39,5 @@ void    execution(void)
 {
     load_cmd(getcore()->cmd);
     print_cmd();
+    
 }
