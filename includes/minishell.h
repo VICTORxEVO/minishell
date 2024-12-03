@@ -141,6 +141,17 @@ int     exec_builtin(t_cmd * cmd);
 void    execution(void);
 
 
+/**
+ * @brief Fork helper that executes different functions in parent and child
+ * @param child_fn Function pointer for child process
+ * @param child_arg Argument for child function 
+ * @param parent_fn Function pointer for parent process
+ * @param parent_arg Argument for parent function
+ * @return Process ID in parent, -1 on error, child never returns
+ */
+pid_t   forker(void (*child_fn)(void *), void *child_arg,
+                    void (*parent_fn)(void *), void *parent_arg);
+
 
 
 /*          >Redirection Functions<           */
