@@ -21,14 +21,11 @@ static int cha_dir(char *dir)
     char oldpwd[PATH_MAX];
 
     if (getcwd(oldpwd, sizeof(oldpwd) == NULL))
-    {
-        pexit("minishell: cd: getcwd", 1); 
-        return ;
-    }
+        return (pexit("minishell: cd: getcwd", 1), 0);
     if (ft_strncmp(dir, "HOME", -1) == 0) 
     {
         if (chdir(ft_getenv("HOME")))
-            pexit("cd: HOME not set", 1); 
+            return (pexit("cd: HOME not set", 1), 0); 
     }
     else
     {
