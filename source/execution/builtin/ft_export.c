@@ -62,7 +62,7 @@ static int ft_add_export(char *arg)
 
 static void ft_print_export_error(char *var)
 {
-    printf("Eureka: export: `%s': not a valid identifier\n", var);
+    pexit(ft_strjoin("export: ", var), 1);
 } 
 
 int    ft_export(t_cmd *cmd)
