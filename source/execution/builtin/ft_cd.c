@@ -3,7 +3,7 @@
 
 #include "minishell.h"
 
-void update_env_cwd(char *oldpwd)
+static void update_env_cwd(char *oldpwd)
 {
     char cwd[PATH_MAX];
 
@@ -16,7 +16,7 @@ void update_env_cwd(char *oldpwd)
     ft_setenv("PWD", cwd, 1);
 }
 
-int cha_dir(char *dir)
+static int cha_dir(char *dir)
 {
     char oldpwd[PATH_MAX];
 
