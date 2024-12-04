@@ -30,7 +30,7 @@ static int cha_dir(char *dir)
     else
     {
         if (chdir(dir))
-            pexit(ft_strjoin("cd: ",dir), 1); 
+            return (pexit(ft_strjoin("cd: ",dir), 1), 0); 
     }
     update_env_cwd(oldpwd);
     return (1);
