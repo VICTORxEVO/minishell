@@ -28,7 +28,7 @@ static int ft_export_check(char *arg, bool *has_plus)
         else if (!ft_isalnum(arg[i]) && arg[i] != '_')
             return (0);
     }
-    return (0);
+    return (1);
 }
 
 static int parse_key_value(const char *arg, char **key, char **value) {
