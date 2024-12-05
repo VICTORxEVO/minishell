@@ -5,7 +5,7 @@
 #include "minishell.h"
 
 
-static int ft_export_check(char *arg)
+static int ft_export_check(char *arg, bool *has_plus)
 {
     int i;
 
@@ -19,6 +19,7 @@ static int ft_export_check(char *arg)
     {
         if (arg[i] == '+')
         {
+            *has_plus = 1;
             if (arg[i + 1] != '=')
                 return (0);
         }
@@ -40,15 +41,18 @@ static int parse_key_value(const char *arg, char **key, char **value) {
         *value = NULL;
         return (*key) ? 1 : 0;
     }
-    *key = ft_strndup(arg, equal_sign_pos - arg); 
+    if (*(equal_sign_pos - 1) == '+')
+        *key = ft_strndup(arg, equal_sign_pos - arg - 1);
+    else
+        *key = ft_strndup(arg , equal_sign_pos - arg);
     if (*(equal_sign_pos + 1) == '\0')
         *value = ft_strdup("");
-    else 
+    else if (equal_sign_pos)
         *value = ft_strdup(equal_sign_pos + 1);
     return (*key && *value) ? 1 : 0;
 }
 
-static int ft_add_export(char *arg)
+static int ft_add_export(char *arg, bool has_plus)
 {
     t_env *env;
     char *key;
@@ -68,15 +72,18 @@ static void ft_print_export_error(char *var)
 int    ft_export(t_cmd *cmd)
 {
     size_t i;
+    bool has_plus;
 
     i = 1;
+    has_plus = 0;
     while (cmd->cmd[i])
     {
-        if (ft_export_check(cmd->cmd[i]))
-            ft_add_export(cmd->cmd[i]);
+        if (ft_export_check(cmd->cmd[i], &has_plus))
+            ft_add_export(cmd->cmd[i], has_plus);
         else
             ft_print_export_error(cmd->cmd[i]);
         i++;
+        has_plus = 0;
     }
     if (!cmd->cmd[1])
         ft_print_export();
