@@ -55,7 +55,7 @@ static int ft_add_export(char *arg)
     char *value;
 
     env = getcore()->env_list;
-    parse_key_value(arg, &key, &value);     
+    parse_key_value(arg, &key, &value);
     ft_setenv(key, value, 1); 
     return (1);
 }
@@ -76,6 +76,7 @@ int    ft_export(t_cmd *cmd)
             ft_add_export(cmd->cmd[i]);
         else
             ft_print_export_error(cmd->cmd[i]);
+        i++;
     }
     if (!cmd->cmd[1])
         ft_print_export();
