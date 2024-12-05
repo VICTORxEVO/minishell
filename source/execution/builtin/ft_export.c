@@ -60,7 +60,10 @@ static int ft_add_export(char *arg, bool has_plus)
 
     env = getcore()->env_list;
     parse_key_value(arg, &key, &value);
-    ft_setenv(key, value, 1); 
+    if (value && has_plus)
+        ft_setenv(key, value, 2); 
+    else
+        ft_setenv(key, value, 1); 
     return (1);
 }
 
