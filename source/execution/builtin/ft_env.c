@@ -24,11 +24,11 @@ int    ft_env()
 
     env = getcore()->env_list;
     if (env == NULL)
-        return (0);
+        return (1);
     while (env)
     {
         printf("%s=%s\n", env->key, env->value);
         env = env->next;
     }
-    return (1);
+    return (0);
 }

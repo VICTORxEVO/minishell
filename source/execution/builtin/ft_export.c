@@ -76,20 +76,25 @@ int    ft_export(t_cmd *cmd)
 {
     size_t i;
     bool has_plus;
+    bool failed;
 
     i = 1;
     has_plus = 0;
+    failed = 0;
     while (cmd->cmd[i])
     {
         if (ft_export_check(cmd->cmd[i], &has_plus))
             ft_add_export(cmd->cmd[i], has_plus);
         else
+        {
             ft_print_export_error(cmd->cmd[i]);
+            failed = 1;
+        }
         i++;
         has_plus = 0;
     }
     if (!cmd->cmd[1])
         ft_print_export();
-    return (0);
+    return (failed);
 }
 

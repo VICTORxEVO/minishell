@@ -95,5 +95,5 @@ int     ft_unset(t_cmd *cmd)
             return (ft_remove_node(cmd->cmd[1]), 0);
         env = env->next;
     }
-    return (1);
+    return (0);
 }
