@@ -3,57 +3,44 @@
 
 #include "minishell.h"
 
-char *get_home_directory() {
-    char *home;
-    
-    home = getenv("HOME");
-    if (home == NULL) {
-        perror("cd: HOME not set\n");
-        return (NULL);
-    }
-    return (home);
-}
-
-char  *update_env_cwd(char *oldpwd) {
+static void update_env_cwd(char *oldpwd)
+{
     char cwd[PATH_MAX];
 
-    if (getcwd(cwd, sizeof(cwd)) == NULL) {
-        perror("minishell: cd: getcwd");
-        return (NULL);
+    if (getcwd(cwd, sizeof(cwd) == NULL))
+    {
+        pexit("cd: getcwd", 1); 
+        return ;
     }
     ft_setenv("OLDPWD", oldpwd, 1);
     ft_setenv("PWD", cwd, 1);
-    return (oldpwd);
 }
 
-int ft_cd(t_cmd * cmd)
+static int cha_dir(char *dir)
 {
+    char oldpwd[PATH_MAX];
 
-    char cwd[PATH_MAX];
-    char *owd;
-    
-    owd = ft_getenv("OLDPWD");
-    if (!getcwd(cwd, sizeof(cwd)))
-        return (-1);
-    if (!cmd->cmd[1] || ft_strcmp(cmd->cmd[1], "~") == 0) {
+    if (getcwd(oldpwd, sizeof(oldpwd) == NULL))
+        return (pexit("cd: getcwd", 1), 1);
+    if (ft_strncmp(dir, "HOME", -1) == 0) 
     {
-        owd = update_env_cwd(cwd);
-        chdir(ft_getenv("HOME"));
+        if (chdir(ft_getenv("HOME")))
+            return (pexit(": cd: HOME not set", 1), 1); 
     }
-    } else if (ft_strcmp(cmd->cmd[1], "-") == 0)
+    else
     {
-        if (chdir(owd) == 0)
-            owd = update_env_cwd(cwd);
-        else
-        {
-            //to add, program name instead of "bash"
-            printf("bash: cd: %s: No such file or directory\n", owd);
-        }
+        if (chdir(dir))
+            return (pexit(ft_strjoin("cd: ",dir), 1), 1); 
     }
+    update_env_cwd(oldpwd);
+    return (1);
+}
+
+int ft_cd(t_cmd *cmd)
+{
+    if (!cmd->cmd[1] || ft_strcmp(cmd->cmd[1], "~") == 0)
+        return (cha_dir("HOME"));
     else if (cmd->cmd[1])
-    {
-         if (!chdir(cmd->cmd[1]))
-            printf("can't move to path \n");
-    }
+        return (cha_dir(cmd->cmd[1]));
     return (1); 
 }

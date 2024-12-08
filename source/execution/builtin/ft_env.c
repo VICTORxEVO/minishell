@@ -7,13 +7,7 @@ char    *ft_getenv(char *cmd)
 {
     t_env * env;
 
-    env = getcore()->env_list;
-    if (!env)
-    {
-        // to check in case of no env exist.
-        printf("NO environment found\n");
-        return (NULL);
-    }
+    env = getcore()->env_list; 
     while (env)
     {
         if (ft_strcmp(env->key, cmd) == 0)
