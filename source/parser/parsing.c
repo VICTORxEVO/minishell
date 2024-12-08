@@ -10,14 +10,12 @@ void    reader_loop(void)
     {
         prompt = create_prompt();
         line = readline(prompt);
-        if (line == NULL || line[0] == 0 || ft_isspace(0, line))
-        {
-            if (line)
-                free(line);
-            continue;
-        }
-        getcore()->in_line = line;
         gc_add_node(line);
+        if (!line)
+            return (pexit(": done!", 0), clear(FREE_ALL), exit(0));
+        if (line[0] == 0 || ft_isspace(0, line))
+            continue;
+        getcore()->in_line = line;
         // previous_line = getcore()->previous_line;
         add_history(line);
         break ;
