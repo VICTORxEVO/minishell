@@ -25,17 +25,17 @@ int is_builtin(char *cmd)
 int exec_builtin(t_cmd * cmd)
 {
 	if (ft_strcmp(cmd->cmd[0], "cd") == 0)
-		ft_cd(cmd);
+		return (ft_cd(cmd));
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
-		ft_echo(cmd);		
+		return (ft_echo(cmd));		
 	if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
-		ft_pwd();
+		return (ft_pwd());
 	if (ft_strcmp(cmd->cmd[0], "env") == 0)
-		ft_env();
+		return (ft_env());
 	if (ft_strcmp(cmd->cmd[0], "export") == 0)
-		ft_export(cmd);
+		return (ft_export(cmd));
 	if (ft_strcmp(cmd->cmd[0], "unset") == 0)
-		ft_unset(cmd);
-    return (0);
+		return (ft_unset(cmd));
+    return (2011);
 }
 
