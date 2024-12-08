@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+void exec_1cmd(t_cmd *cmd)
+{
+    if (is_builtin(cmd->cmd[0]))
+    {
+        
+    }
+    
+}
+
 unsigned int count_or_back(t_cmd *cmd, bool type)
 {
     unsigned int i;
@@ -35,9 +44,13 @@ void load_cmd(t_cmd *cmd_list)
     }
 }
 
+// exitcode formula (exit_code % 256 + 256) % 256
 void    execution(void)
 {
     load_cmd(getcore()->cmd);
     print_cmd();
-    
+    if (getcore()->cmd_count == 1)
+        exec_1cmd(getcore()->cmd);
+    else
+        exec_ncmd(getcore()->cmd);
 }
