@@ -80,7 +80,8 @@ typedef enum e_token_type
     IN_RDRT = 2,         /* Input file redirection */
     OUT_RDRT_OW = 3,     /* Output file redirection (overwrite mode) */
     OUT_RDRT_APP = 4,    /* Output file redirection (append mode) */
-    WORD = 10            /* Regular word token */
+    WORD = 10,           /* Regular word token */
+    HERE_DOC_FD = 11
 } t_token_type;
 
 
