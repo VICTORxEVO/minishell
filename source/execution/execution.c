@@ -48,8 +48,8 @@ void test_export(void)
     clear(FREE_ALL);
 }
 
-int main(void)
-{
-    test_export();
-    return 0;
-}
+// int main(void)
+// {
+//     test_export();
+//     return 0;
+// }

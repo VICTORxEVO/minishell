@@ -180,8 +180,21 @@ void print_cmd(void)
         printf(BOLD_GREEN "  Input  FD: " END "%d\n", cmd->ifd);
         printf(BOLD_GREEN "  Output FD: " END "%d\n", cmd->ofd);
 
-        t_lx *scope = cmd->scope;
+        // Print command array
+        printf(BOLD_MAGENTA "  Command Array:" END "\n");
+        if (cmd->cmd) {
+            int j = 0;
+            while (cmd->cmd[j]) {
+                printf(BOLD_CYAN "    [%d]: " END BOLD_WHITE "%s\n" END, j, cmd->cmd[j]);
+                j++;
+            }
+        } else {
+            printf(BOLD_RED "    No command array\n" END);
+        }
+
+        // Print scope
         printf(BOLD_MAGENTA "  Scope:" END "\n");
+        t_lx *scope = cmd->scope;
         while (scope) {
             printf(BOLD_BLUE "    Content: " END "%s\n", scope->content);
             scope = scope->next;

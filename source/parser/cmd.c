@@ -96,4 +96,5 @@ void    load_cmd_list(t_all *core)
         }
         lexer = lexer->next;
     }
+    load_cmd(core->cmd);
 }

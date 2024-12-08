@@ -7,8 +7,10 @@ int main(int ac, char *av[], char *env[])
 	fill_env_list(env);
 	while (true)
 	{
-		reader_loop();
-		parsing();
 		clear(FREE_TEMP);
+		reader_loop();
+		if (!parsing())
+			continue;
+		execution();
 	}
 }

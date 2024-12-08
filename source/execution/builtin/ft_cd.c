@@ -33,7 +33,7 @@ static int cha_dir(char *dir)
             return (pexit(ft_strjoin("cd: ",dir), 1), 1); 
     }
     update_env_cwd(oldpwd);
-    return (1);
+    return (0);
 }
 
 int ft_cd(t_cmd *cmd)

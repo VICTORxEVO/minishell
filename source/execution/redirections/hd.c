@@ -63,7 +63,7 @@ static char    *tmphd(char **env)
     pid_t pid;
     int pip[2];
 
-    if (pipe(pip))
+    if (pipe(pip) < 0)
         pexit("pipe", PIPE_CODE);
     pid = fork();
     if (pid < 0)

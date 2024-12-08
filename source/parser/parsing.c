@@ -34,22 +34,19 @@ bool    parsing(void)
     core->inline_len = ft_strlen(core->in_line);
     if (!check_quotes(core->in_line) || !lexing(core->in_line))
         return (false);
-    print_lx();
     if (needexpand(core->in_line))
         expanding(core->lexer);
     final_touch(core->lexer); // remove all kind of quotes in begging or in middle 
     
-    printf(BOLD_MAGENTA "╔══════════════════════════════════════════════════════╗\n");
-    printf("║              PARSER: AFTER FINAL TOUCH               ║\n");
-    printf("╚══════════════════════════════════════════════════════╝\n" END);
-    print_lx();
+    // printf(BOLD_MAGENTA "╔══════════════════════════════════════════════════════╗\n");
+    // printf("║              PARSER: AFTER FINAL TOUCH               ║\n");
+    // printf("╚══════════════════════════════════════════════════════╝\n" END);
+    // print_lx();
     
     load_cmd_list(core);
 
-    printf(BOLD_CYAN "\n╔═══════════════════ COMMAND LIST ═══════════════════╗\n");
-    printf("║         Displaying parsed command structure         ║\n");
-    printf("╚════════════════════════════════════════════════════╝\n" END);
-    
-    print_cmd();
+    // printf(BOLD_CYAN "\n╔═══════════════════ COMMAND LIST ═══════════════════╗\n");
+    // printf("║         Displaying parsed command structure         ║\n");
+    // printf("╚════════════════════════════════════════════════════╝\n" END);
     return (true);
 }
