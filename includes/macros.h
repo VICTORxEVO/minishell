@@ -25,6 +25,9 @@
 /** Invalid pointer error message for data cleanup */
 #define PTR_ERR ": clear_1data(): data pointer not found !"
 
+/** Critical error messages that will cause shell exit */
+#define FATAL_ERR "\033[1;31mFATAL:\033[0m "
+
 
 /**
  * @brief Clear operation modes
@@ -88,15 +91,17 @@ typedef enum e_token_type
  */
 typedef enum e_error_code
 {
-    DUP2_CODE = 2,   /**< Error code for dup2() system call failure */
-    CLOSE_CODE,      /**< Error code for close() system call failure */
-    PIPE_CODE,       /**< Error code for pipe() system call failure */
-    READ_CODE,       /**< Error code for read() system call failure */
-    OPEN_CODE,       /**< Error code for open() system call failure */
-    WRITE_CODE,      /**< Error code for write() system call failure */
-    FORK_CODE,       /**< Error code for fork() system call failure */
-    MALLOC_CODE,     /**< Error code for malloc() function failure */
-    READLINE_CODE    /**< Error code for readline() function failure */
+    DUP2_CODE = 2,       /**< Error code for dup2() system call failure */
+    CLOSE_CODE,          /**< Error code for close() system call failure */
+    PIPE_CODE,           /**< Error code for pipe() system call failure */
+    READ_CODE,           /**< Error code for read() system call failure */
+    OPEN_CODE,          /**< Error code for open() system call failure */
+    WRITE_CODE,          /**< Error code for write() system call failure */
+    FORK_CODE,          /**< Error code for fork() system call failure */
+    MALLOC_CODE,         /**< Error code for malloc() function failure */
+    READLINE_CODE,       /**< Error code for readline() function failure */
+    SIGTERM_CODE = 143,  /**< Termination signal error code */
+    SIGXCPU_CODE = 24    /**< CPU time limit exceeded signal error code */
 } t_error_code;
 
 
