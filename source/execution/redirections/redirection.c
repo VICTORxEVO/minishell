@@ -12,7 +12,17 @@ int     redirection(char *filename, char mode, int oldfd)
         close (oldfd);
 }
 
-bool    prepare_ifof(void)
+bool    prepare_ifof(t_cmd *cmd_list)
 {
-    
+    t_lx *lexer;
+
+    lexer = cmd_list->scope;
+    while (lexer)
+    {
+        if (lexer->type == IN_RDRT || lexer->type == HERE_DOC)
+            cmd_list->ifd = redirection(lexer->next->content, lexer->type, cmd_list->ifd);
+        else if (lexer->type == OUT_RDRT_APP || lexer->type == OUT_RDRT_OW)
+            cmd_list->ofd = redirection(lexer->next->content, lexer->type, cmd_list->ofd);
+        lexer = lexer->next;
+    }
 }
