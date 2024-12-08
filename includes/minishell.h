@@ -197,6 +197,8 @@ int     hd(char *delimit);
  */
 bool    duping(int ifd, int ofd);
 
+bool    prepare_ifof(t_cmd *cmd_list);
+
 
 /*          >bultin functions<           */
 
