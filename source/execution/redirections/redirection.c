@@ -57,15 +57,7 @@ bool    prepare_ifof(t_cmd *cmd_list)
             return (false);
         lexer = lexer->next;
     }
-    if (cmd_list->ifd > 2)
-    {
-        if (dup2(cmd_list->ifd, STDIN_FILENO) < 0)
-            pexit("dup2", DUP2_CODE);
-    }
-    if (cmd_list->ofd > 2)
-    {
-        if (dup2(cmd_list->ofd, STDOUT_FILENO) < 0)
-            pexit("dup2", DUP2_CODE);
-    }
+    if (!duping(cmd_list->ifd, cmd_list->ofd))
+        return(pexit("dup2", DUP2_CODE), false);
     return(true);
 }
