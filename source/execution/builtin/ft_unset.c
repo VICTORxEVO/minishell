@@ -1,12 +1,8 @@
 
 
-
-
-
 #include "minishell.h"
 
-
-int  ft_add_node(t_env *last_node,char *new_key, char *new_val)
+int     ft_add_node(t_env *last_node, char *new_key, char *new_val)
 {
     t_env *env;
 
@@ -15,14 +11,14 @@ int  ft_add_node(t_env *last_node,char *new_key, char *new_val)
     env = galloc(sizeof(t_env));
     if (!env)
         return (0);
-    env->key =  new_key;
-    env->value = new_val; 
+    env->key = new_key;
+    env->value = new_val;
     env->next = NULL;
     if (last_node && last_node->next == NULL)
         last_node->next = env;
     else
         return (0);
-    return (1); 
+    return (1);
 }
 
 void    ft_remove_node(char *node)
@@ -49,21 +45,32 @@ void    ft_remove_node(char *node)
         env = env->next;
     }
 }
-
-int ft_setenv(char *key, char *val, int overwrite) 
+/**  @brief same as the orignal setenv(3), 
+*    except tar9i3a of overwrite == 2 
+*    for appending env variable with += 
+*      
+*   @param overwrite Determines the behavior when the variable already exists:
+*                  - 0: Do not overwrite the existing value.
+*                  - 1: Overwrite the existing value with the new value.
+*                  - 2: Append the new value to the existing value using `+=`. 
+*   @return 1 on success, 0 on failure.
+*/
+int     ft_setenv(char *key, char *val, int overwrite)
 {
     t_env *env;
     t_env *prev;
     bool found;
 
-    env = getcore()->env_list; 
+    env = getcore()->env_list;
     prev = NULL;
     found = false;
     while (env)
     {
         if (ft_strcmp(key, env->key) == 0)
         {
-            if (overwrite && val) 
+            if ((overwrite == 2) && val)
+                env->value = ft_strjoin(env->value, val);
+            else if (overwrite && val)
                 env->value = val;
             found = true;
             break;
@@ -74,11 +81,10 @@ int ft_setenv(char *key, char *val, int overwrite)
     if (!found)
         if (ft_add_node(prev, key, val) == 0)
             return -1;
-    return 1; 
+    return 1;
 }
 
-
-int    ft_unset(t_cmd *cmd)
+int     ft_unset(t_cmd *cmd)
 {
     t_env *env;
 
@@ -89,6 +95,5 @@ int    ft_unset(t_cmd *cmd)
             return (ft_remove_node(cmd->cmd[1]), 0);
         env = env->next;
     }
-    return (1);
+    return (0);
 }
-

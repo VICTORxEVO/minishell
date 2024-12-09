@@ -133,6 +133,8 @@ void        expanding(t_lx *lexer);
  * @param core Main shell structure containing lexer tokens
  */
 void        load_cmd_list(t_all *core);
+
+void        load_cmd(t_cmd *cmd_list);
 /*          >Execution Functions<           */
 /**
  */
@@ -196,6 +198,8 @@ int     hd(char *delimit);
  * @return true on success, false on error
  */
 bool    duping(int ifd, int ofd);
+
+bool    prepare_ifof(t_cmd *cmd_list);
 
 
 /*          >bultin functions<           */
