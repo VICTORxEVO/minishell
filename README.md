@@ -1,4 +1,7 @@
-# minishell
+<p align="center">
+  <img src="https://github.com/VICTORxEVO/minishell/blob/main/minishell.png" alt="Minishell image">
+</p>
+
 The 42 project minishell is a shell program. It provides a convenient interface to interact with the operating system.
 ## Made by
 
