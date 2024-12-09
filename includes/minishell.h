@@ -63,6 +63,7 @@ typedef struct s_all
     size_t          inline_len;
     t_var           *var_list;
     char            *previous_line;
+    int             *pids;
     bool            error_flag;
 }       t_all;
 
@@ -213,7 +214,7 @@ int     ft_unset(t_cmd *cmd);
 
 /*          builtin utils               */
 int     ft_setenv(char *name, char *val, int overwrite);
-char    *ft_getenv(char *cmd);
+char    *ft_getenv(char *var);
 
 
 /*          builtin export utils        */
