@@ -3,14 +3,14 @@
 #include "minishell.h"
 
 
-char    *ft_getenv(char *cmd)
+char    *ft_getenv(char *var)
 {
     t_env * env;
 
     env = getcore()->env_list; 
     while (env)
     {
-        if (ft_strcmp(env->key, cmd) == 0)
+        if (ft_strcmp(env->key, var) == 0)
             return (env->value);
         env = env->next;
     }
