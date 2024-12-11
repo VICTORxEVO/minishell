@@ -1,5 +1,16 @@
 #include "minishell.h"
 
+void close_allhd(t_lx *lexer)
+{
+    while (lexer)
+    {
+        if (lexer->type == HERE_DOC)
+            close(atoi(lexer->next->content));
+        lexer = lexer->next;
+    }
+}
+
+
 bool backup_fd(int *fd)
 {
     if (fd[2] == 0)
@@ -13,33 +24,49 @@ bool backup_fd(int *fd)
     {
         if (dup2(fd[0], STDIN_FILENO) < 0 || dup2(fd[1], STDOUT_FILENO) < 0)
             return(pexit("dup2", DUP2_CODE), false);
+        if (close(fd[0]) < 0 || close(fd[1]) < 0)
+            return(pexit("close", CLOSE_CODE), false);
     }
     return(true);
 }
 
-
-
-char *getpath(char *cmd)
+static bool checkpath(char *path)
 {
-    char *paths;
+    if (access(path, F_OK) == 0)
+    {
+        if (access(path, X_OK) < 0)
+            pexit(ft_strjoin(ft_strjoin(": ", path), PERM_DENIED), PERM_DENIED_CODE);
+        return (0);
+    }
+    return (1);
+}
+
+char    *getcmdpath(char *cmd)
+{
     char *fullpath;
     int i;
 
-    paths = getcore()->path;
-    if (cmd[0] == '/' || cmd[0] == '.' || !paths)
-        return(cmd);
-    i = -1;
-    while (paths[++i])
+    if (cmd[0] == '/' || cmd[0] == '.' || !getcore()->path)
     {
-        fullpath = ft_strjoin(paths, cmd);
-        if (access(fullpath, X_OK) == 0)
-            return(clear_1data(cmd), fullpath);
+        if (checkpath(cmd) == 0)
+            return (cmd);
     }
-    return(NULL);
+    else
+    {
+        i = -1;
+        while (getcore()->path && getcore()->path[++i])
+        {
+            fullpath = ft_strjoin(getcore()->path[i], cmd);
+            if (checkpath(fullpath) == 0)
+                return (fullpath);
+        }
+    }
+    pexit(ft_strjoin(ft_strjoin(": ", cmd), CMD_NOTFOUND), CMD_NOT_FOUND_CODE);
+    return (NULL);
 }
 
 pid_t   forker(void (*child_fn)(void *), void *child_arg,
-                    void (*parent_fn)(void *), void *parent_arg)
+                    void (*parent_fn)(void *, pid_t), void *parent_arg)
 {
     pid_t   pid;
 
@@ -53,6 +80,7 @@ pid_t   forker(void (*child_fn)(void *), void *child_arg,
     }
     if (pid == 0)
         (child_fn(child_arg), exit(211));
-    parent_fn(parent_arg);
+    if (parent_fn)
+        parent_fn(parent_arg, pid);
     return (pid);
 }
