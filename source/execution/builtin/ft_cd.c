@@ -7,7 +7,7 @@ static void update_env_cwd(char *oldpwd)
 {
     char cwd[PATH_MAX];
 
-    if (getcwd(cwd, sizeof(cwd) == NULL))
+    if (getcwd(cwd, sizeof(cwd)) == NULL)
     {
         pexit("cd: getcwd", 1); 
         return ;
@@ -20,7 +20,7 @@ static int cha_dir(char *dir)
 {
     char oldpwd[PATH_MAX];
 
-    if (getcwd(oldpwd, sizeof(oldpwd) == NULL))
+    if (getcwd(oldpwd, sizeof(oldpwd)) == NULL)
         return (pexit("cd: getcwd", 1), 1);
     if (ft_strncmp(dir, "HOME", -1) == 0) 
     {
