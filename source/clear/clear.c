@@ -70,6 +70,5 @@ void clear(char flag)
         safe_free((void **)&getcore()->previous_line);
         free2d((void **)getcore()->path);
         free2d((void **)getcore()->env);
-        exit (getcore()->exit_code);
     }
 }
