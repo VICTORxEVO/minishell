@@ -18,6 +18,12 @@ void    exec_1cmdchild(void *data)
     cmd = (t_cmd *)data;
     if (!prepare_ifof(cmd))
         clear(FREE_ALL);
-    cmdpath = getcmdpath(cmd->cmd[0]);
-    execve(cmdpath, cmd->cmd, getcore()->env);
+    if (cmd->cmd)
+    {
+        cmdpath = getcmdpath(cmd->cmd[0]);
+        execve(cmdpath, cmd->cmd, getcore()->env);
+        pexit("execve", 1, EXIT);
+    }
+    getcore()->exit_code = 0;
+    clear(FREE_ALL);
 }
