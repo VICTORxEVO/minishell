@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+void free2d(void **array)
+{
+    int i;
+
+    i = -1;
+    while (array && array[++i])
+        free(array[i]);
+    free(array);
+}
+
 void clear_1data(void *data)
 {
     t_gc *list;
