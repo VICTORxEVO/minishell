@@ -63,7 +63,7 @@ typedef struct s_all
     size_t          inline_len;
     t_var           *var_list;
     char            *previous_line;
-    int             *pids;
+    pid_t           *pids;
     bool            error_flag;
 }       t_all;
 
@@ -142,6 +142,9 @@ void        load_cmd(t_cmd *cmd_list);
 int     is_builtin(char *cmd);
 int     exec_builtin(t_cmd * cmd);
 void    execution(void);
+char    *getcmdpath(char *cmd);
+void    close_allhd(t_lx *lexer);
+
 
 
 /**
@@ -152,8 +155,8 @@ void    execution(void);
  * @param parent_arg Argument for parent function
  * @return Process ID in parent, -1 on error, child never returns
  */
-pid_t   forker(void (*child_fn)(void *), void *child_arg,
-                    void (*parent_fn)(void *), void *parent_arg);
+pid_t   forker(void (*child_fn)(void *), void *child_arg, 
+                    void (*parent_fn)(void *, pid_t), void *parent_arg);
 
 
 
@@ -201,7 +204,9 @@ int     hd(char *delimit);
 bool    duping(int ifd, int ofd);
 
 bool    prepare_ifof(t_cmd *cmd_list);
-
+bool    backup_fd(int *fd);
+void    exec_1cmdchild(void *data);
+void    exec_1cmdparent(void *data, pid_t pid);
 
 /*          >bultin functions<           */
 
@@ -252,7 +257,6 @@ char        *strchrdup(char *str, char *delimit, bool type);
 void        *getlastnode(void *list, char *list_type);
 t_lx        *splitcontent(char *str);
 void        ft_update_path(void);
-void        free_array(char **array);
 
 
 
