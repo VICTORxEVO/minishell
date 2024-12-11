@@ -50,6 +50,7 @@ void *galloc(size_t size);
 void        safe_free(void **data);
 void        clear_1data(void *data);
 void        clear_1list(void *list, char *list_type);
+void        free2d(void **array);
 
 
 
