@@ -4,14 +4,17 @@ static void re_zero(void)
 {
     t_all *core;
     void *data;
+    void **data1;
     unsigned char value;
 
     core = getcore();
     //keep env_list and exit code because its needed while program run time
     data = (void *)core->env_list;
+    data1 = (void **)core->path;
     value = core->exit_code;
     ft_bzero(getcore(), sizeof(t_all)); // init all struct with 0;
     core->env_list = (t_env *)data;
+    core->path = (char **)data1;
     core->exit_code = value;
 }
 
@@ -65,6 +68,8 @@ void clear(char flag)
     {
         env_lstclear();
         safe_free((void **)&getcore()->previous_line);
-        safe_free((void **)&getcore()->path);
+        free2d((void **)getcore()->path);
+        free2d((void **)getcore()->env);
+        exit (getcore()->exit_code);
     }
 }
