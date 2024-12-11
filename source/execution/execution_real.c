@@ -2,28 +2,24 @@
 
 int exec_1cmd(t_cmd *cmd)
 {
-    int backup_fd[2];
-    if (is_builtin(cmd->cmd[0]))
+    int bfd[3];
+
+    bfd[2] = 0;
+    if (cmd->cmd && is_builtin(cmd->cmd[0]))
     {
-        backup_fd[0] = dup(STDIN_FILENO);
-        backup_fd[1] = dup(STDOUT_FILENO);
-        prepare_ifof(getcore()->cmd);
+        if (!backup_fd(bfd) || !prepare_ifof(cmd))
+            return (false);
         // to change to void
-        exec_builtin(cmd->cmd);
-        if (dup2(backup_fd[0], cmd->ifd) < 0 || dup2(backup_fd[1], cmd->ofd))
-            return(pexit("dup2", DUP2_CODE), 1);
+        exec_builtin(cmd);
+        bfd[2] = -1;
+        // backup_fd(bfd);
     }
     else
     {
-        if (execvp(cmd->cmd[0], cmd->cmd) == -1)
-        {
-            //command not found 
-            pexit(cmd->cmd[0], 127);
-            return (1);
-        }
-        return (0);
+        if (forker(exec_1cmdchild, cmd, exec_1cmdparent, NULL) < 0)
+            return (false);
     }
-    return (1);
+    return (true);
 }
 
 int  exec_ncmd(t_cmd *cmd)
@@ -62,6 +58,11 @@ void load_cmd(t_cmd *cmd_list)
     {
         cmd_list->ofd = 1;
         size = count_or_back(cmd_list, COUNT);
+        if (size == 0)
+        {
+            cmd_list = cmd_list->next;
+            continue;
+        }
         cmd_list->cmd = galloc(sizeof(char *) * (size + 1));
         count_or_back(cmd_list, LOAD);
         cmd_list->cmd[size] = NULL;
@@ -72,10 +73,9 @@ void load_cmd(t_cmd *cmd_list)
 // exitcode formula (exit_code % 256 + 256) % 256 == exit_code & 0xFF
 void    execution(void)
 {
-    prepare_ifof(getcore()->cmd);
     print_cmd();
-    // if (getcore()->cmd_count == 1)
-    //     exec_1cmd(getcore()->cmd);
+    if (getcore()->cmd_count == 1)
+        exec_1cmd(getcore()->cmd);
     // else
     //     exec_ncmd(getcore()->cmd);
 }
