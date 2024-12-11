@@ -170,6 +170,8 @@ typedef enum e_token_check_mode {
 //macro for cmd permition denied
 #define PERM_DENIED ": permission denied !"
 
+//macro pexit func to exit ot not
+# define EXIT 1
 
 // Regular text colors
 #define BLACK "\033[0;30m"

@@ -67,7 +67,7 @@ static int ft_add_export(char *arg, bool has_plus)
 
 static void ft_print_export_error(char *var)
 {
-    pexit(ft_strjoin(ft_strjoin(ft_strjoin(": export: '", var), "'"), " not a valid identifier"), 1);
+    pexit(ft_strjoin(ft_strjoin(ft_strjoin(": export: '", var), "'"), " not a valid identifier"), 1, 0);
 } 
 
 int    ft_export(t_cmd *cmd)

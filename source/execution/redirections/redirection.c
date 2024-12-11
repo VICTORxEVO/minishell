@@ -58,6 +58,6 @@ bool    prepare_ifof(t_cmd *cmd_list)
         lexer = lexer->next;
     }
     if (!duping(cmd_list->ifd, cmd_list->ofd))
-        return(pexit("dup2", DUP2_CODE), false);
+        return(pexit("dup2", DUP2_CODE, 0), false);
     return(true);
 }

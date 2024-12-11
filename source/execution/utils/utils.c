@@ -18,14 +18,14 @@ bool backup_fd(int *fd)
         fd[0] = dup(STDIN_FILENO);
         fd[1] = dup(STDOUT_FILENO);
         if (fd[0] < 0 || fd[1] < 0)
-            return (pexit("dup", 1), false);
+            return (pexit("dup", 1, 0), false);
     }
     else
     {
         if (dup2(fd[0], STDIN_FILENO) < 0 || dup2(fd[1], STDOUT_FILENO) < 0)
-            return(pexit("dup2", DUP2_CODE), false);
+            return(pexit("dup2", DUP2_CODE, 0), false);
         if (close(fd[0]) < 0 || close(fd[1]) < 0)
-            return(pexit("close", CLOSE_CODE), false);
+            return(pexit("close", CLOSE_CODE, 0), false);
     }
     return(true);
 }
@@ -35,7 +35,7 @@ static bool checkpath(char *path)
     if (access(path, F_OK) == 0)
     {
         if (access(path, X_OK) < 0)
-            pexit(ft_strjoin(ft_strjoin(": ", path), PERM_DENIED), PERM_DENIED_CODE);
+            pexit(ft_strjoin(ft_strjoin(": ", path), PERM_DENIED), PERM_DENIED_CODE, 0);
         return (0);
     }
     return (1);
@@ -61,7 +61,7 @@ char    *getcmdpath(char *cmd)
                 return (fullpath);
         }
     }
-    pexit(ft_strjoin(ft_strjoin(": ", cmd), CMD_NOTFOUND), CMD_NOT_FOUND_CODE);
+    pexit(ft_strjoin(ft_strjoin(": ", cmd), CMD_NOTFOUND), CMD_NOT_FOUND_CODE, 0);
     return (NULL);
 }
 
@@ -71,11 +71,11 @@ pid_t   forker(void (*child_fn)(void *), void *child_arg,
     pid_t   pid;
 
     if (!child_fn || !parent_fn)
-        return(pexit(":forker: "FATAL_ERR"function pointer is NULL !", 1), -1);
+        return(pexit(":forker: "FATAL_ERR"function pointer is NULL !", 1, EXIT), -1);
     pid = fork();
     if (pid == -1)
     {
-        pexit("fork", FORK_CODE);
+        pexit("fork", FORK_CODE, EXIT);
         return (-1);
     }
     if (pid == 0)

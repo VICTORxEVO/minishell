@@ -8,11 +8,11 @@ static char *tmphd_parent(int *pipe)
 
     wait(&status);
     if (close(pipe[WRITE_END]) < 0)
-        pexit("heredoc: close", CLOSE_CODE);
+        pexit("heredoc: close", CLOSE_CODE, 0);
     read_size = read(pipe[READ_END], buff, BUFSIZ);
     buff[read_size] = 0;
     if (read_size < 0)
-        pexit("heredoc: read", READ_CODE);
+        pexit("heredoc: read", READ_CODE, 0);
     else if (read_size == 0)
         return (ft_strdup(HERE_DOC_FILE));
     return (ft_strdup(buff));
@@ -47,13 +47,13 @@ static  void tmphd_child(char **env, int *pipe)
     cmd[0] = findmktemp(getcore()->path);
     cmd[1] = NULL;
     if (close(pipe[READ_END]) < 0)
-        pexit("heredoc: close", CLOSE_CODE);
+        (pexit("heredoc: close", CLOSE_CODE, EXIT));
     if (dup2(pipe[WRITE_END], STDOUT_FILENO) < 0)
-        pexit("heredoc: dup2", CLOSE_CODE);
+        (pexit("heredoc: dup2", CLOSE_CODE, EXIT));
     if (ft_strncmp(cmd[0], HERE_DOC_FILE, -1) != 0)
         execve(cmd[0], cmd, env);
     if (close(pipe[WRITE_END]) < 0)
-        pexit("heredoc: close", CLOSE_CODE);
+        (pexit("heredoc: close", CLOSE_CODE, EXIT));
     clear(FREE_ALL);
     exit (7);
 }
@@ -64,10 +64,10 @@ static char    *tmphd(char **env)
     int pip[2];
 
     if (pipe(pip) < 0)
-        pexit("pipe", PIPE_CODE);
+        return (pexit("pipe", PIPE_CODE, 0), NULL);
     pid = fork();
     if (pid < 0)
-        pexit("", 1);
+        return (pexit("fork", 1, 0), NULL);
     else if (pid == CHILD)
         tmphd_child(env, pip);
     return (tmphd_parent(pip));
@@ -79,10 +79,13 @@ int hd(char *delimit)
     char *tmpfile;
 
     tmpfile = tmphd(getcore()->env);
+    if (!tmpfile)
+        return (-1);
+    tmpfile[ft_strlen(tmpfile) -1] = 0;
     hd_fork(tmpfile, delimit);
     fd = open(tmpfile, O_RDONLY);
     if (fd < 0)
-        pexit("heredoc: open: tempfile", OPEN_CODE);
+        pexit("heredoc: tempfile", OPEN_CODE, 0);
     if (unlink(tmpfile) < 0)
         ft_putstr_fd(PRGM_NAME": heredoc: Warning: Failed to remove temporary file", 2);
     clear_1data(tmpfile);

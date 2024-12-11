@@ -28,7 +28,7 @@ void        clear(char flag);
 extern t_all   *getcore(void);
 
 //clear,print message and exit with exit_code
-void        pexit(char *msg, short int exit_code);
+void    pexit(char *msg, short int exit_code, bool exit);
 
 // set bytes to 0
 

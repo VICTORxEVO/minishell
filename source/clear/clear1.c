@@ -24,7 +24,7 @@ void clear_1data(void *data)
         }
         list = list->next;
     }
-    return (pexit(PTR_ERR, 101), clear(FREE_ALL), exit(101), (void)0);
+    return (pexit(PTR_ERR, 101, EXIT));
 }
 
 static  void clear_t_vat(t_var *list)
