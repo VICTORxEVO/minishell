@@ -23,8 +23,9 @@ void    exec_1cmdchild(void *data)
     {
         cmdpath = getcmdpath(cmd->cmd[0]);
         execve(cmdpath, cmd->cmd, getcore()->env);
+        (close(cmd->ifd), close(cmd->ofd));
         pexit("execve", 1, EXIT);
     }
-    getcore()->exit_code = 0;
-    clear(FREE_ALL);
+    (close(cmd->ifd), close(cmd->ofd));
+    (clear(FREE_ALL), exit(0));
 }
