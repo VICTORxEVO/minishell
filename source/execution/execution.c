@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int exec_1cmd(t_cmd *cmd)
+void exec_1cmd(t_cmd *cmd)
 {
     int bfd[3];
 
@@ -8,24 +8,42 @@ int exec_1cmd(t_cmd *cmd)
     if (cmd->cmd && is_builtin(cmd->cmd[0]))
     {
         if (!backup_fd(bfd) || !prepare_ifof(cmd))
-            return (false);
+            return ;
         getcore()->exit_code = exec_builtin(cmd);
         bfd[2] = -1;
         backup_fd(bfd);
     }
     else
-    {
-        if (forker(exec_1cmdchild, cmd, exec_1cmdparent, &bfd[2]) < 0)
-            return (false);
-    }
-    return (true);
+        forker(exec_cmdchild, cmd, exec_cmdparent, &bfd[2]);
 }
 
-int  exec_ncmd(t_cmd *cmd)
+void  exec_ncmd(t_cmd *cmd)
 {
+    unsigned int i;
+    int pip[2];
 
-
-    return (0);
+    if (pipe(pip) < 0)
+        return (pexit("pipe", PIPE_CODE, 0), (void)0);
+    cmd->ofd = pip[WRITE_END];
+    cmd->unsed_fd = pip[READ_END];
+    i = 0;
+    while (i < __INT32_MAX__)
+    {
+        if (forker(exec_cmdchild, cmd, exec_cmdparent, &i) < 0)
+            return (pexit("fork", FORK_CODE, 0), (void)0);
+        close(pip[WRITE_END]);
+        cmd = cmd->next;
+        if (!cmd)
+            return (close(pip[READ_END]), (void)0);
+        cmd->ifd = pip[READ_END];
+        if (i++ + 2 < getcore()->cmd_count)
+        {
+            if (pipe(pip) < 0)
+                return (pexit("pipe", PIPE_CODE, 0), (void)0);
+            cmd->ofd = pip[WRITE_END];
+            cmd->unsed_fd = pip[READ_END];
+        }
+    }
 }   
 
 unsigned int count_or_back(t_cmd *cmd, bool type)
@@ -72,7 +90,7 @@ void load_cmd(t_cmd *cmd_list)
 // exitcode formula (exit_code % 256 + 256) % 256 == exit_code & 0xFF
 void    execution(void)
 {
-    print_cmd();
+    // print_cmd();
     if (getcore()->cmd_count == 1)
         exec_1cmd(getcore()->cmd);
     else
