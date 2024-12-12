@@ -61,7 +61,7 @@ char    *getcmdpath(char *cmd)
                 return (fullpath);
         }
     }
-    pexit(ft_strjoin(ft_strjoin(": ", cmd), CMD_NOTFOUND), CMD_NOT_FOUND_CODE, 0);
+    pexit(ft_strjoin(ft_strjoin(": ", cmd), CMD_NOTFOUND), CMD_NOT_FOUND_CODE, EXIT);
     return (NULL);
 }
 
