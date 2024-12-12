@@ -198,8 +198,8 @@ bool    duping(int ifd, int ofd);
 
 bool    prepare_ifof(t_cmd *cmd_list);
 bool    backup_fd(int *fd);
-void    exec_1cmdchild(void *data);
-void    exec_1cmdparent(void *data, pid_t pid);
+void    exec_cmdchild(void *data);
+void    exec_cmdparent(void *data, pid_t pid);
 
 /*          >bultin functions<           */
 
