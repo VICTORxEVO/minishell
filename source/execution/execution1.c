@@ -3,10 +3,11 @@
 void    exec_1cmdparent(void *data, pid_t pid)
 {
     int status;
+    int *i;
 
-    (void)data;
-    (void)pid;
-    wait(&status);
+    i = (int *)data;
+    getcore()->pids[*i] = pid;
+    waitpid(pid, &status, 0);
     getcore()->exit_code = WEXITSTATUS(status);
 }
 
@@ -17,7 +18,7 @@ void    exec_1cmdchild(void *data)
 
     cmd = (t_cmd *)data;
     if (!prepare_ifof(cmd))
-        clear(FREE_ALL);
+        (clear(FREE_ALL), exit(getcore()->exit_code));
     if (cmd->cmd)
     {
         cmdpath = getcmdpath(cmd->cmd[0]);
