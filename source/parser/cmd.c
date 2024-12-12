@@ -80,6 +80,7 @@ void    load_cmd_list(t_all *core)
 
     lexer = core->lexer;
     core->cmd_count = core->pipe_count + 1;
+    core->pids = galloc(sizeof(int *) * core->cmd_count);
     cmd = galloc(sizeof(t_cmd));
     while (lexer)
     {

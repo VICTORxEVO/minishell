@@ -3,14 +3,13 @@
 void    reader_loop(void)
 {
     char  *line;
-    // char  *previous_line;
-    char *prompt;
 
     while (true)
     {
-        prompt = create_prompt();
-        line = readline(prompt);
-        if (line == NULL || line[0] == 0 || ft_isspace(0, line))
+        line = readline("Eurika ✨➜ ");
+        if (!line)
+            (clear(FREE_ALL), exit(getcore()->exit_code));
+        if (line[0] == 0 || ft_isspace(0, line))
         {
             if (line)
                 free(line);
@@ -18,12 +17,9 @@ void    reader_loop(void)
         }
         getcore()->in_line = line;
         gc_add_node(line);
-        // previous_line = getcore()->previous_line;
         add_history(line);
         break ;
     }
-    if (!ft_strncmp(line, "exit", ft_strlen("exit")))
-        return (pexit(": done!", 0), clear(FREE_ALL), exit(0)); //tmp function just for debugging and see leaks 
 }
 
 bool    parsing(void)

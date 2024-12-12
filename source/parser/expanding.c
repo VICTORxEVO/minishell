@@ -9,7 +9,7 @@ static int get_var(char *var_str, int *index)
     list = handle_list();
     while(var_str[len] && ft_isalnum(var_str[len]))
         len++;
-    list->content = getenv(ft_substr(var_str, 0, len));
+    list->content = ft_getenv(ft_substr(var_str, 0, len));
     list->start_ndx = (*index) - 1;
     *index += len;
     list->end_ndx = (*index);

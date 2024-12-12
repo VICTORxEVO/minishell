@@ -1,55 +1,98 @@
-
-
-
 #include "minishell.h"
 
-void test_export(void)
+void exec_1cmd(t_cmd *cmd)
 {
-    printf("\n=== Testing Export ===\n");
+    int bfd[3];
 
-    // Setup test environment
-    t_cmd test_cmd;
-    char *env[] = {"PATH=/usr/bin", "HOME=/home/user", NULL};
-    fill_env_list(env);
-
-    // Test cases
-    char *test_cases[][10] = {
-        {"export", "TEST=value", NULL},             // Basic export
-        {"export", "EMPTY=", NULL},                 // Empty value
-        {"export", "NO_VALUE", NULL},               // No value
-        {"export", "APPEND=1", "APPEND+=2", NULL},  // Append value
-        {"export", "INVALID=@#$", NULL},           // Invalid value
-        {"export", NULL},                          // Print all exports
-        {NULL}
-    };
-
-    // Run tests
-    for (int i = 0; test_cases[i][0] != NULL; i++)
+    bfd[2] = 0;
+    if (cmd->cmd && is_builtin(cmd->cmd[0]))
     {
-        printf("\nTest case %d: ", i + 1);
-        test_cmd.cmd = test_cases[i];
-        
-        // Print test command
-        for (int j = 0; test_cmd.cmd[j] != NULL; j++)
-            printf("%s ", test_cmd.cmd[j]);
-        printf("\n");
-
-        // Execute export
-        ft_export(&test_cmd);
-
-        // Verify result
-        if (test_cmd.cmd[1] != NULL)
-        {
-            char *key = strchrdup(test_cmd.cmd[1], ft_strchr(test_cmd.cmd[1], '='), CALLOC);
-            char *value = ft_getenv(key);
-            printf("Result: %s=%s\n", key, value ? value : "(null)");
-        }
+        if (!backup_fd(bfd) || !prepare_ifof(cmd))
+            return ;
+        getcore()->exit_code = exec_builtin(cmd);
+        bfd[2] = -1;
+        backup_fd(bfd);
     }
-    clear(FREE_ALL);
+    else
+        forker(exec_cmdchild, cmd, exec_cmdparent, &bfd[2]);
 }
 
-// int main(void)
-// {
-//     test_export();
-//     return 0;
-// }
+void  exec_ncmd(t_cmd *cmd)
+{
+    unsigned int i;
+    int pip[2];
+
+    if (pipe(pip) < 0)
+        return (pexit("pipe", PIPE_CODE, 0), (void)0);
+    cmd->ofd = pip[WRITE_END];
+    cmd->unsed_fd = pip[READ_END];
+    i = 0;
+    while (i < __INT32_MAX__)
+    {
+        if (forker(exec_cmdchild, cmd, exec_cmdparent, &i) < 0)
+            return (pexit("fork", FORK_CODE, 0), (void)0);
+        close(pip[WRITE_END]);
+        cmd = cmd->next;
+        if (!cmd)
+            return (close(pip[READ_END]), (void)0);
+        cmd->ifd = pip[READ_END];
+        if (i++ + 2 < getcore()->cmd_count)
+        {
+            if (pipe(pip) < 0)
+                return (pexit("pipe", PIPE_CODE, 0), (void)0);
+            cmd->ofd = pip[WRITE_END];
+            cmd->unsed_fd = pip[READ_END];
+        }
+    }
+}   
+
+unsigned int count_or_back(t_cmd *cmd, bool type)
+{
+    unsigned int i;
+    t_lx *lx;
+
+    lx = cmd->scope;
+    i = 0;
+    while (lx)
+    {
+        if (lx->type == WORD && (!lx->prev || (lx->prev && !istoken(lx->prev->type, NON_PIPE))))
+        {
+            if (type == COUNT)
+                i++;
+            else
+                cmd->cmd[i++] = lx->content;
+        }
+        lx = lx->next;
+    }
+    return (i);
+}
+
+void load_cmd(t_cmd *cmd_list)
+{
+    unsigned int size;
+
+    while (cmd_list)
+    {
+        cmd_list->ofd = 1;
+        size = count_or_back(cmd_list, COUNT);
+        if (size == 0)
+        {
+            cmd_list = cmd_list->next;
+            continue;
+        }
+        cmd_list->cmd = galloc(sizeof(char *) * (size + 1));
+        count_or_back(cmd_list, LOAD);
+        cmd_list->cmd[size] = NULL;
+        cmd_list = cmd_list->next;
+    }
+}
+
+// exitcode formula (exit_code % 256 + 256) % 256 == exit_code & 0xFF
+void    execution(void)
+{
+    // print_cmd();
+    if (getcore()->cmd_count == 1)
+        exec_1cmd(getcore()->cmd);
+    else
+        exec_ncmd(getcore()->cmd);
+}

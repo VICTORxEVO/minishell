@@ -14,7 +14,7 @@ int     redirection(char *filename, char mode, int oldfd)
         return (ofd(filename, mode));
 }
 
-static bool prepere_heredoc(t_cmd *cmd_list)
+static bool prepare_heredoc(t_cmd *cmd_list)
 {
     int fd;
     t_lx *lexer;
@@ -45,7 +45,9 @@ bool    prepare_ifof(t_cmd *cmd_list)
     t_lx *lexer;
 
     lexer = cmd_list->scope;
-    if (!prepere_heredoc(cmd_list))
+    if (cmd_list->unsed_fd > 2)
+        close(cmd_list->unsed_fd);
+    if (!prepare_heredoc(cmd_list))
         return (false);
     while (lexer)
     {   
@@ -54,18 +56,10 @@ bool    prepare_ifof(t_cmd *cmd_list)
         else if (lexer->type == OUT_RDRT_APP || lexer->type == OUT_RDRT_OW)
             cmd_list->ofd = redirection(lexer->next->content, lexer->type, cmd_list->ofd);
         if (cmd_list->ofd < 0 || cmd_list->ifd < 0)
-            return (false);
+            return (close_allhd(lexer), false);
         lexer = lexer->next;
     }
-    if (cmd_list->ifd > 2)
-    {
-        if (dup2(cmd_list->ifd, STDIN_FILENO) < 0)
-            pexit("dup2", DUP2_CODE);
-    }
-    if (cmd_list->ofd > 2)
-    {
-        if (dup2(cmd_list->ofd, STDOUT_FILENO) < 0)
-            pexit("dup2", DUP2_CODE);
-    }
+    if (!duping(cmd_list->ifd, cmd_list->ofd))
+        return(pexit("dup2", DUP2_CODE, 0), false);
     return(true);
 }

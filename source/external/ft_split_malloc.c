@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_malloc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 11:50:16 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/11/27 20:23:03 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/12/11 11:11:51 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*do_word_1(const char *s, const char x, int *q_resume)
 	i = *q_resume;
 	while (s[i] && s[i++] != x)
 		len++;
-	word = (char *)malloc(sizeof(char) * (len + 1));
+	word = (char *)ft_calloc((len + 2), sizeof(char));
 	if (!word)
 		return (NULL);
 	i = 0;
@@ -68,11 +68,11 @@ static char	*do_word_1(const char *s, const char x, int *q_resume)
 		(*q_resume)++;
 		i++;
 	}
-	word[i] = '\0';
+	word[i] = '/';
 	return (word);
 }
 
-char	**ft_split_malloc(const char *s, char c)
+char	**ft_split_path(const char *s, char c)
 {
 	char	**arr;
 	int		q_res;

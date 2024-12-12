@@ -26,7 +26,7 @@ inline t_gc	*gc_new(void *data)
 
 	new = ft_calloc(1, sizeof(t_gc));
 	if (!new)
-		return (pexit("malloc", MALLOC_CODE), clear(FREE_ALL), exit(101), (t_gc *)0);
+		return (pexit("malloc", MALLOC_CODE, EXIT), NULL);
     new->data = data;
 	return (new);
 }
@@ -59,7 +59,7 @@ inline void *galloc(size_t size)
 
     data = ft_calloc(1, size);
     if (!data)
-        return (pexit("malloc", MALLOC_CODE), clear(FREE_ALL), exit(101), (t_gc *)0);
+        return (pexit("malloc", MALLOC_CODE, EXIT), NULL);
     gc_add_node(data);
     return (data);
 }
