@@ -37,6 +37,7 @@ typedef struct s_cmd
     char            **cmd;
     int             ifd;
     int             ofd;
+    int             unsed_fd;
     struct s_cmd    *next;
 }       t_cmd;
 
@@ -177,14 +178,6 @@ int     ifd(char *filename);
  * @return File descriptor of the opened file, or -1 on error
  */
 int     ofd(char *filename, char mode);
-
-/**
- * @brief Forks a process to handle here-document input
- * @details Creates a child process to read input until the delimiter is encountered
- * @param tmpfile Name of the temporary file to store the here-document input
- * @param delimit Delimiter string to end the here-document input
- */
-void    hd_fork(char *tmpfile, char *delimit);
 
 /**
  * @brief Handles here-document input
