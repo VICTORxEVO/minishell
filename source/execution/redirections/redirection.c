@@ -45,6 +45,8 @@ bool    prepare_ifof(t_cmd *cmd_list)
     t_lx *lexer;
 
     lexer = cmd_list->scope;
+    if (cmd_list->unsed_fd > 2)
+        close(cmd_list->unsed_fd);
     if (!prepare_heredoc(cmd_list))
         return (false);
     while (lexer)
