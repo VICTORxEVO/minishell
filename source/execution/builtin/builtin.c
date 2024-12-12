@@ -36,6 +36,6 @@ int exec_builtin(t_cmd * cmd)
 		return (ft_export(cmd));
 	if (ft_strcmp(cmd->cmd[0], "unset") == 0)
 		return (ft_unset(cmd));
-    return (2011);
+    return (0);
 }
 
