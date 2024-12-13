@@ -14,7 +14,7 @@ void exec_1cmd(t_cmd *cmd)
         backup_fd(bfd);
     }
     else
-        forker(exec_cmdchild, cmd, exec_cmdparent, &bfd[2]);
+        forker(exec_cmdchild, cmd, exec_cmdparent, NULL);
 }
 
 void  exec_ncmd(t_cmd *cmd)
