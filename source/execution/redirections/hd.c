@@ -13,9 +13,7 @@ static bool hd_handleline(char *line, char *delimit, int fd, unsigned int count)
     return (0);
 }
 
-
-
-static void hd_forkchild(char *tmpfile, char *delimit)
+static bool hd_reader_loop(char *tmpfile, char *delimit)
 {
     int fd;
     char *line;
@@ -24,7 +22,7 @@ static void hd_forkchild(char *tmpfile, char *delimit)
     count = 1;
     fd = open(tmpfile, O_WRONLY | O_CREAT, 0666);
     if (fd < 0)
-        (pexit("heredoc: tmpfile", OPEN_CODE, EXIT));
+        return (pexit("heredoc: tmpfile", OPEN_CODE, 0), 1);
     while (true)
     {
         line = readline("heredoc> ");
@@ -32,34 +30,17 @@ static void hd_forkchild(char *tmpfile, char *delimit)
             break;
         count++;
     }
-    (close(fd), clear(FREE_ALL), exit(0));
-}
-
-static void    hd_fork(char *tmpfile, char *delimit)
-{
-    pid_t pid;
-    int status;
-
-    pid = fork();
-    if (pid < 0)
-        pexit("heredoc: fork", FORK_CODE, EXIT);
-    else if (pid == CHILD)
-        hd_forkchild(tmpfile, delimit);
-    else
-    {
-        wait(&status);
-        if (WEXITSTATUS(status) > 0)
-            (clear(FREE_ALL), exit(WEXITSTATUS(status)));
-    }
+    return (close(fd), 0);
 }
 
 int hd(char *delimit)
 {
-    int fd;
-    char *tmpfile;
+    int     fd;
+    char    *tmpfile;
 
     tmpfile = ft_strjoin("/tmp/hdtmp.", ft_itoa(getpid()));
-    hd_fork(tmpfile, delimit);
+    if (hd_reader_loop(tmpfile, delimit) == 1)
+        return(-1);
     fd = open(tmpfile, O_RDONLY);
     if (fd < 0)
         pexit("heredoc: tempfile", OPEN_CODE, 0);

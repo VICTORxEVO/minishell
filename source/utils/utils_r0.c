@@ -22,11 +22,16 @@ int     get_dollar(char *str, bool *flag)
     return (i);
 }
 
-bool    needexpand(char *str)
+bool    needexpand(char *str, t_lx *lexer)
 {
     int i;
 
     i = -1;
+    if (lexer && lexer->type == WORD)
+    {
+        if (lexer->prev && lexer->prev->type == HERE_DOC)
+            return(false);
+    }
     while (str && str[++i])
     {
         if (str[i] == '$' && str[i + 1] && !ft_isspace(str[i + 1], NULL))

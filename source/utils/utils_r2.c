@@ -37,7 +37,7 @@ static char	*ft_csubstr(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 
-char    *strchrdup(char *str, char *delimit, bool type)
+char    *strchrdup(const char *str, char *delimit, bool type)
 {
     int i;
 

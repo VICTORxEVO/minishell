@@ -12,6 +12,7 @@ typedef struct s_lx
 {
     char   type;
     char            *content;
+    char            *original_content;
     struct s_lx     *next;
     struct s_lx     *prev;
 }   t_lx;
@@ -66,6 +67,8 @@ typedef struct s_all
     char            *previous_line;
     pid_t           *pids;
     bool            error_flag;
+    bool            sig_init;
+    bool            sig_quit;
 }       t_all;
 
 typedef struct s_ndx
@@ -198,6 +201,7 @@ bool    duping(int ifd, int ofd);
 
 bool    prepare_ifof(t_cmd *cmd_list);
 bool    backup_fd(int *fd);
+bool    prepare_heredoc(t_cmd *cmd_list);
 void    exec_cmdchild(void *data);
 void    exec_cmdparent(void *data, pid_t pid);
 
@@ -238,7 +242,7 @@ bool        ft_isspace(int c, char *str);
 bool        istoken(int c, bool type);
 char        *strtkr_gen(char type);
 void        reader_loop(void);
-bool        needexpand(char *str);
+bool        needexpand(char *str, t_lx *lexer);
 int         get_dollar(char *str, bool *flag);
 t_var       *handle_list(void);
 char        *get_end_addr(char *str);
@@ -246,7 +250,7 @@ bool        possible_expand(char c);
 void        strocpy(char *dest, const char * src, int len);
 bool        is_str_havespace(char *string);
 void        addtolist(void *node, char *list_type, void *head);
-char        *strchrdup(char *str, char *delimit, bool type);
+char        *strchrdup(const char *str, char *delimit, bool type);
 void        *getlastnode(void *list, char *list_type);
 t_lx        *splitcontent(char *str);
 void        ft_update_path(void);

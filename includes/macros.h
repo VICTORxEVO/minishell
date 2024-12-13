@@ -74,12 +74,13 @@ typedef enum e_quote_type {
  */
 typedef enum e_token_type
 {
-    PIPE = -1,           /* Pipe operator token */
     TOKEN = -2,          /* Generic token identifier */
+    PIPE = -1,           /* Pipe operator token */
     HERE_DOC = 1,        /* Here document redirection */
     IN_RDRT = 2,         /* Input file redirection */
     OUT_RDRT_OW = 3,     /* Output file redirection (overwrite mode) */
     OUT_RDRT_APP = 4,    /* Output file redirection (append mode) */
+    AMBIG_RDRT = 5,      /* Ambiguous redirection error */
     WORD = 10,           /* Regular word token */
     HERE_DOC_FD = 11
 } t_token_type;
@@ -101,6 +102,7 @@ typedef enum e_error_code
     FORK_CODE,          /**< Error code for fork() system call failure */
     MALLOC_CODE,         /**< Error code for malloc() function failure */
     READLINE_CODE,       /**< Error code for readline() function failure */
+    AMBIG_CODE = 20,     /**< Error code for ambiguous redirection */
     PERM_DENIED_CODE = 126,   /**< Permission denied (not executable) */
     CMD_NOT_FOUND_CODE = 127, /**< Command not found in PATH */
     SIGTERM_CODE = 143,  /**< Termination signal error code */
@@ -172,6 +174,9 @@ typedef enum e_token_check_mode {
 
 //macro pexit func to exit ot not
 # define EXIT 1
+
+//macro for ambigous redirection
+# define AMBIG_ERR ": ambiguous redirect !"
 
 // Regular text colors
 #define BLACK "\033[0;30m"
