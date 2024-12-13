@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+
 void    update_env(t_env *env_list)
 {
     t_ndx i;
@@ -17,6 +18,7 @@ void    update_env(t_env *env_list)
     while (env_list)
     {
         getcore()->env[i.i++] = ft_strjoin_m(ft_strjoin_m(env_list->key, "="), env_list->value);
+        env_list = env_list->next;
     }
 }
 
@@ -52,4 +54,5 @@ void   fill_env_list(char *env[])
         addtolist(env_node, "t_env", NULL);
     }
     ft_update_path();
+    update_env(getcore()->env_list);
 }
