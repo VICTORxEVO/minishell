@@ -250,7 +250,7 @@ bool        possible_expand(char c);
 void        strocpy(char *dest, const char * src, int len);
 bool        is_str_havespace(char *string);
 void        addtolist(void *node, char *list_type, void *head);
-char        *strchrdup(char *str, char *delimit, bool type);
+char        *strchrdup(const char *str, char *delimit, bool type);
 void        *getlastnode(void *list, char *list_type);
 t_lx        *splitcontent(char *str);
 void        ft_update_path(void);
