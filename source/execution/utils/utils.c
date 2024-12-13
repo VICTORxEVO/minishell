@@ -4,12 +4,11 @@ void close_allhd(t_lx *lexer)
 {
     while (lexer)
     {
-        if (lexer->type == HERE_DOC)
+        if (lexer->type == HERE_DOC_FD)
             close(atoi(lexer->next->content));
         lexer = lexer->next;
     }
 }
-
 
 bool backup_fd(int *fd)
 {
