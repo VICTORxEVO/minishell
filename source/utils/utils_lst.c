@@ -78,5 +78,10 @@ void    *getlastnode(void *list, char *list_type)
         while (((t_lx *)list)->next)
             list = ((t_lx *)list)->next;
     }
+    else if ((list && !ft_strncmp(list_type, "t_env", -1)))
+    {
+        while (((t_env *)list)->next)
+            list = ((t_env *)list)->next;
+    }
      return (list);
 }
