@@ -24,6 +24,8 @@ int is_builtin(char *cmd)
 
 int exec_builtin(t_cmd * cmd)
 {
+	if (!cmd->cmd)
+		return (0);
 	if (ft_strcmp(cmd->cmd[0], "cd") == 0)
 		return (ft_cd(cmd));
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
