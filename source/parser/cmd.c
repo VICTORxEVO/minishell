@@ -63,7 +63,17 @@ void    final_touch(t_lx *lexer)
 
     while (lexer)
     {
-        if (havequotes(lexer))
+        if (istoken(lexer->type, NON_PIPE) && lexer->type != HERE_DOC)
+        {
+            lexer = lexer->next;
+            if (!lexer->content[0] || checkspace_str(lexer->content))
+            {
+                clear_1data(lexer->content);
+                lexer->content = lexer->original_content;
+                lexer->prev->type = AMBIG_RDRT;
+            }
+        }
+        else if (havequotes(lexer))
         {
             new_str = getnewstr(lexer->content);
             clear_1data(lexer->content);
