@@ -9,7 +9,7 @@ static int get_var(char *var_str, int *index)
     list = handle_list();
     while(var_str[len] && ft_isalnum(var_str[len]))
         len++;
-    list->content = getenv(ft_substr(var_str, 0, len));
+    list->content = ft_getenv(ft_substr(var_str, 0, len));
     list->start_ndx = (*index) - 1;
     *index += len;
     list->end_ndx = (*index);
@@ -60,7 +60,6 @@ char    *expand_dollar(char *line)
     }
     strocpy(&expline[ft_strlen(expline)], list->content, -1);
     strocpy(&expline[ft_strlen(expline)], &line[list->end_ndx], -1);
-    clear_1data(line);
     clear_1list(list, "t_var");
     return (expline);
 }
@@ -72,9 +71,10 @@ void    expanding(t_lx *lexer)
 
     while (lexer)
     {
-        if (lexer->type == WORD && needexpand(lexer->content))
+        if (needexpand(lexer->content, lexer))
         {
             new_content = expand_dollar(lexer->content);
+            lexer->original_content = lexer->content;
             lexer->content = ft_strtrim(new_content, IS_SPACE); 
             clear_1data(new_content);
         }

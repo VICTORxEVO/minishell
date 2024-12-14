@@ -74,12 +74,13 @@ typedef enum e_quote_type {
  */
 typedef enum e_token_type
 {
-    PIPE = -1,           /* Pipe operator token */
     TOKEN = -2,          /* Generic token identifier */
+    PIPE = -1,           /* Pipe operator token */
     HERE_DOC = 1,        /* Here document redirection */
     IN_RDRT = 2,         /* Input file redirection */
     OUT_RDRT_OW = 3,     /* Output file redirection (overwrite mode) */
     OUT_RDRT_APP = 4,    /* Output file redirection (append mode) */
+    AMBIG_RDRT = 5,      /* Ambiguous redirection error */
     WORD = 10,           /* Regular word token */
     HERE_DOC_FD = 11
 } t_token_type;
@@ -94,13 +95,16 @@ typedef enum e_error_code
 {
     DUP2_CODE = 2,       /**< Error code for dup2() system call failure */
     CLOSE_CODE,          /**< Error code for close() system call failure */
-    PIPE_CODE,           /**< Error code for pipe() system call failure */
-    READ_CODE,           /**< Error code for read() system call failure */
+    PIPE_CODE,          /**< Error code for pipe() system call failure */
+    READ_CODE,          /**< Error code for read() system call failure */
     OPEN_CODE,          /**< Error code for open() system call failure */
     WRITE_CODE,          /**< Error code for write() system call failure */
     FORK_CODE,          /**< Error code for fork() system call failure */
     MALLOC_CODE,         /**< Error code for malloc() function failure */
     READLINE_CODE,       /**< Error code for readline() function failure */
+    AMBIG_CODE = 20,     /**< Error code for ambiguous redirection */
+    PERM_DENIED_CODE = 126,   /**< Permission denied (not executable) */
+    CMD_NOTFOUND_CODE = 127, /**< Command not found in PATH */
     SIGTERM_CODE = 143,  /**< Termination signal error code */
     SIGXCPU_CODE = 24    /**< CPU time limit exceeded signal error code */
 } t_error_code;
@@ -158,6 +162,21 @@ typedef enum e_token_check_mode {
 //mods for load_cmd
 # define COUNT 0
 # define LOAD 1
+
+// macro for backup to restore fd
+# define RESTORE -1
+
+//macro for command not found
+# define CMD_NOTFOUND ": command not found !"
+
+//macro for cmd permition denied
+#define PERM_DENIED ": permission denied !"
+
+//macro pexit func to exit ot not
+# define EXIT 1
+
+//macro for ambigous redirection
+# define AMBIG_ERR ": ambiguous redirect !"
 
 // Regular text colors
 #define BLACK "\033[0;30m"

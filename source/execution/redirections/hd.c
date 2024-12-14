@@ -1,88 +1,60 @@
 #include "minishell.h"
 
-static char *tmphd_parent(int *pipe)
+static char getunique(void)
 {
-    char buff[BUFSIZ];
-    int     read_size;
-    int     status;
+    static char num;
 
-    wait(&status);
-    if (close(pipe[WRITE_END]) < 0)
-        pexit("heredoc: close", CLOSE_CODE);
-    read_size = read(pipe[READ_END], buff, BUFSIZ);
-    buff[read_size] = 0;
-    if (read_size < 0)
-        pexit("heredoc: read", READ_CODE);
-    else if (read_size == 0)
-        return (ft_strdup(HERE_DOC_FILE));
-    return (ft_strdup(buff));
+    if (num == 90)
+        num = 0;
+    num += 65;
+    return (num);
 }
 
-
-static char *findmktemp(char **path)
+static bool hd_handleline(char *line, char *delimit, int fd, unsigned int count)
 {
-    int i;
-    char *str;
-
-    i = -1;
-    if (!path)
+    if (!line)
     {
-        if (access("/usr/bin/mktemp", X_OK) == 0)
-            return (ft_strdup("/usr/bin/mktemp"));
+        printf(PRGM_NAME": warning: here-document at line %u delimited by end-of-file (wanted `%s')\n", count, delimit);
+        return (1);
     }
-    while(path && path[++i])
+    if (!ft_strncmp(line, delimit, -1))
+        return (free(line), 1);
+    (ft_putstr_fd(line, fd), ft_putstr_fd("\n", fd));
+    return (0);
+}
+
+static bool hd_reader_loop(char *tmpfile, char *delimit)
+{
+    int fd;
+    char *line;
+    unsigned int count;
+
+    count = 1;
+    fd = open(tmpfile, O_WRONLY | O_CREAT, 0666);
+    if (fd < 0)
+        return (pexit("heredoc: tmpfile", OPEN_CODE, 0), 1);
+    while (true)
     {
-        str = ft_strjoin(path[i], "mktemp");
-        if (access(str, X_OK) == 0)
-            return (str);
+        line = readline("heredoc> ");
+        if (hd_handleline(line, delimit, fd, count) == 1)
+            break;
+        count++;
     }
-    return (ft_strdup(HERE_DOC_FILE));
-}
-
-
-static  void tmphd_child(char **env, int *pipe)
-{
-    char *cmd[2];
-
-    cmd[0] = findmktemp(getcore()->path);
-    cmd[1] = NULL;
-    if (close(pipe[READ_END]) < 0)
-        pexit("heredoc: close", CLOSE_CODE);
-    if (dup2(pipe[WRITE_END], STDOUT_FILENO) < 0)
-        pexit("heredoc: dup2", CLOSE_CODE);
-    if (ft_strncmp(cmd[0], HERE_DOC_FILE, -1) != 0)
-        execve(cmd[0], cmd, env);
-    if (close(pipe[WRITE_END]) < 0)
-        pexit("heredoc: close", CLOSE_CODE);
-    clear(FREE_ALL);
-    exit (7);
-}
-
-static char    *tmphd(char **env)
-{
-    pid_t pid;
-    int pip[2];
-
-    if (pipe(pip) < 0)
-        pexit("pipe", PIPE_CODE);
-    pid = fork();
-    if (pid < 0)
-        pexit("", 1);
-    else if (pid == CHILD)
-        tmphd_child(env, pip);
-    return (tmphd_parent(pip));
+    return (close(fd), 0);
 }
 
 int hd(char *delimit)
 {
-    int fd;
-    char *tmpfile;
+    int     fd;
+    char    *tmpfile;
 
-    tmpfile = tmphd(getcore()->env);
-    hd_fork(tmpfile, delimit);
+    tmpfile = ft_strjoin("/tmp/hdtmp.", ft_itoa(getpid()));
+    tmpfile[ft_strlen(tmpfile) - 1] = getunique();
+    if (hd_reader_loop(tmpfile, delimit) == 1)
+        return(-1);
     fd = open(tmpfile, O_RDONLY);
     if (fd < 0)
-        pexit("heredoc: open: tempfile", OPEN_CODE);
+        pexit("heredoc: tempfile", OPEN_CODE, 0);
     if (unlink(tmpfile) < 0)
         ft_putstr_fd(PRGM_NAME": heredoc: Warning: Failed to remove temporary file", 2);
     clear_1data(tmpfile);

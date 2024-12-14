@@ -37,16 +37,14 @@ VALGRIND_CMD = valgrind \
     --suppressions=readline.supp \
     --leak-check=full \
     --show-leak-kinds=all \
-    --track-fds=yes \
     --track-origins=yes \
     --error-limit=no \
     --trace-children=yes \
     --child-silent-after-fork=no \
     --num-callers=50 \
-    --expensive-definedness-checks=yes \
     --malloc-fill=0x42 \
     --free-fill=0x43 \
-    ./minishell
+	./minishell
 
 ASAN_CMD = ASAN_OPTIONS=detect_leaks=1 ./minishell
 

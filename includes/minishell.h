@@ -12,6 +12,7 @@ typedef struct s_lx
 {
     char   type;
     char            *content;
+    char            *original_content;
     struct s_lx     *next;
     struct s_lx     *prev;
 }   t_lx;
@@ -37,6 +38,7 @@ typedef struct s_cmd
     char            **cmd;
     int             ifd;
     int             ofd;
+    int             unsed_fd;
     struct s_cmd    *next;
 }       t_cmd;
 
@@ -63,7 +65,10 @@ typedef struct s_all
     size_t          inline_len;
     t_var           *var_list;
     char            *previous_line;
+    pid_t           *pids;
     bool            error_flag;
+    bool            sig_init;
+    bool            sig_quit;
 }       t_all;
 
 typedef struct s_ndx
@@ -141,6 +146,9 @@ void        load_cmd(t_cmd *cmd_list);
 int     is_builtin(char *cmd);
 int     exec_builtin(t_cmd * cmd);
 void    execution(void);
+char    *getcmdpath(char *cmd);
+void    close_allhd(t_lx *lexer);
+
 
 
 /**
@@ -151,8 +159,8 @@ void    execution(void);
  * @param parent_arg Argument for parent function
  * @return Process ID in parent, -1 on error, child never returns
  */
-pid_t   forker(void (*child_fn)(void *), void *child_arg,
-                    void (*parent_fn)(void *), void *parent_arg);
+pid_t   forker(void (*child_fn)(void *), void *child_arg, 
+                    void (*parent_fn)(void *, pid_t), void *parent_arg);
 
 
 
@@ -175,14 +183,6 @@ int     ifd(char *filename);
 int     ofd(char *filename, char mode);
 
 /**
- * @brief Forks a process to handle here-document input
- * @details Creates a child process to read input until the delimiter is encountered
- * @param tmpfile Name of the temporary file to store the here-document input
- * @param delimit Delimiter string to end the here-document input
- */
-void    hd_fork(char *tmpfile, char *delimit);
-
-/**
  * @brief Handles here-document input
  * @details Reads input from the user until the delimiter is encountered and stores it in a temporary file
  * @param delimit Delimiter string to end the here-document input
@@ -200,7 +200,10 @@ int     hd(char *delimit);
 bool    duping(int ifd, int ofd);
 
 bool    prepare_ifof(t_cmd *cmd_list);
-
+bool    backup_fd(int *fd);
+bool    prepare_heredoc(t_cmd *cmd_list);
+void    exec_cmdchild(void *data);
+void    exec_cmdparent(void *data, pid_t pid);
 
 /*          >bultin functions<           */
 
@@ -213,7 +216,7 @@ int     ft_unset(t_cmd *cmd);
 
 /*          builtin utils               */
 int     ft_setenv(char *name, char *val, int overwrite);
-char    *ft_getenv(char *cmd);
+char    *ft_getenv(char *var);
 
 
 /*          builtin export utils        */
@@ -239,7 +242,7 @@ bool        ft_isspace(int c, char *str);
 bool        istoken(int c, bool type);
 char        *strtkr_gen(char type);
 void        reader_loop(void);
-bool        needexpand(char *str);
+bool        needexpand(char *str, t_lx *lexer);
 int         get_dollar(char *str, bool *flag);
 t_var       *handle_list(void);
 char        *get_end_addr(char *str);
@@ -247,11 +250,10 @@ bool        possible_expand(char c);
 void        strocpy(char *dest, const char * src, int len);
 bool        is_str_havespace(char *string);
 void        addtolist(void *node, char *list_type, void *head);
-char        *strchrdup(char *str, char *delimit, bool type);
+char        *strchrdup(const char *str, char *delimit, bool type);
 void        *getlastnode(void *list, char *list_type);
 t_lx        *splitcontent(char *str);
 void        ft_update_path(void);
-void        free_array(char **array);
 
 
 

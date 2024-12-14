@@ -15,7 +15,7 @@ bool    check_quotes(char *line)
             while (line[i] && line[i] != quote)
                 i++;
             if (line[i] != quote)
-                    return (pexit(DQ_ERR, 1), false);
+                    return (pexit(DQ_ERR, 1, 0), false);
         }
     }
     return (true);

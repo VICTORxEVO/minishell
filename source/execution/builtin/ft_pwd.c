@@ -26,7 +26,7 @@ int     ft_pwd()
     char cwd[PATH_MAX];
 
     if (getcwd(cwd, sizeof(cwd)) == NULL) {
-        pexit("pwd", 1); 
+        pexit("pwd", 1, 0); 
         return (1);
     }
     printf("%s\n",cwd);

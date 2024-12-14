@@ -37,7 +37,7 @@ static char	*ft_csubstr(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 
-char    *strchrdup(char *str, char *delimit, bool type)
+char    *strchrdup(const char *str, char *delimit, bool type)
 {
     int i;
 
@@ -52,20 +52,4 @@ char    *strchrdup(char *str, char *delimit, bool type)
     if (type == CALLOC)
         return(ft_csubstr(str, 0, i));
     return (ft_substr(str, 0, i));
-}
-
-void free_array(char **array)
-{
-    size_t i;
-
-    i = 0;
-    if (!array)
-        return;
-    while (array[i])
-    {
-        free(&array[i]);
-        i++;
-    }
-    free(array);
-    array = NULL;
 }

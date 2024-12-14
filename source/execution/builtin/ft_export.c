@@ -31,7 +31,8 @@ static int ft_export_check(char *arg, bool *has_plus)
     return (1);
 }
 
-static int parse_key_value(const char *arg, char **key, char **value) {
+static void parse_key_value(const char *arg, char **key, char **value) 
+{
     char *equal_sign_pos;
     
     equal_sign_pos = ft_strchr(arg, '=');
@@ -39,26 +40,20 @@ static int parse_key_value(const char *arg, char **key, char **value) {
     {
         *key = ft_strdup(arg);
         *value = NULL;
-        return (*key) ? 1 : 0;
+        return ;
     }
     if (*(equal_sign_pos - 1) == '+')
-        *key = ft_strndup(arg, equal_sign_pos - arg - 1);
+        *key = strchrdup(arg, equal_sign_pos - 1, CALLOC);
     else
-        *key = ft_strndup(arg , equal_sign_pos - arg);
-    if (*(equal_sign_pos + 1) == '\0')
-        *value = ft_strdup("");
-    else if (equal_sign_pos)
-        *value = ft_strdup(equal_sign_pos + 1);
-    return (*key && *value) ? 1 : 0;
+        *key = strchrdup(arg, equal_sign_pos , CALLOC);
+    *value = strchrdup(equal_sign_pos + 1, NULL , CALLOC);
 }
 
 static int ft_add_export(char *arg, bool has_plus)
 {
-    t_env *env;
     char *key;
     char *value;
 
-    env = getcore()->env_list;
     parse_key_value(arg, &key, &value);
     if (value && has_plus)
         ft_setenv(key, value, 2); 
@@ -69,7 +64,7 @@ static int ft_add_export(char *arg, bool has_plus)
 
 static void ft_print_export_error(char *var)
 {
-    pexit(ft_strjoin(ft_strjoin(ft_strjoin(": export: '", var), "'"), " not a valid identifier"), 1);
+    pexit(ft_strjoin(ft_strjoin(ft_strjoin(": export: '", var), "'"), " not a valid identifier"), 1, 0);
 } 
 
 int    ft_export(t_cmd *cmd)
