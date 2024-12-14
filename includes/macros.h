@@ -104,7 +104,7 @@ typedef enum e_error_code
     READLINE_CODE,       /**< Error code for readline() function failure */
     AMBIG_CODE = 20,     /**< Error code for ambiguous redirection */
     PERM_DENIED_CODE = 126,   /**< Permission denied (not executable) */
-    CMD_NOT_FOUND_CODE = 127, /**< Command not found in PATH */
+    CMD_NOTFOUND_CODE = 127, /**< Command not found in PATH */
     SIGTERM_CODE = 143,  /**< Termination signal error code */
     SIGXCPU_CODE = 24    /**< CPU time limit exceeded signal error code */
 } t_error_code;
