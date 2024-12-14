@@ -49,11 +49,13 @@ void    exec_cmdchild(void *data)
     if (cmd->cmd && !is_builtin(cmd->cmd[0]))
     {
         cmdpath = getcmdpath(cmd->cmd[0]);
+        if (!cmdpath)
+            (close(STDIN_FILENO), close(STDOUT_FILENO), clear(FREE_ALL), exit(getcore()->exit_code));
         execve(cmdpath, cmd->cmd, getcore()->env);
         (close(cmd->ifd), close(cmd->ofd));
         pexit("execve", 1, EXIT);
     }
     exitcode = exec_builtin(cmd);
-    (close(cmd->ifd), close(cmd->ofd));
+    (close(STDIN_FILENO), close(STDOUT_FILENO));
     (clear(FREE_ALL), exit(exitcode));
 }
