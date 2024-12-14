@@ -1,13 +1,11 @@
-
-
-
-
-
 #include "minishell.h"
 
 
-void    ft_exit(t_cmd *cmd)
+void    ft_exit(char **cmd)
 {
     (void)cmd;
-    printf("is exit\n");
+    //to be done
+
+
+    printf("exit\n");
 }

@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+static char getunique(void)
+{
+    static char num;
+
+    if (num == 90)
+        num = 0;
+    num += 65;
+    return (num);
+}
+
 static bool hd_handleline(char *line, char *delimit, int fd, unsigned int count)
 {
     if (!line)
@@ -39,6 +49,7 @@ int hd(char *delimit)
     char    *tmpfile;
 
     tmpfile = ft_strjoin("/tmp/hdtmp.", ft_itoa(getpid()));
+    tmpfile[ft_strlen(tmpfile) - 1] = getunique();
     if (hd_reader_loop(tmpfile, delimit) == 1)
         return(-1);
     fd = open(tmpfile, O_RDONLY);

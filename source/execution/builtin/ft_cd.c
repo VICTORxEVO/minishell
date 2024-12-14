@@ -1,6 +1,3 @@
-
-
-
 #include "minishell.h"
 
 static void update_env_cwd(char *oldpwd)
@@ -12,8 +9,8 @@ static void update_env_cwd(char *oldpwd)
         pexit("cd: getcwd", 1, 0); 
         return ;
     }
-    ft_setenv("OLDPWD", oldpwd, 1);
-    ft_setenv("PWD", cwd, 1);
+    ft_setenv("OLDPWD", strchrdup(oldpwd, NULL, CALLOC), 1);
+    ft_setenv("PWD", strchrdup(cwd, NULL, CALLOC), 1);
 }
 
 static int cha_dir(char *dir)

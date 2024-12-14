@@ -29,38 +29,62 @@ bool backup_fd(int *fd)
     return(true);
 }
 
-static bool checkpath(char *path)
+static char checkpathcase1(char *cmd, char *not_found, char *perm_denied, char **returnpath)
 {
-    if (access(path, F_OK) == 0)
+    char **path;
+    int i;
+
+    path = getcore()->path;
+    i = -1;
+    while (path[++i])
     {
-        if (access(path, X_OK) < 0)
-            pexit(ft_strjoin(ft_strjoin(": ", path), PERM_DENIED), PERM_DENIED_CODE, 0);
+        *returnpath = ft_strjoin(path[i], cmd);
+        if (access(*returnpath, F_OK) == 0)
+        {
+            if (access(*returnpath, F_OK) == 0)
+                return(0);
+            return(pexit(perm_denied, PERM_DENIED_CODE, 0), 1);
+        }
+    }
+    return(pexit(not_found, CMD_NOTFOUND_CODE, 0), 2);
+}
+
+static char checkpathcase0(char *path, char *not_found, char *perm_denied)
+{
+
+    if (path[0] == '/' || path[0] == '.' || !getcore()->path)
+    {
+        if (access(path, F_OK) < 0)
+            return (pexit(not_found, CMD_NOTFOUND_CODE, 0), 1);
+        if (access(path, F_OK) < 0)
+            return (pexit(perm_denied, PERM_DENIED_CODE, 0), 2);
         return (0);
     }
-    return (1);
+    return (-1);
 }
 
 char    *getcmdpath(char *cmd)
 {
+    char res;
+    char *not_found;
+    char *perm_denied;
     char *fullpath;
-    int i;
 
-    if (cmd[0] == '/' || cmd[0] == '.' || !getcore()->path)
+    not_found = ft_strjoin(ft_strjoin(": ", cmd), CMD_NOTFOUND);
+    perm_denied = ft_strjoin(ft_strjoin(": ", cmd), PERM_DENIED);
+    res = checkpathcase0(cmd, not_found, perm_denied);
+    if (res == 0)
+        return(cmd);
+    if (res > 0)
+        return (NULL);
+    if (res == -1)
     {
-        if (checkpath(cmd) == 0)
-            return (cmd);
+        res = checkpathcase1(cmd, not_found, perm_denied, &fullpath);
+        if (res == 0)
+            return(fullpath);
+        if (res > 0)
+            return (NULL);
     }
-    else
-    {
-        i = -1;
-        while (getcore()->path && getcore()->path[++i])
-        {
-            fullpath = ft_strjoin(getcore()->path[i], cmd);
-            if (checkpath(fullpath) == 0)
-                return (fullpath);
-        }
-    }
-    pexit(ft_strjoin(ft_strjoin(": ", cmd), CMD_NOTFOUND), CMD_NOT_FOUND_CODE, EXIT);
     return (NULL);
 }
 

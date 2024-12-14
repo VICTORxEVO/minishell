@@ -31,10 +31,10 @@ void  exec_ncmd(t_cmd *cmd)
     {
         if (forker(exec_cmdchild, cmd, exec_cmdparent, &i) < 0)
             return (pexit("fork", FORK_CODE, 0), (void)0);
-        close(pip[WRITE_END]);
         cmd = cmd->next;
         if (!cmd)
             return (close(pip[READ_END]), (void)0);
+        close(pip[WRITE_END]);
         cmd->ifd = pip[READ_END];
         if (i++ + 2 < getcore()->cmd_count)
         {
@@ -90,7 +90,7 @@ void load_cmd(t_cmd *cmd_list)
 // exitcode formula (exit_code % 256 + 256) % 256 == exit_code & 0xFF
 void    execution(void)
 {
-    // print_cmd();
+    print_cmd();
     if (getcore()->cmd_count == 1)
         exec_1cmd(getcore()->cmd);
     else
