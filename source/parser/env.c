@@ -5,6 +5,7 @@ void    update_env(t_env *env_list)
 {
     t_ndx i;
     t_env *tmp;
+    char *tmpstr;
 
     ft_bzero(&i, sizeof(t_ndx));
     tmp = env_list;
@@ -17,7 +18,9 @@ void    update_env(t_env *env_list)
     getcore()->env = ft_calloc(i.l + 1, sizeof(char *));
     while (env_list)
     {
-        getcore()->env[i.i++] = ft_strjoin_m(ft_strjoin_m(env_list->key, "="), env_list->value);
+        tmpstr = ft_strjoin_m(env_list->key, "=");
+        getcore()->env[i.i++] = ft_strjoin_m(tmpstr, env_list->value);
+        free(tmpstr);
         env_list = env_list->next;
     }
 }
