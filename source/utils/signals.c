@@ -2,25 +2,9 @@
 
 #include "minishell.h"
 
-
-void	sigint_handler_in_process(int sig)
+void sigquit_handler_ignore(int sig)
 {
-	(void) sig;
-	printf("\n");
-}
-
-void	sigquit_handler_in_process(int sig)
-{
-	(void) sig;
-	printf("Quit: %d\n", sig);
-}
-
-void	sigint_handler_nonl(int sig)
-{
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	(void) sig;
+	(void)sig;
 }
 
 void	sigint_handler(int sig)
@@ -32,8 +16,19 @@ void	sigint_handler(int sig)
 	(void) sig;
 }
 
-void	signals(void)
+void sighandler()
 {
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
+	struct sigaction act_int;
+	struct sigaction act_quit;
+
+	act_int.sa_sigaction = sigint_handler;
+	act_quit.sa_sigaction = sigquit_handler_ignore;
+	sigemptyset(&act_int.sa_mask);
+	sigemptyset(&act_quit.sa_mask);
+	act_int.sa_flags = SA_SIGINFO;
+	act_quit.sa_flags = SA_SIGINFO;
+	if (sigaction(SIGINT, &act_int, NULL) == -1)
+		pexit("sigaction()", EXIT_FAILURE, 1);
+	if (sigaction(SIGQUIT, &act_quit, NULL) == -1)
+		pexit("sigaction()", EXIT_FAILURE, 1);
 }
