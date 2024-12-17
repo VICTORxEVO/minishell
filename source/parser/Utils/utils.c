@@ -1,5 +1,29 @@
 #include "minishell.h"
 
+bool    emptyword(t_lx *lexer)
+{
+    int res;
+
+    res = 0;
+    if (lexer->prev && istoken(lexer->prev->type, NON_PIPE))
+    {
+        if (!lexer->content[0] || (lexer->content[0] && checkspace_str(lexer->content)))
+        {
+            clear_1data(lexer->content);
+            lexer->content = lexer->original_content;
+            lexer->prev->type = AMBIG_RDRT;
+            res = 1;
+        }
+    }
+    else if (!lexer->content[0])
+    {
+        lexer->type = EMPTY_VAR;
+        res = 1;
+    }
+    return(res);
+        
+}
+
 bool checkspace_str(char *str)
 {
 	int i;
