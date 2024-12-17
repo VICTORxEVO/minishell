@@ -6,7 +6,7 @@ void    reader_loop(void)
 
     while (true)
     {
-        line = readline("Eurika ✨➜ ");
+        line = readline("\nEurika ✨➜ ");
         if (getcore()->sig_init || getcore()->sig_init)
             continue;
         if (!line)
@@ -33,7 +33,7 @@ bool    parsing(void)
         return (false);
     if (needexpand(core->in_line, NULL))
         expanding(core->lexer);
-    final_touch(core->lexer); // remove all kind of quotes in begging or in middle 
+    final_touch(core->lexer);
     load_cmd_list(core);
     if (!prepare_heredoc(core->cmd))
         return (false);
