@@ -7,7 +7,6 @@
 
 # include "gc.h"
 
-
 typedef struct s_lx
 {
     char   type;
@@ -148,7 +147,7 @@ int     exec_builtin(t_cmd * cmd);
 void    execution(void);
 char    *getcmdpath(char *cmd);
 void    close_allhd(t_lx *lexer);
-
+bool    emptyword(t_lx *lexer);
 
 
 /**
@@ -213,6 +212,7 @@ int     ft_pwd();
 int     ft_env();
 int     ft_export(t_cmd *cmd);
 int     ft_unset(t_cmd *cmd);
+int     ft_exit(char **cmd);
 
 /*          builtin utils               */
 int     ft_setenv(char *name, char *val, int overwrite);
