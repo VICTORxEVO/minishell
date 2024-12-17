@@ -23,6 +23,6 @@ int     ifd(char *filename)
 
     fd = open(filename, O_RDONLY, 0666);
     if (fd < 0)
-        pexit(filename, OPEN_CODE, 0 );
+        pexit(filename, GNRL_CODE, 0);
     return (fd);
 }
