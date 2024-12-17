@@ -106,7 +106,8 @@ typedef enum e_error_code
     PERM_DENIED_CODE = 126,   /**< Permission denied (not executable) */
     CMD_NOTFOUND_CODE = 127, /**< Command not found in PATH */
     SIGTERM_CODE = 143,  /**< Termination signal error code */
-    SIGXCPU_CODE = 24    /**< CPU time limit exceeded signal error code */
+    SIGXCPU_CODE = 24,    /**< CPU time limit exceeded signal error code */
+    GNRL_CODE = 1
 } t_error_code;
 
 
@@ -177,6 +178,9 @@ typedef enum e_token_check_mode {
 
 //macro for ambigous redirection
 # define AMBIG_ERR ": ambiguous redirect !"
+
+// exit built in right usage
+# define EXIT_USAGE ": exit: usage: exit [N]\nN must be >= 0 and <= 255"
 
 // Regular text colors
 #define BLACK "\033[0;30m"
