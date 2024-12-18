@@ -5,17 +5,15 @@ static void re_zero(void)
     t_all *core;
     void *data;
     void **data2d[2];
-    int value[2];
+    int value[1];
 
     core = getcore();
     value[0] = core->exit_code;
-    value[1] = core->main_pid;
     data = (void *)core->env_list;
     data2d[0] = (void **)core->path;
     data2d[1] = (void **)core->env;
     ft_bzero(getcore(), sizeof(t_all));
     core->exit_code = value[0];
-    core->main_pid = value[1];
     core->env_list = (t_env *)data;
     core->path = (char **)data2d[0];
     core->env = (char **)data2d[1];
