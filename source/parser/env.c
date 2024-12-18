@@ -58,5 +58,4 @@ void   fill_env_list(char *env[])
     }
     ft_update_path();
     update_env(getcore()->env_list);
-    getcore()->main_pid = getpid();
 }

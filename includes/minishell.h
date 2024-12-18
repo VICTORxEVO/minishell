@@ -65,7 +65,6 @@ typedef struct s_all
     char            *previous_line;
     pid_t           *pids;
     bool            error_flag;
-    pid_t           main_pid;
 }       t_all;
 
 typedef struct s_ndx
