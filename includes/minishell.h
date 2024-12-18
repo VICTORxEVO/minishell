@@ -65,8 +65,6 @@ typedef struct s_all
     char            *previous_line;
     pid_t           *pids;
     bool            error_flag;
-    bool            sig_init;
-    bool            sig_quit;
     pid_t           main_pid;
 }       t_all;
 
