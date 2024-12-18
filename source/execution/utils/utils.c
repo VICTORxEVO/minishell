@@ -56,7 +56,7 @@ static char checkpathcase0(char *path, char *not_found, char *perm_denied)
     {
         if (access(path, F_OK) < 0)
             return (pexit(not_found, CMD_NOTFOUND_CODE, 0), 1);
-        if (access(path, F_OK) < 0)
+        if (access(path, X_OK) < 0)
             return (pexit(perm_denied, PERM_DENIED_CODE, 0), 2);
         return (0);
     }
