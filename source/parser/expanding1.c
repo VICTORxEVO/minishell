@@ -74,7 +74,7 @@ t_lx    *addnewlist(t_lx *new_list, t_lx *lexer, t_lx *prev_lx, t_lx *next_lx)
     return (new_list);
 }
 
-int    get_var_special(int *index, char type)
+int    get_var_special(int *index)
 {
     t_var *list;
 
@@ -82,9 +82,6 @@ int    get_var_special(int *index, char type)
     (*index) += 1;
     list->end_ndx = (*index);
     list->start_ndx = (*index) - 2;
-    if (type == '$')
-        list->content = ft_itoa(getpid());
-    else
-        list->content = ft_itoa(getcore()->exit_code);
+    list->content = ft_itoa(getcore()->exit_code);
     return (ft_strlen(list->content));
 }

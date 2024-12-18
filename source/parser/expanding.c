@@ -30,8 +30,8 @@ static char *create_str(char *str)
     while ((size_t)index.d < ft_strlen(str))
     {
         index.i = index.d + 1;
-        if (str[index.i] == '$' || str[index.i] == '?')
-            index.l += get_var_special(&index.i, str[index.i]);
+        if (str[index.i] == '?')
+            index.l += get_var_special(&index.i);
         else //if its a normal string
             index.l += get_var(&str[index.i], &index.i);
         index.d += get_dollar(&str[index.d + 2], &flag) + 2;

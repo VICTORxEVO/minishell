@@ -110,10 +110,9 @@ char        *expand_dollar(char *line);
  * @brief Handles special variable expansion for $$ and $?
  * @details Expands $$ to PID and $? to last exit code
  * @param index Current position in string
- * @param type Type of special variable ('$' or '?')
  * @return Length of expanded value
  */
-int         get_var_special(int *index, char type);
+int         get_var_special(int *index);
 
 /**
  * @brief Performs lexical analysis on input string
