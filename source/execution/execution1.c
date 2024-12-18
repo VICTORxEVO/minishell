@@ -26,7 +26,7 @@ void    exec_cmdparent(void *data, pid_t pid)
             wait_childs(getcore()->pids);
         return ;
     }
-        wait(&status);
+        waitpid(pid, &status, 0);
         if (WIFSIGNALED(status))
         {
             signal = WTERMSIG(status) + 128;
