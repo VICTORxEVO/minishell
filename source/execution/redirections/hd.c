@@ -4,9 +4,11 @@ static char getunique(void)
 {
     static char num;
 
-    if (num == 90)
+    if (num == 123)
         num = 0;
-    num += 65;
+    if (num == 0)
+        num += 96;
+    num++;
     return (num);
 }
 
@@ -47,9 +49,12 @@ int hd(char *delimit)
 {
     int     fd;
     char    *tmpfile;
+    char    *term_name;
 
-    tmpfile = ft_strjoin("/tmp/hdtmp.", ft_itoa(getpid()));
-    tmpfile[ft_strlen(tmpfile) - 1] = getunique();
+    term_name = ttyname(STDERR_FILENO);
+    term_name = &term_name[ft_strlen(term_name) - 1];
+    tmpfile = ft_strjoin("/tmp/hdtmp. ", term_name);
+    tmpfile[ft_strlen(tmpfile) - 2] = getunique();
     if (hd_reader_loop(tmpfile, delimit) == 1)
         return(-1);
     fd = open(tmpfile, O_RDONLY);
