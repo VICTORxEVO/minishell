@@ -33,12 +33,12 @@ int    ft_echo(t_cmd *cmd)
         i++;
     while (cmd->cmd[i])
     {
-        printf("%s", cmd->cmd[i]);
+        ft_putstr_fd(cmd->cmd[i], 1);
         if (cmd->cmd[i + 1])
-            printf(" ");
+            ft_putstr_fd(" ", 1);
         i++;
     }
     if (!flag_found)
-        printf("\n"); 
+        ft_putstr_fd("\n", 1);
     return (0);
 }

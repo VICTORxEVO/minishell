@@ -7,7 +7,6 @@
 
 # include "gc.h"
 
-
 typedef struct s_lx
 {
     char   type;
@@ -62,13 +61,10 @@ typedef struct s_all
     unsigned int    pipe_count;
     unsigned char   exit_code;
     char            *in_line;
-    size_t          inline_len;
     t_var           *var_list;
     char            *previous_line;
     pid_t           *pids;
     bool            error_flag;
-    bool            sig_init;
-    bool            sig_quit;
 }       t_all;
 
 typedef struct s_ndx
@@ -113,10 +109,9 @@ char        *expand_dollar(char *line);
  * @brief Handles special variable expansion for $$ and $?
  * @details Expands $$ to PID and $? to last exit code
  * @param index Current position in string
- * @param type Type of special variable ('$' or '?')
  * @return Length of expanded value
  */
-int         get_var_special(int *index, char type);
+int         get_var_special(int *index);
 
 /**
  * @brief Performs lexical analysis on input string
@@ -148,7 +143,7 @@ int     exec_builtin(t_cmd * cmd);
 void    execution(void);
 char    *getcmdpath(char *cmd);
 void    close_allhd(t_lx *lexer);
-
+bool    emptyword(t_lx *lexer);
 
 
 /**
@@ -213,6 +208,7 @@ int     ft_pwd();
 int     ft_env();
 int     ft_export(t_cmd *cmd);
 int     ft_unset(t_cmd *cmd);
+int     ft_exit(char **cmd);
 
 /*          builtin utils               */
 int     ft_setenv(char *name, char *val, int overwrite);

@@ -19,6 +19,8 @@ int is_builtin(char *cmd)
 		return (1);
 	if (ft_strcmp(cmd, "unset") == 0)
 		return (1);
+	if (ft_strncmp(cmd, "exit", -1) == 0)
+		return (1);
     return (0);
 }
 
@@ -38,6 +40,8 @@ int exec_builtin(t_cmd * cmd)
 		return (ft_export(cmd));
 	if (ft_strcmp(cmd->cmd[0], "unset") == 0)
 		return (ft_unset(cmd));
+	if (ft_strncmp(cmd->cmd[0], "exit", -1) == 0)
+		return (ft_exit(cmd->cmd));
     return (0);
 }
 

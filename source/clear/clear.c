@@ -4,21 +4,19 @@ static void re_zero(void)
 {
     t_all *core;
     void *data;
-    void **data1;
-    void **data2;
-    unsigned char value;
+    void **data2d[2];
+    int value[1];
 
     core = getcore();
-    //keep env_list and exit code because its needed while program run time
-    value = core->exit_code;
+    value[0] = core->exit_code;
     data = (void *)core->env_list;
-    data1 = (void **)core->path;
-    data2 = (void **)core->env;
-    ft_bzero(getcore(), sizeof(t_all)); // init all struct with 0;
-    core->exit_code = value;
+    data2d[0] = (void **)core->path;
+    data2d[1] = (void **)core->env;
+    ft_bzero(getcore(), sizeof(t_all));
+    core->exit_code = value[0];
     core->env_list = (t_env *)data;
-    core->path = (char **)data1;
-    core->env = (char **)data2;
+    core->path = (char **)data2d[0];
+    core->env = (char **)data2d[1];
 }
 
 void safe_free(void **data)

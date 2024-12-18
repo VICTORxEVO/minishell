@@ -87,10 +87,9 @@ void load_cmd(t_cmd *cmd_list)
     }
 }
 
-// exitcode formula (exit_code % 256 + 256) % 256 == exit_code & 0xFF
 void    execution(void)
 {
-    print_cmd();
+    // print_cmd();
     if (getcore()->cmd_count == 1)
         exec_1cmd(getcore()->cmd);
     else
