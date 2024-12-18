@@ -23,5 +23,7 @@ int    ft_exit(char **cmd)
         if (exitcode > 255)
             return(pexit(EXIT_USAGE, 2, 0), 2);
     }
-    (printf("exit\n"), clear(FREE_ALL), exit(exitcode));
+    if (getcore()->main_pid == getpid())
+        printf("exit\n");
+    (clear(FREE_ALL), exit(exitcode));
 }
