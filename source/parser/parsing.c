@@ -6,9 +6,7 @@ void    reader_loop(void)
 
     while (true)
     {
-        line = readline("\nEurika ✨➜ ");
-        if (getcore()->sig_init || getcore()->sig_init)
-            continue;
+        line = readline("Eurika ✨➜ ");
         if (!line)
             (clear(FREE_ALL), exit(getcore()->exit_code));
         if (line[0] == 0 || ft_isspace(0, line))
@@ -28,7 +26,6 @@ bool    parsing(void)
     t_all *core;
 
     core = getcore();
-    core->inline_len = ft_strlen(core->in_line);
     if (!check_quotes(core->in_line) || !lexing(core->in_line))
         return (false);
     if (needexpand(core->in_line, NULL))
