@@ -61,13 +61,13 @@ typedef struct s_all
     unsigned int    pipe_count;
     unsigned char   exit_code;
     char            *in_line;
-    size_t          inline_len;
     t_var           *var_list;
     char            *previous_line;
     pid_t           *pids;
     bool            error_flag;
     bool            sig_init;
     bool            sig_quit;
+    pid_t           main_pid;
 }       t_all;
 
 typedef struct s_ndx
