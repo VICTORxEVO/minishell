@@ -38,7 +38,7 @@ static void parse_key_value(const char *arg, char **key, char **value)
     equal_sign_pos = ft_strchr(arg, '=');
     if (!equal_sign_pos)
     {
-        *key = ft_strdup(arg);
+        *key = strchrdup(arg, NULL, CALLOC);
         *value = NULL;
         return ;
     }
