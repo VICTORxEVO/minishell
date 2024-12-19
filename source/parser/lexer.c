@@ -4,7 +4,7 @@ static  bool checklastnode(t_lx *lastnode)
 {
     if (istoken(lastnode->type, ALL_TKN))
     {
-        pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, lastnode->content), "'"), 1, 0);
+        pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, lastnode->content), "'"), 2, 0);
         return (false);
     }
     return(true);
@@ -50,9 +50,9 @@ static long long lexer_add_token(char type)
     lexer->content = strtkr_gen(type);
     prev_nd = (t_lx *)getlastnode(getcore()->lexer, "t_lx");
     if (!prev_nd && lexer->type == PIPE)
-        pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, "|"), "'"), 1, 0);
+        pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, "|"), "'"), 2, 0);
     else if (prev_nd && istoken(prev_nd->type, NON_PIPE))
-        pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, prev_nd->content), "'"), 1, 0);
+        pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, prev_nd->content), "'"), 2, 0);
     addtolist(lexer, "t_lx", NULL);
     if (type == PIPE)
         getcore()->pipe_count++;
