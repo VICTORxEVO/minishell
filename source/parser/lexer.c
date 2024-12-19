@@ -49,7 +49,7 @@ static long long lexer_add_token(char type)
     lexer->type = type;
     lexer->content = strtkr_gen(type);
     prev_nd = (t_lx *)getlastnode(getcore()->lexer, "t_lx");
-    if (!prev_nd && lexer->type == PIPE)
+    if (lexer->type == PIPE && (!prev_nd || (prev_nd && prev_nd->type == PIPE)))
         pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, "|"), "'"), 1, 0);
     else if (prev_nd && istoken(prev_nd->type, NON_PIPE))
         pexit(ft_strjoin(ft_strjoin(TOKEN_ERR, prev_nd->content), "'"), 1, 0);
@@ -57,8 +57,8 @@ static long long lexer_add_token(char type)
     if (type == PIPE)
         getcore()->pipe_count++;
     if (type == HERE_DOC || type == OUT_RDRT_APP)
-        return (2); //skip the token by 2 in case of '<<' or '>>'
-    return (1); //skip the token by 1 in case or '<' or '>'
+        return (2);
+    return (1);
 }
 
 bool    lexing(char *line)
