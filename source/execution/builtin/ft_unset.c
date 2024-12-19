@@ -56,6 +56,7 @@ static void update_env_value(t_env *env, char *val, int overwrite)
         env->value = val;
     }
 }
+
 /**
  * @brief Sets or updates an environment variable
  * @details Same as the original setenv(3), except for overwrite == APPEND for appending env variable with `+=`
@@ -79,16 +80,15 @@ void     ft_setenv(char *key, char *val, int overwrite)
         {
             update_env_value(env, val, overwrite);
             found = true;
-            break;
+            return ;
         }
         env = env->next;
     }
     if (!found)
     {
         if (ft_add_node(getlastnode(getcore()->env_list, "t_env"), key, val) == 0)
-            return (1);
+            return ;
     }
-    return (0);
 }
 
 
