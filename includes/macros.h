@@ -144,6 +144,11 @@ typedef enum e_token_check_mode {
     ALL_TKN = 1    /**< Check all tokens including pipe token */
 } t_token_check_mode;
 
+typedef enum e_overwrite_mode {
+    NO_OVERWRITE = 0,  /**< Do not overwrite the existing value */
+    OVERWRITE = 1,     /**< Overwrite the existing value with the new value */
+    APPEND = 2         /**< Append the new value to the existing value using `+=` */
+} t_overwrite_mode;
 
 //for all whitespace charachters
 # define IS_SPACE " \t\v\n\r\f"
