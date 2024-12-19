@@ -22,6 +22,7 @@
 # include <signal.h>
 # include <unistd.h>
 # include <sys/types.h>
+#include <sys/stat.h>
 
 
 typedef unsigned char	t_uc; //just a macro that i used in libft to avoid long line on norminette ;)
