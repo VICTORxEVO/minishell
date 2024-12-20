@@ -22,7 +22,7 @@ int    ft_env(t_cmd *cmd)
 {
     t_env * env;
 
-    (void*)cmd;
+    (void)cmd;
     env = getcore()->env_list;
     if (env == NULL)
         return (1);
