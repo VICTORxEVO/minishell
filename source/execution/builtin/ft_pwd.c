@@ -21,10 +21,11 @@
  * 
 */
 
-int     ft_pwd()
+int     ft_pwd(t_cmd *cmd)
 {
     char cwd[PATH_MAX];
 
+    (void*)cmd;
     if (getcwd(cwd, sizeof(cwd)) == NULL) {
         pexit("pwd", 1, 0); 
         return (1);

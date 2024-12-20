@@ -26,7 +26,7 @@ void    update_env(t_env *env_list)
 }
 
 
-void    ft_update_path(void)
+void    updatePath(void)
 {
     t_env *env;
 
@@ -41,6 +41,8 @@ void    ft_update_path(void)
         }
         env = env->next;
     }
+    if (!env || ft_strncmp("PATH", env->key, -1) == 1)
+        getcore()->path = NULL;
 }
 
 void   fill_env_list(char *env[])
@@ -56,6 +58,6 @@ void   fill_env_list(char *env[])
         env_node->value = strchrdup(ft_strchr(env[i], '=') + 1, NULL, CALLOC);
         addtolist(env_node, "t_env", NULL);
     }
-    ft_update_path();
+    updatePath();
     update_env(getcore()->env_list);
 }
