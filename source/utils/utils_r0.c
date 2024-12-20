@@ -34,7 +34,7 @@ bool    needexpand(char *str, t_lx *lexer)
     }
     while (str && str[++i])
     {
-        if (str[i] == '$' && str[i + 1] && !ft_isspace(str[i + 1], NULL))
+        if (str[i] == '$' && (str[i + 1] && (ft_isalpha((int)str[i + 1]) || str[i + 1] == '?')))
             return (true);
     }
     return (false);
