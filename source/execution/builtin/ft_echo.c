@@ -5,8 +5,10 @@
 static size_t is_flag(char *prompt, int * flag_found)
 {
     size_t i;
+    int old_flag;
 
     i = 0;
+    old_flag = *flag_found;
     if (ft_strncmp(prompt, "-n",2) == 0)
     {
         *flag_found = 1;
@@ -15,7 +17,8 @@ static size_t is_flag(char *prompt, int * flag_found)
             i++;
         if (prompt[i] != 0)
         {
-            *flag_found = 0;
+            if (!old_flag)
+                *flag_found = 0;
             return (0);
         }
     }

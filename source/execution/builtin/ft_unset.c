@@ -43,31 +43,31 @@ static void update_env_value(t_env *env, char *val, int overwrite)
 {
     char *tmp;
 
-    if ((overwrite == 2) && val)
+    if ((overwrite == APPEND) && val)
     {
         tmp = env->value;
         env->value = ft_strjoin_m(env->value, val);
         free(tmp);
         free(val);
     }
-    else if (overwrite == 1 && val)
+    else if (overwrite == OVERWRITE && val)
     {
         free(env->value);
         env->value = val;
     }
 }
 
-/**  @brief same as the orignal setenv(3), 
-*    except tar9i3a of overwrite == 2 
-*    for appending env variable with += 
-*      
-*   @param overwrite Determines the behavior when the variable already exists:
-*                  - 0: Do not overwrite the existing value.
-*                  - 1: Overwrite the existing value with the new value.
-*                  - 2: Append the new value to the existing value using `+=`. 
-*   @return 1 on success, 0 on failure.
-*/
-int     ft_setenv(char *key, char *val, int overwrite)
+/**
+ * @brief Sets or updates an environment variable
+ * @details Same as the original setenv(3), except for overwrite == APPEND for appending env variable with `+=`
+ * @param key Name of the environment variable
+ * @param val Value of the environment variable
+ * @param overwrite Determines the behavior when the variable already exists:
+ *                  - NO_OVERWRITE: Do not overwrite the existing value.
+ *                  - OVERWRITE: Overwrite the existing value with the new value.
+ *                  - APPEND: Append the new value to the existing value using `+=`.
+ */
+void     ft_setenv(char *key, char *val, int overwrite)
 {
     t_env *env;
     bool found;
@@ -80,16 +80,15 @@ int     ft_setenv(char *key, char *val, int overwrite)
         {
             update_env_value(env, val, overwrite);
             found = true;
-            break;
+            return ;
         }
         env = env->next;
     }
     if (!found)
     {
         if (ft_add_node(getlastnode(getcore()->env_list, "t_env"), key, val) == 0)
-            return (1);
+            return ;
     }
-    return (0);
 }
 
 

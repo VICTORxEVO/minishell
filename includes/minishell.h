@@ -211,7 +211,7 @@ int     ft_unset(t_cmd *cmd);
 int     ft_exit(char **cmd);
 
 /*          builtin utils               */
-int     ft_setenv(char *name, char *val, int overwrite);
+void     ft_setenv(char *name, char *val, int overwrite);
 char    *ft_getenv(char *var);
 
 

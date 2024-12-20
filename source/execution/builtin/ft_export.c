@@ -38,7 +38,7 @@ static void parse_key_value(const char *arg, char **key, char **value)
     equal_sign_pos = ft_strchr(arg, '=');
     if (!equal_sign_pos)
     {
-        *key = ft_strdup(arg);
+        *key = strchrdup(arg, NULL, CALLOC);
         *value = NULL;
         return ;
     }
@@ -56,9 +56,9 @@ static int ft_add_export(char *arg, bool has_plus)
 
     parse_key_value(arg, &key, &value);
     if (value && has_plus)
-        ft_setenv(key, value, 2); 
+        ft_setenv(key, value, APPEND); 
     else
-        ft_setenv(key, value, 1); 
+        ft_setenv(key, value, OVERWRITE); 
     return (1);
 }
 
