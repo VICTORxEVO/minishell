@@ -49,9 +49,30 @@ typedef struct s_var
     struct s_var *next;
 }       t_var;
 
+
+/**
+ * @struct s_builtin
+ * @brief Structure representing a built-in command.
+ *
+ * This structure holds the name of the built-in command and a function pointer
+ * to the function that implements the command.
+ *
+ * @var s_builtin::name
+ * The name of the built-in command.
+ *
+ * @var s_builtin::func
+ * Function pointer to the function that implements the built-in command.
+ * The function takes a pointer to a t_cmd structure as an argument and returns an integer.
+ */
+typedef struct s_builtin {
+    char *name;
+    int (*func)(t_cmd *);
+} t_builtin;
+
 typedef struct s_all
 {
     t_cmd           *cmd;
+    t_builtin       *builtins;
     t_env           *env_list;
     t_lx            *lexer;
     char            **env;
@@ -67,6 +88,7 @@ typedef struct s_all
     bool            error_flag;
 }       t_all;
 
+
 typedef struct s_ndx
 {
     int i;
@@ -78,7 +100,6 @@ typedef struct s_ndx
     int d;
     int t;
 }       t_ndx;
-
 
 
 /*          >Parsing Functions<           */
@@ -156,7 +177,6 @@ bool    emptyword(t_lx *lexer);
  */
 pid_t   forker(void (*child_fn)(void *), void *child_arg, 
                     void (*parent_fn)(void *, pid_t), void *parent_arg);
-
 
 
 /*          >Redirection Functions<           */
@@ -279,6 +299,15 @@ void    print_cmd(void);
  * @param env Array of environment variable strings
  */
 void fill_env_list(char *env[]);
+
+/**
+ * @brief Initializes built-in commands for the minishell.
+ *
+ * Populates the built-in commands supported by the minishell.
+ * Call during initialization to ensure availability of commands.
+ */
+void fill_builtins();
+
 
 /**
  * @brief Adds a new lexer list segment between existing nodes

@@ -1,47 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/20 12:12:26 by ael-moha          #+#    #+#             */
+/*   Updated: 2024/12/20 14:14:55 by ael-moha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 
 #include "minishell.h"
 
 
+void fill_builtins()
+{
+    t_builtin *builtins;
+	
+	builtins = galloc(sizeof(t_builtin) * 8);
+    if (!builtins)
+        return;
+    builtins[0] = (t_builtin){strchrdup("echo", NULL, CALLOC), ft_echo};
+    builtins[1] = (t_builtin){strchrdup("cd", NULL, CALLOC), ft_cd};
+    builtins[2] = (t_builtin){strchrdup("pwd", NULL, CALLOC), ft_pwd};
+    builtins[3] = (t_builtin){strchrdup("env", NULL, CALLOC), ft_env};
+    builtins[4] = (t_builtin){strchrdup("export", NULL, CALLOC), ft_export};
+    builtins[5] = (t_builtin){strchrdup("unset", NULL, CALLOC), ft_unset};
+    builtins[6] = (t_builtin){strchrdup("exit", NULL, CALLOC), ft_exit};
+    builtins[7] = (t_builtin){NULL, NULL};
+    getcore()->builtins = builtins;
+}
 
 int is_builtin(char *cmd)
 {
-    if (ft_strcmp(cmd, "echo") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "cd") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "pwd") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "env") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "export") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "unset") == 0)
-		return (1);
-	if (ft_strncmp(cmd, "exit", -1) == 0)
-		return (1);
+	size_t i;
+
+	i = -1;
+	while (getcore()->builtins[++i].name)
+	{
+       if (ft_strcmp(cmd, getcore()->builtins[++i].name) == 0)
+            return (1);
+	}
     return (0);
 }
 
-int exec_builtin(t_cmd * cmd)
+int exec_builtin(t_cmd *cmd)
 {
-	if (!cmd->cmd)
-		return (0);
-	if (ft_strcmp(cmd->cmd[0], "cd") == 0)
-		return (ft_cd(cmd));
-	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
-		return (ft_echo(cmd));		
-	if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
-		return (ft_pwd());
-	if (ft_strcmp(cmd->cmd[0], "env") == 0)
-		return (ft_env());
-	if (ft_strcmp(cmd->cmd[0], "export") == 0)
-		return (ft_export(cmd));
-	if (ft_strcmp(cmd->cmd[0], "unset") == 0)
-		return (ft_unset(cmd));
-	if (ft_strncmp(cmd->cmd[0], "exit", -1) == 0)
-		return (ft_exit(cmd->cmd));
-    return (0);
-}
+	size_t i;
 
+	i = -1;
+    if (!cmd->cmd)
+		return (1);
+	while(getcore()->builtins[++i].name)
+	{
+        if (ft_strcmp(cmd->cmd[0], getcore()->builtins[++i].name) == 0)
+        		return (getcore()->builtins[++i].func(cmd));
+	}
+    return (1);
+}
