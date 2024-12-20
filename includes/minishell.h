@@ -204,11 +204,11 @@ void    exec_cmdparent(void *data, pid_t pid);
 
 int     ft_cd(t_cmd *cmd);
 int     ft_echo(t_cmd *cmd);
-int     ft_pwd();
-int     ft_env();
+int     ft_pwd(t_cmd *cmd);
+int     ft_env(t_cmd *cmd);
 int     ft_export(t_cmd *cmd);
 int     ft_unset(t_cmd *cmd);
-int     ft_exit(char **cmd);
+int     ft_exit(t_cmd *cmd);
 
 /*          builtin utils               */
 void     ft_setenv(char *name, char *val, int overwrite);
