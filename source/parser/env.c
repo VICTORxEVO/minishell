@@ -37,12 +37,11 @@ void    updatePath(void)
         if (ft_strncmp("PATH", env->key, -1) == 0)
         {
             getcore()->path = ft_split_path(env->value, ':');
-            break;
+            return ;
         }
         env = env->next;
     }
-    if (!env || ft_strncmp("PATH", env->key, -1) == 1)
-        getcore()->path = NULL;
+    getcore()->path = NULL;
 }
 
 void   fill_env_list(char *env[])
