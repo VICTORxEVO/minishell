@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+bool    gen_newpip(int *pip, t_cmd *cmd)
+{
+    if (pipe(pip) < 0)
+        return (pexit("pipe", PIPE_CODE, 0), 1);
+    cmd->ofd = pip[WRITE_END];
+    cmd->unsed_fd = pip[READ_END];
+    return (0);
+}
+
 void    wait_childs(pid_t *pid)
 {
     int i;
@@ -40,22 +49,22 @@ void    exec_cmdchild(void *data)
 {
     t_cmd *cmd;
     char *cmdpath;
-    int exitcode;
 
-    exitcode = 0;
+    getcore()->exit_code = 0;
     cmd = (t_cmd *)data;
     if (!prepare_ifof(cmd))
         (clear(FREE_ALL), exit(getcore()->exit_code));
     if (cmd->cmd && !is_builtin(cmd->cmd[0]))
     {
         cmdpath = getcmdpath(cmd->cmd[0]);
-        if (!cmdpath)
-            (close(STDIN_FILENO), close(STDOUT_FILENO), clear(FREE_ALL), exit(getcore()->exit_code));
-        execve(cmdpath, cmd->cmd, getcore()->env);
-        (close(cmd->ifd), close(cmd->ofd));
-        pexit("execve", 1, EXIT);
+        if (cmdpath)
+        {
+            execve(cmdpath, cmd->cmd, getcore()->env);
+            (close(cmd->ifd), close(cmd->ofd));
+            pexit("execve", 1, EXIT);
+        }
     }
-    exitcode = exec_builtin(cmd);
+    exec_builtin(cmd);
     (close(STDIN_FILENO), close(STDOUT_FILENO));
-    (clear(FREE_ALL), exit(exitcode));
+    (clear(FREE_ALL), exit(getcore()->exit_code));
 }
