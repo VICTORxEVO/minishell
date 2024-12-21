@@ -268,8 +268,8 @@ void        addtolist(void *node, char *list_type, void *head);
 char        *strchrdup(const char *str, char *delimit, bool type);
 void        *getlastnode(void *list, char *list_type);
 t_lx        *splitcontent(char *str);
+void        sighandler(bool mode);
 void        updatePath(void);
-void        sighandler();
 
 
 

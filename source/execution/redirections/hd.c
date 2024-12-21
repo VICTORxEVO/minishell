@@ -14,18 +14,23 @@ static char getunique(void)
 
 static bool hd_handleline(char *line, char *delimit, int fd, unsigned int count)
 {
+    bool res;
+
+    res = 0;
     if (!line)
     {
         printf(PRGM_NAME": warning: here-document at line %u delimited by end-of-file (wanted `%s')\n", count, delimit);
-        return (1);
+        res = 1;
     }
-    if (!ft_strncmp(line, delimit, -1))
-        return (free(line), 1);
+    else if (!ft_strncmp(line, delimit, -1))
+        return (1);
+    else if (needexpand(line, NULL))
+        line = expand_dollar(line);
     (ft_putstr_fd(line, fd), ft_putstr_fd("\n", fd));
-    return (0);
+    return (res);
 }
 
-static bool hd_reader_loop(char *tmpfile, char *delimit)
+static void hd_forkchild(char *tmpfile, char *delimit)
 {
     int fd;
     char *line;
@@ -34,34 +39,60 @@ static bool hd_reader_loop(char *tmpfile, char *delimit)
     count = 1;
     fd = open(tmpfile, O_WRONLY | O_CREAT, 0666);
     if (fd < 0)
-        return (pexit("heredoc: tmpfile", OPEN_CODE, 0), 1);
+        (pexit("heredoc: tmpfile", 2, EXIT));
     while (true)
     {
         line = readline("heredoc> ");
+        if (line)
+            gc_add_node(line);
         if (hd_handleline(line, delimit, fd, count) == 1)
             break;
         count++;
     }
-    return (close(fd), 0);
+    (close(fd), clear(FREE_ALL), exit(0));
+}
+
+static int    hd_fork(char *tmpfile, char *delimit)
+{
+    pid_t pid;
+    int status;
+
+    pid = fork();
+    if (pid < 0)
+        pexit("heredoc: fork", FORK_CODE, EXIT);
+    else if (pid == CHILD)
+        (sighandler(SG_HD_MODE), hd_forkchild(tmpfile, delimit));
+    else
+    {
+        waitpid(pid, &status, 0);
+        if (WIFSIGNALED(status))
+            return(SIG_BASE_CODE + WTERMSIG(status));
+        else if (WEXITSTATUS(status) == 130)
+            return (WEXITSTATUS(status));
+        if (WEXITSTATUS(status) > 0)
+            return ((clear(FREE_ALL), exit(WEXITSTATUS(status))), 1);
+    }
+    return (0);
 }
 
 int hd(char *delimit)
 {
-    int     fd;
-    char    *tmpfile;
-    char    *term_name;
+    int fd;
+    char *tmpfile;
+    char *term_name;
+    int res;
 
     term_name = ttyname(STDERR_FILENO);
     term_name = &term_name[ft_strlen(term_name) - 1];
     tmpfile = ft_strjoin("/tmp/hdtmp. ", term_name);
     tmpfile[ft_strlen(tmpfile) - 2] = getunique();
-    if (hd_reader_loop(tmpfile, delimit) == 1)
-        return(-1);
+    res = hd_fork(tmpfile, delimit);
+    if (res > SIG_BASE_CODE)
+        return(unlink(tmpfile), -1);
     fd = open(tmpfile, O_RDONLY);
     if (fd < 0)
         pexit("heredoc: tempfile", OPEN_CODE, 0);
     if (unlink(tmpfile) < 0)
         ft_putstr_fd(PRGM_NAME": heredoc: Warning: Failed to remove temporary file", 2);
-    clear_1data(tmpfile);
     return (fd);
 }

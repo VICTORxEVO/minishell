@@ -6,7 +6,7 @@ int main(int ac, char *av[], char *env[])
 	(void)av;
 
 	fill_env_list(env);
-    sighandler();
+	sighandler(0);
 	while (true)
 	{
 		clear(FREE_TEMP);

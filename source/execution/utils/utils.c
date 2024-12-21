@@ -33,36 +33,37 @@ static char check_path_in_core(char *cmd, char *not_found, char *perm_denied, ch
 {
     char **path; 
     int i;
+    struct stat path_stat;
 
     path = getcore()->path;
     i = -1;
     while (path && path[++i])
     {
         *returnpath = ft_strjoin(path[i], cmd);
-        if (access(*returnpath, F_OK) == 0)
+        if (stat(*returnpath, &path_stat) == 0 && !S_ISDIR(path_stat.st_mode))
         {
-            if (access(*returnpath, F_OK) == 0)
-                return (0);
-            return (pexit(perm_denied, PERM_DENIED_CODE, 0), 1);
+            if (!(path_stat.st_mode & S_IXUSR))
+                return (pexit(perm_denied, PERM_DENIED_CODE, 0), 2);
+            return(0);
         }
     }
     return (pexit(not_found, CMD_NOTFOUND_CODE, 0), 2);
 }
 
-static char check_absolute_or_relative_path(char *path, char *not_found, char *perm_denied)
+static char check_absolute_or_relative_path(char *path, char *perm_denied)
 {
     struct stat path_stat;
+    char *isdir;
+    char *no_file;
 
-    if (!*path)
-        return (pexit(not_found, CMD_NOTFOUND_CODE, 0), 1);
+    no_file = ft_strjoin(ft_strjoin(": ", path), ": No such file or directory !");
+    isdir = ft_strjoin(ft_strjoin(": ", path), CMD_DIR);
     if (path[0] == '/' || path[0] == '.' || !getcore()->path)
     {
         if (stat(path, &path_stat) < 0)
-            return (pexit(not_found, CMD_NOTFOUND_CODE, 0), 1);
+            return (pexit(no_file, CMD_NOTFOUND_CODE, 0), 1);
         if (S_ISDIR(path_stat.st_mode))
             return (pexit(isdir, PERM_DENIED_CODE, 0), 2);
-        if (!S_ISREG(path_stat.st_mode))
-            return (pexit(not_found, CMD_NOTFOUND_CODE, 0), 1);
         if (!(path_stat.st_mode & S_IXUSR))
             return (pexit(perm_denied, PERM_DENIED_CODE, 0), 2);
         return (0);
@@ -76,12 +77,10 @@ char    *getcmdpath(char *cmd)
     char *not_found;
     char *perm_denied;
     char *fullpath;
-    char *isdir;
 
     not_found = ft_strjoin(ft_strjoin(": ", cmd), CMD_NOTFOUND);
     perm_denied = ft_strjoin(ft_strjoin(": ", cmd), PERM_DENIED);
-    isdir = ft_strjoin(ft_strjoin(": ", cmd), CMD_DIR);
-    res = check_absolute_or_relative_path(cmd, not_found, perm_denied, isdir);
+    res = check_absolute_or_relative_path(cmd, perm_denied);
     if (res == 0)
         return (cmd);
     if (res > 0)

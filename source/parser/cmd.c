@@ -62,6 +62,7 @@ void    final_touch(t_lx *lexer)
     char *new_str;
     bool flag;
 
+    flag = 0;
     while (lexer)
     {
         if (lexer->type == WORD)
