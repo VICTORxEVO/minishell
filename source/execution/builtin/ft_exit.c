@@ -11,7 +11,7 @@ int    ft_exit()
     i = -1;
     exitcode = getcore()->exit_code;
     if (cmd[1] && cmd[2])
-        return (pexit(": exit: too many arguments", 2, 0), 2);
+        return (pexit(": exit: too many arguments", 2, EXIT), 2);
     if (cmd[1])
     {
         while (cmd[1][++i])
