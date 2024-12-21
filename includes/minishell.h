@@ -250,7 +250,7 @@ char        *strchrdup(const char *str, char *delimit, bool type);
 void        *getlastnode(void *list, char *list_type);
 t_lx        *splitcontent(char *str);
 void        ft_update_path(void);
-void        sighandler();
+void        sighandler(bool mode);
 
 
 

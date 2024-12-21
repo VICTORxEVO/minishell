@@ -44,7 +44,7 @@ bool prepare_heredoc(t_cmd *cmd_list)
             {
                 fd = redirection(lexer->next->content, lexer->type, 0);
                 if (fd < 0)
-                    return (close_allhd(getcore()->lexer), false);
+                    return (close_allhd(getcore()->lexer), 1);
                 clear_1data(lexer->next->content);
                 lexer->type = HERE_DOC_FD;
                 lexer->next->content = ft_itoa(fd);
@@ -53,7 +53,7 @@ bool prepare_heredoc(t_cmd *cmd_list)
         }
         cmd_list = cmd_list->next;
     }
-    return (true);
+    return (0);
 }
 
 bool    prepare_ifof(t_cmd *cmd_list)

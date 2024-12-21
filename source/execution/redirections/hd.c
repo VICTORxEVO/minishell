@@ -25,7 +25,7 @@ static bool hd_handleline(char *line, char *delimit, int fd, unsigned int count)
     return (0);
 }
 
-static bool hd_reader_loop(char *tmpfile, char *delimit)
+static void hd_forkchild(char *tmpfile, char *delimit)
 {
     int fd;
     char *line;
@@ -34,7 +34,7 @@ static bool hd_reader_loop(char *tmpfile, char *delimit)
     count = 1;
     fd = open(tmpfile, O_WRONLY | O_CREAT, 0666);
     if (fd < 0)
-        return (pexit("heredoc: tmpfile", OPEN_CODE, 0), 1);
+        (pexit("heredoc: tmpfile", 2, EXIT));
     while (true)
     {
         line = readline("heredoc> ");
@@ -42,26 +42,49 @@ static bool hd_reader_loop(char *tmpfile, char *delimit)
             break;
         count++;
     }
-    return (close(fd), 0);
+    (close(fd), clear(FREE_ALL), exit(0));
+}
+
+static int    hd_fork(char *tmpfile, char *delimit)
+{
+    pid_t pid;
+    int status;
+
+    status = 0;
+    pid = fork();
+    if (pid < 0)
+        pexit("heredoc: fork", FORK_CODE, EXIT);
+    else if (pid == CHILD)
+        (sighandler(SG_HD_MODE), hd_forkchild(tmpfile, delimit));
+    else
+    {
+        waitpid(pid, &status, 0);
+        if (WIFSIGNALED(status))
+            return(SIG_BASE_CODE + WTERMSIG(status));
+        if (WEXITSTATUS(status) > 0)
+            return ((clear(FREE_ALL), exit(WEXITSTATUS(status))), 1);
+    }
+    return (0);
 }
 
 int hd(char *delimit)
 {
-    int     fd;
-    char    *tmpfile;
-    char    *term_name;
+    int fd;
+    char *tmpfile;
+    char *term_name;
+    int res;
 
     term_name = ttyname(STDERR_FILENO);
     term_name = &term_name[ft_strlen(term_name) - 1];
     tmpfile = ft_strjoin("/tmp/hdtmp. ", term_name);
     tmpfile[ft_strlen(tmpfile) - 2] = getunique();
-    if (hd_reader_loop(tmpfile, delimit) == 1)
-        return(-1);
+    res = hd_fork(tmpfile, delimit);
+    if (res > SIG_BASE_CODE)
+        return(unlink(tmpfile), -1);
     fd = open(tmpfile, O_RDONLY);
     if (fd < 0)
         pexit("heredoc: tempfile", OPEN_CODE, 0);
     if (unlink(tmpfile) < 0)
         ft_putstr_fd(PRGM_NAME": heredoc: Warning: Failed to remove temporary file", 2);
-    clear_1data(tmpfile);
     return (fd);
 }

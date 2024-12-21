@@ -32,7 +32,7 @@ bool    parsing(void)
         expanding(core->lexer);
     final_touch(core->lexer);
     load_cmd_list(core);
-    if (!prepare_heredoc(core->cmd))
+    if (prepare_heredoc(core->cmd) == 1)
         return (false);
     return (true);
 }

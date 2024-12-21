@@ -189,6 +189,9 @@ typedef enum e_overwrite_mode {
 // exit built in right usage
 # define EXIT_USAGE ": exit: usage: exit [N]\nN must be >= 0 and <= 255"
 
+//macros for signal handler
+# define SG_HD_MODE 1
+
 // Regular text colors
 #define BLACK "\033[0;30m"
 #define RED "\033[0;31m"
