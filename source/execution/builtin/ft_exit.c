@@ -7,7 +7,7 @@ int    ft_exit()
     int exitcode;
     int i;
 
-    cmd = getcore()->cmd;
+    cmd = getcore()->cmd->cmd;
     i = -1;
     exitcode = getcore()->exit_code;
     if (cmd[1] && cmd[2])
