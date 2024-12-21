@@ -68,7 +68,6 @@ void clear(char flag)
     if (flag == FREE_ALL)
     {
         env_lstclear();
-        safe_free((void **)&getcore()->previous_line);
         free2d((void **)getcore()->path);
         free2d((void **)getcore()->env);
     }
