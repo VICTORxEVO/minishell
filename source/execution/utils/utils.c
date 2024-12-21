@@ -36,7 +36,7 @@ static char check_path_in_core(char *cmd, char *not_found, char *perm_denied, ch
 
     path = getcore()->path;
     i = -1;
-    while (path[++i])
+    while (path && path[++i])
     {
         *returnpath = ft_strjoin(path[i], cmd);
         if (access(*returnpath, F_OK) == 0)
