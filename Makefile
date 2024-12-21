@@ -33,16 +33,11 @@ UNAME_S := $(shell uname -s)
 
 # Define memory test commands
 VALGRIND_CMD = valgrind \
+	-q \
     --suppressions=readline.supp \
     --leak-check=full \
     --show-leak-kinds=all \
-    --track-origins=yes \
-    --error-limit=no \
-    --trace-children=yes \
-    --child-silent-after-fork=no \
-    --num-callers=50 \
-    --malloc-fill=0x42 \
-    --free-fill=0x43 \
+	--track-fds=yes \
 	./minishell
 
 ASAN_CMD = ASAN_OPTIONS=detect_leaks=1 ./minishell
