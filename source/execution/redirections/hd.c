@@ -14,20 +14,17 @@ static char getunique(void)
 
 static bool hd_handleline(char *line, char *delimit, int fd, unsigned int count)
 {
-    bool res;
-
-    res = 0;
     if (!line)
     {
         printf(PRGM_NAME": warning: here-document at line %u delimited by end-of-file (wanted `%s')\n", count, delimit);
-        res = 1;
+        return (1);
     }
     else if (!ft_strncmp(line, delimit, -1))
         return (1);
     else if (needexpand(line, NULL))
         line = expand_dollar(line);
     (ft_putstr_fd(line, fd), ft_putstr_fd("\n", fd));
-    return (res);
+    return (0);
 }
 
 static void hd_forkchild(char *tmpfile, char *delimit)
