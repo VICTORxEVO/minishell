@@ -4,8 +4,8 @@ int main(int ac, char *av[], char *env[])
 {
 	(void)ac;
 	(void)av;
+
 	fill_env_list(env);
-	fill_builtins();
     sighandler();
 	while (true)
 	{

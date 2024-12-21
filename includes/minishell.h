@@ -300,15 +300,6 @@ void    print_cmd(void);
 void fill_env_list(char *env[]);
 
 /**
- * @brief Initializes built-in commands for the minishell.
- *
- * Populates the built-in commands supported by the minishell.
- * Call during initialization to ensure availability of commands.
- */
-void fill_builtins();
-
-
-/**
  * @brief Adds a new lexer list segment between existing nodes
  * @param new_list New lexer list to insert
  * @param lexer Current lexer node 
