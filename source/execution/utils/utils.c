@@ -22,14 +22,14 @@ bool backup_fd(int *fd)
     else
     {
         if (dup2(fd[0], STDIN_FILENO) < 0 || dup2(fd[1], STDOUT_FILENO) < 0)
-            return(pexit("dup2", DUP2_CODE, 0), false);
+            return (pexit("dup2", DUP2_CODE, 0), false);
         if (close(fd[0]) < 0 || close(fd[1]) < 0)
-            return(pexit("close", CLOSE_CODE, 0), false);
+            return (pexit("close", CLOSE_CODE, 0), false);
     }
-    return(true);
+    return (true);
 }
 
-static char checkpathcase1(char *cmd, char *not_found, char *perm_denied, char **returnpath)
+static char check_path_in_core(char *cmd, char *not_found, char *perm_denied, char **returnpath)
 {
     char **path; 
     int i;
@@ -37,7 +37,7 @@ static char checkpathcase1(char *cmd, char *not_found, char *perm_denied, char *
 
     path = getcore()->path;
     i = -1;
-    while (path[++i])
+    while (path && path[++i])
     {
         *returnpath = ft_strjoin(path[i], cmd);
         if (stat(*returnpath, &path_stat) == 0 && !S_ISDIR(path_stat.st_mode))
@@ -47,10 +47,10 @@ static char checkpathcase1(char *cmd, char *not_found, char *perm_denied, char *
             return(0);
         }
     }
-    return(pexit(not_found, CMD_NOTFOUND_CODE, 0), 2);
+    return (pexit(not_found, CMD_NOTFOUND_CODE, 0), 2);
 }
 
-static char checkpathcase0(char *path, char *perm_denied)
+static char check_absolute_or_relative_path(char *path, char *perm_denied)
 {
     struct stat path_stat;
     char *isdir;
@@ -80,16 +80,16 @@ char    *getcmdpath(char *cmd)
 
     not_found = ft_strjoin(ft_strjoin(": ", cmd), CMD_NOTFOUND);
     perm_denied = ft_strjoin(ft_strjoin(": ", cmd), PERM_DENIED);
-    res = checkpathcase0(cmd, perm_denied);
+    res = check_absolute_or_relative_path(cmd, perm_denied);
     if (res == 0)
-        return(cmd);
+        return (cmd);
     if (res > 0)
         return (NULL);
     if (res == -1)
     {
-        res = checkpathcase1(cmd, not_found, perm_denied, &fullpath);
+        res = check_path_in_core(cmd, not_found, perm_denied, &fullpath);
         if (res == 0)
-            return(fullpath);
+            return (fullpath);
         if (res > 0)
             return (NULL);
     }
@@ -97,12 +97,12 @@ char    *getcmdpath(char *cmd)
 }
 
 pid_t   forker(void (*child_fn)(void *), void *child_arg,
-                    void (*parent_fn)(void *, pid_t), void *parent_arg)
+             void (*parent_fn)(void *, pid_t), void *parent_arg)
 {
-    pid_t   pid;
+    pid_t pid;
 
     if (!child_fn || !parent_fn)
-        return(pexit(":forker: "FATAL_ERR"function pointer is NULL !", 1, EXIT), -1);
+        return (pexit(":forker: " FATAL_ERR "function pointer is NULL !", 1, EXIT), -1);
     pid = fork();
     if (pid == -1)
     {

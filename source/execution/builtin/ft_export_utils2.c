@@ -13,9 +13,9 @@ int ft_print_export()
     while (tmp)
     {
         if (tmp->value)
-            printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+            printf("%s=\"%s\"\n", tmp->key, tmp->value);
         else
-            printf("declare -x %s\n", tmp->key); 
+            printf("%s\n", tmp->key); 
         tmp = tmp->next;
     }
     return (0);
