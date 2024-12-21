@@ -77,12 +77,12 @@ typedef enum e_token_type
     TOKEN = -2,          /* Generic token identifier */
     PIPE = -1,           /* Pipe operator token */
     HERE_DOC = 1,        /* Here document redirection */
-    IN_RDRT = 2,         /* Input file redirection */
-    OUT_RDRT_OW = 3,     /* Output file redirection (overwrite mode) */
-    OUT_RDRT_APP = 4,    /* Output file redirection (append mode) */
-    AMBIG_RDRT = 5,      /* Ambiguous redirection error */
+    IN_RDRT,         /* Input file redirection */
+    OUT_RDRT_OW,     /* Output file redirection (overwrite mode) */
+    AMBIG_RDRT,      /* Ambiguous redirection error */
+    HERE_DOC_FD,
+    OUT_RDRT_APP,    /* Output file redirection (append mode) */
     WORD = 10,           /* Regular word token */
-    HERE_DOC_FD = 11
 } t_token_type;
 
 
