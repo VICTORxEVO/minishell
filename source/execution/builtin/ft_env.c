@@ -18,11 +18,10 @@ char    *ft_getenv(char *var)
 }
 
 
-int    ft_env(t_cmd *cmd)
+int    ft_env()
 {
     t_env * env;
 
-    (void)cmd;
     env = getcore()->env_list;
     if (env == NULL)
         return (1);
