@@ -31,7 +31,7 @@ bool backup_fd(int *fd)
 
 static char check_path_in_core(char *cmd, char *not_found, char *perm_denied, char **returnpath)
 {
-    char **path;
+    char **path; 
     int i;
 
     path = getcore()->path;
@@ -51,12 +51,19 @@ static char check_path_in_core(char *cmd, char *not_found, char *perm_denied, ch
 
 static char check_absolute_or_relative_path(char *path, char *not_found, char *perm_denied)
 {
+    struct stat path_stat;
 
-    if (!path || path[0] == '/' || path[0] == '.')
+    if (!*path)
+        return (pexit(not_found, CMD_NOTFOUND_CODE, 0), 1);
+    if (path[0] == '/' || path[0] == '.' || !getcore()->path)
     {
-        if (access(path, F_OK) < 0)
+        if (stat(path, &path_stat) < 0)
             return (pexit(not_found, CMD_NOTFOUND_CODE, 0), 1);
-        if (access(path, X_OK) < 0)
+        if (S_ISDIR(path_stat.st_mode))
+            return (pexit(isdir, PERM_DENIED_CODE, 0), 2);
+        if (!S_ISREG(path_stat.st_mode))
+            return (pexit(not_found, CMD_NOTFOUND_CODE, 0), 1);
+        if (!(path_stat.st_mode & S_IXUSR))
             return (pexit(perm_denied, PERM_DENIED_CODE, 0), 2);
         return (0);
     }
@@ -69,10 +76,12 @@ char    *getcmdpath(char *cmd)
     char *not_found;
     char *perm_denied;
     char *fullpath;
+    char *isdir;
 
     not_found = ft_strjoin(ft_strjoin(": ", cmd), CMD_NOTFOUND);
     perm_denied = ft_strjoin(ft_strjoin(": ", cmd), PERM_DENIED);
-    res = check_absolute_or_relative_path(cmd, not_found, perm_denied);
+    isdir = ft_strjoin(ft_strjoin(": ", cmd), CMD_DIR);
+    res = check_absolute_or_relative_path(cmd, not_found, perm_denied, isdir);
     if (res == 0)
         return (cmd);
     if (res > 0)
