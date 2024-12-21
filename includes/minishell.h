@@ -82,9 +82,9 @@ typedef struct s_all
     unsigned char   exit_code;
     char            *in_line;
     t_var           *var_list;
-    char            *previous_line;
     pid_t           *pids;
     bool            error_flag;
+    int             gnl_fd;
 }       t_all;
 
 
@@ -108,12 +108,6 @@ typedef struct s_ndx
  */
 bool        parsing(void);
 
-/**
- * @brief Validates quote pairs in the input string
- * @details Checks for matching single and double quotes, exits with error if unmatched
- * @param line Input string to check
- */
-bool        check_quotes(char *line);
 int         skipquotes(char *str);
 bool        wordstart(char a, char b, int i, int maxlen);
 
@@ -164,6 +158,7 @@ void    execution(void);
 char    *getcmdpath(char *cmd);
 void    close_allhd(t_lx *lexer);
 bool    emptyword(t_lx *lexer);
+bool    gen_newpip(int *pip, t_cmd *cmd);
 
 
 /**
@@ -215,7 +210,7 @@ bool    duping(int ifd, int ofd);
 
 bool    prepare_ifof(t_cmd *cmd_list);
 bool    backup_fd(int *fd);
-bool    prepare_heredoc(t_cmd *cmd_list);
+bool    open_allhd(t_lx *lexer);
 void    exec_cmdchild(void *data);
 void    exec_cmdparent(void *data, pid_t pid);
 
