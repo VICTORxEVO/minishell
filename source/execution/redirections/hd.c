@@ -14,15 +14,20 @@ static char getunique(void)
 
 static bool hd_handleline(char *line, char *delimit, int fd, unsigned int count)
 {
+    bool res;
+
+    res = 0;
     if (!line)
     {
         printf(PRGM_NAME": warning: here-document at line %u delimited by end-of-file (wanted `%s')\n", count, delimit);
-        return (1);
+        res = 1;
     }
-    if (!ft_strncmp(line, delimit, -1))
-        return (free(line), 1);
+    else if (!ft_strncmp(line, delimit, -1))
+        return (1);
+    else if (needexpand(line, NULL))
+        line = expand_dollar(line);
     (ft_putstr_fd(line, fd), ft_putstr_fd("\n", fd));
-    return (0);
+    return (res);
 }
 
 static void hd_forkchild(char *tmpfile, char *delimit)
@@ -38,6 +43,8 @@ static void hd_forkchild(char *tmpfile, char *delimit)
     while (true)
     {
         line = readline("heredoc> ");
+        if (line)
+            gc_add_node(line);
         if (hd_handleline(line, delimit, fd, count) == 1)
             break;
         count++;
@@ -50,7 +57,6 @@ static int    hd_fork(char *tmpfile, char *delimit)
     pid_t pid;
     int status;
 
-    status = 0;
     pid = fork();
     if (pid < 0)
         pexit("heredoc: fork", FORK_CODE, EXIT);
@@ -61,6 +67,8 @@ static int    hd_fork(char *tmpfile, char *delimit)
         waitpid(pid, &status, 0);
         if (WIFSIGNALED(status))
             return(SIG_BASE_CODE + WTERMSIG(status));
+        else if (WEXITSTATUS(status) == 130)
+            return (WEXITSTATUS(status));
         if (WEXITSTATUS(status) > 0)
             return ((clear(FREE_ALL), exit(WEXITSTATUS(status))), 1);
     }
