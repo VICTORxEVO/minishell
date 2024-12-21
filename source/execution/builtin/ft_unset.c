@@ -100,7 +100,7 @@ int     ft_unset(t_cmd *cmd)
     while (env && cmd->cmd[1])
     {
         if (ft_strcmp(env->key, cmd->cmd[1]) == 0)
-            return (ft_remove_node(cmd->cmd[1]), 0);
+            return (ft_remove_node(cmd->cmd[1]), updatePath(), 0);
         env = env->next;
     }
     return (0);

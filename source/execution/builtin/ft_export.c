@@ -59,6 +59,7 @@ static int ft_add_export(char *arg, bool has_plus)
         ft_setenv(key, value, APPEND); 
     else
         ft_setenv(key, value, OVERWRITE); 
+    updatePath();
     return (1);
 }
 

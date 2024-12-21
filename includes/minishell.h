@@ -49,6 +49,26 @@ typedef struct s_var
     struct s_var *next;
 }       t_var;
 
+
+/**
+ * @struct s_builtin
+ * @brief Structure representing a built-in command.
+ *
+ * This structure holds the name of the built-in command and a function pointer
+ * to the function that implements the command.
+ *
+ * @var s_builtin::name
+ * The name of the built-in command.
+ *
+ * @var s_builtin::func
+ * Function pointer to the function that implements the built-in command.
+ * The function takes a pointer to a t_cmd structure as an argument and returns an integer.
+ */
+typedef struct s_builtin {
+    char *name;
+    int (*func)(t_cmd *);
+} t_builtin;
+
 typedef struct s_all
 {
     t_cmd           *cmd;
@@ -67,6 +87,7 @@ typedef struct s_all
     bool            error_flag;
 }       t_all;
 
+
 typedef struct s_ndx
 {
     int i;
@@ -78,7 +99,6 @@ typedef struct s_ndx
     int d;
     int t;
 }       t_ndx;
-
 
 
 /*          >Parsing Functions<           */
@@ -158,7 +178,6 @@ pid_t   forker(void (*child_fn)(void *), void *child_arg,
                     void (*parent_fn)(void *, pid_t), void *parent_arg);
 
 
-
 /*          >Redirection Functions<           */
 /**
  * @brief Opens a file for input redirection
@@ -208,7 +227,7 @@ int     ft_pwd();
 int     ft_env();
 int     ft_export(t_cmd *cmd);
 int     ft_unset(t_cmd *cmd);
-int     ft_exit(char **cmd);
+int     ft_exit();
 
 /*          builtin utils               */
 void     ft_setenv(char *name, char *val, int overwrite);
@@ -249,7 +268,7 @@ void        addtolist(void *node, char *list_type, void *head);
 char        *strchrdup(const char *str, char *delimit, bool type);
 void        *getlastnode(void *list, char *list_type);
 t_lx        *splitcontent(char *str);
-void        ft_update_path(void);
+void        updatePath(void);
 void        sighandler();
 
 
