@@ -1,5 +1,25 @@
 #include "minishell.h"
 
+static bool    check_quotes(char *line)
+{
+    long long i;
+    char quote;
+
+    i = -1;
+    while (line[++i])
+    {
+        if (line[i] == S_QUOTES || line[i] == D_QUOTES)
+        {
+            quote = line[i++];
+            while (line[i] && line[i] != quote)
+                i++;
+            if (line[i] != quote)
+                    return (pexit(DQ_ERR, 1, 0), false);
+        }
+    }
+    return (true);
+}
+
 void    reader_loop(void)
 {
     char  *line;
@@ -31,8 +51,8 @@ bool    parsing(void)
     if (needexpand(core->in_line, NULL))
         expanding(core->lexer);
     final_touch(core->lexer);
-    load_cmd_list(core);
-    if (prepare_heredoc(core->cmd) == 1)
+    if (open_allhd(core->lexer) == 1)
         return (false);
+    load_cmd_list(core);
     return (true);
 }
