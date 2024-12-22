@@ -85,6 +85,8 @@ typedef struct s_all
     pid_t           *pids;
     bool            error_flag;
     int             gnl_fd;
+    bool            hd_mode;
+    bool            subshell;
 }       t_all;
 
 
@@ -272,7 +274,6 @@ void        updatePath(void);
 /**
  * 
  */
-void        addoldhistory(void);
 char        *create_prompt(void);
 bool        needspliting(t_lx *lexer, t_lx *prev_lexer);
 bool        checkspace_str(char *str);
