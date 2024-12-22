@@ -1,12 +1,10 @@
 #include "minishell.h"
 
 
-int    ft_exit()
+int    ft_exit(char **cmd)
 {
-    char **cmd;
     int i;
 
-    cmd = getcore()->cmd->cmd;
     i = -1;
     if (cmd[1] && cmd[2])
         return (pexit(": exit: too many arguments", 2, EXIT), 2);
@@ -21,5 +19,7 @@ int    ft_exit()
         }
         getcore()->exit_code = ft_atoi(cmd[1]);
     }
+    if (getcore()->subshell == false)
+        printf("exit\n");
     (clear(FREE_ALL), exit(getcore()->exit_code));
 }

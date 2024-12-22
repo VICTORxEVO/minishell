@@ -41,7 +41,7 @@ int exec_builtin(t_cmd * cmd)
 	if (ft_strcmp(cmd->cmd[0], "unset") == 0)
 		return (ft_unset(cmd));
 	if (ft_strncmp(cmd->cmd[0], "exit", -1) == 0)
-		return (ft_exit());
+		return (ft_exit(cmd->cmd));
     return (0);
 }
 
