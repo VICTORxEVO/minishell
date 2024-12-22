@@ -7,7 +7,7 @@ void exec_1cmd(t_cmd *cmd)
     bfd[2] = 0;
     if (cmd->cmd && is_builtin(cmd->cmd[0]))
     {
-        if (!backup_fd(bfd) || !prepare_ifof(cmd))
+        if (backup_fd(bfd) == 1 || prepare_ifof(cmd) == 1)
             return ;
         getcore()->exit_code = exec_builtin(cmd);
         bfd[2] = -1;
@@ -46,9 +46,10 @@ void  exec_ncmd(t_cmd *cmd)
 
 void    execution(void)
 {
-    // print_cmd();
     if (getcore()->cmd_count == 1)
         exec_1cmd(getcore()->cmd);
     else
         exec_ncmd(getcore()->cmd);
+    if (getcore()->hd_mode == true)
+        close_allhd(getcore()->lexer);
 }
