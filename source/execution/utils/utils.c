@@ -2,6 +2,8 @@
 
 void close_allhd(t_lx *lexer)
 {
+    if (getcore()->hd_mode == false)
+        return ;
     while (lexer)
     {
         if (lexer->type == HERE_DOC_FD)
@@ -17,16 +19,14 @@ bool backup_fd(int *fd)
         fd[0] = dup(STDIN_FILENO);
         fd[1] = dup(STDOUT_FILENO);
         if (fd[0] < 0 || fd[1] < 0)
-            return (pexit("dup", 1, 0), false);
+            return (pexit("dup", 1, 0), 0);
+        return(0);
     }
-    else
-    {
-        if (dup2(fd[0], STDIN_FILENO) < 0 || dup2(fd[1], STDOUT_FILENO) < 0)
-            return (pexit("dup2", DUP2_CODE, 0), false);
-        if (close(fd[0]) < 0 || close(fd[1]) < 0)
-            return (pexit("close", CLOSE_CODE, 0), false);
-    }
-    return (true);
+    if (dup2(fd[0], STDIN_FILENO) < 0 || dup2(fd[1], STDOUT_FILENO) < 0)
+            return (pexit("dup2", DUP2_CODE, 0), 0);
+    if (close(fd[0]) < 0 || close(fd[1]) < 0)
+            return (pexit("close", CLOSE_CODE, 0), 0);
+    return (0);
 }
 
 static char check_path_in_core(char *cmd, char *not_found, char *perm_denied, char **returnpath)
