@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 12:03:10 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/12/22 12:03:11 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/12/22 19:42:48 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	update_env(t_env *env_list)
 	while (env_list)
 	{
 		tmpstr = ft_strjoin_m(env_list->key, "=");
-		getcore()->env[i.i++] = ft_strjoin_m(tmpstr, env_list->value);
+		(getcore()->env[i.i++]) = ft_strjoin_m(tmpstr, env_list->value);
 		free(tmpstr);
 		env_list = env_list->next;
 	}
