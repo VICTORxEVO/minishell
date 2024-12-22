@@ -6,7 +6,7 @@
 /*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 11:45:56 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/12/22 11:45:57 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/12/22 18:33:51 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_print_export(void)
 	while (tmp)
 	{
 		if (tmp->value)
-			printf("%s=\"%s\"\n", tmp->key, tmp->value);
+			printf("export %s=\"%s\"\n", tmp->key, tmp->value);
 		else
 			printf("%s\n", tmp->key);
 		tmp = tmp->next;
