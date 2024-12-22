@@ -37,7 +37,6 @@ VALGRIND_CMD = valgrind \
     --suppressions=readline.supp \
     --leak-check=full \
     --show-leak-kinds=all \
-	--track-fds=yes \
 	./minishell
 
 ASAN_CMD = ASAN_OPTIONS=detect_leaks=1 ./minishell
