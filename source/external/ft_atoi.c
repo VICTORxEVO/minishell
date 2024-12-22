@@ -6,14 +6,14 @@
 /*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 11:44:59 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/08/07 12:25:17 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/12/22 10:35:48 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-int	ft_atoi(const char *str)
+long	ft_atoi(const char *str)
 {
-	int		res;
+	long	res;
 	char	sign;
 	int		i;
 
