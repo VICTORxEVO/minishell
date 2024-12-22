@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 15:01:30 by macbookpro        #+#    #+#             */
-/*   Updated: 2024/10/17 15:01:35 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/12/22 11:56:01 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ext_libs.h"
-
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
