@@ -4,6 +4,7 @@ static void sigint_handler_hd(int sig)
 {
     (void)sig;
     clear(FREE_ALL);
+    close(getcore()->gnl_fd);
     exit(SIG_BASE_CODE + sig);
 }
 
