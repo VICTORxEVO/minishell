@@ -1,62 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/22 12:03:10 by ysbai-jo          #+#    #+#             */
+/*   Updated: 2024/12/22 19:42:48by ael-moha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-
-void    update_env(t_env *env_list)
+void	update_env(t_env *env_list)
 {
-    t_ndx i;
-    t_env *tmp;
-    char *tmpstr;
+	t_ndx	i;
+	t_env	*tmp;
+	char	*tmpstr;
 
-    ft_bzero(&i, sizeof(t_ndx));
-    tmp = env_list;
-    while(tmp)
-    {
-        i.l++;
-        tmp = tmp->next;
-    }
-    free2d((void **)getcore()->env);
-    getcore()->env = ft_calloc(i.l + 1, sizeof(char *));
-    while (env_list)
-    {
-        tmpstr = ft_strjoin_m(env_list->key, "=");
-        getcore()->env[i.i++] = ft_strjoin_m(tmpstr, env_list->value);
-        free(tmpstr);
-        env_list = env_list->next;
-    }
+	ft_bzero(&i, sizeof(t_ndx));
+	tmp = env_list;
+	while (tmp)
+	{
+		i.l++;
+		tmp = tmp->next;
+	}
+	free2d((void **)getcore()->env);
+	getcore()->env = ft_calloc(i.l + 1, sizeof(char *));
+	while (env_list)
+	{
+		tmpstr = ft_strjoin_m(env_list->key, "=");
+		(getcore()->env[i.i++]) = ft_strjoin_m(tmpstr, env_list->value);
+		free(tmpstr);
+		env_list = env_list->next;
+	}
 }
 
-
-void    updatePath(void)
+void	updatepath(void)
 {
-    t_env *env;
+	t_env	*env;
 
-    env = getcore()->env_list;
-    free2d((void **)getcore()->path);
-    while (env && env->key)
-    {
-        if (ft_strncmp("PATH", env->key, -1) == 0)
-        {
-            getcore()->path = ft_split_path(env->value, ':');
-            return ;
-        }
-        env = env->next;
-    }
-    getcore()->path = NULL;
+	env = getcore()->env_list;
+	free2d((void **)getcore()->path);
+	while (env && env->key)
+	{
+		if (ft_strncmp("PATH", env->key, -1) == 0)
+		{
+			getcore()->path = ft_split_path(env->value, ':');
+			return ;
+		}
+		env = env->next;
+	}
+	getcore()->path = NULL;
 }
 
-void   fill_env_list(char *env[])
+void	fill_env_list(char *env[])
 {
-    t_env *env_node;
-    int i;
+	t_env	*env_node;
+	int		i;
 
-    i = -1;
-    while (env[++i])
-    {
-        env_node = ft_calloc(1, sizeof(t_env));
-        env_node->key = strchrdup(env[i], ft_strchr(env[i], '='), CALLOC);
-        env_node->value = strchrdup(ft_strchr(env[i], '=') + 1, NULL, CALLOC);
-        addtolist(env_node, "t_env", NULL);
-    }
-    updatePath();
-    update_env(getcore()->env_list);
+	i = -1;
+	while (env[++i])
+	{
+		env_node = ft_calloc(1, sizeof(t_env));
+		env_node->key = strchrdup(env[i], ft_strchr(env[i], '='), CALLOC);
+		env_node->value = strchrdup(ft_strchr(env[i], '=') + 1, NULL, CALLOC);
+		addtolist(env_node, "t_env", NULL);
+	}
+	updatepath();
+	update_env(getcore()->env_list);
 }

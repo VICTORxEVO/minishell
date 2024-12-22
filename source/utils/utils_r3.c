@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   utils_r3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/03 21:31:45 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/27 15:36:22 by ysbai-jo         ###   ########.fr       */
+/*   Created: 2024/12/22 12:15:12 by ysbai-jo          #+#    #+#             */
+/*   Updated: 2024/12/22 15:58:09 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-char *ft_strndup(const char *s, size_t n) {
-    size_t len;
-    char *dup;
-
-    len = ft_strlen(s);
-    if (n < len)
-        len = n + 1;
-    dup = (char *)galloc(len + 1);
-    if (!dup)
-        return NULL;
-    ft_strlcpy(dup, s, len);
-    dup[len] = '\0';
-    return dup;
+void	*getlastnode(void *list, char *list_type)
+{
+	if (list && !ft_strncmp(list_type, "t_lx", -1))
+	{
+		while (((t_lx *)list)->next)
+			list = ((t_lx *)list)->next;
+	}
+	else if (list && !ft_strncmp(list_type, "t_env", -1))
+	{
+		while (((t_env *)list)->next)
+			list = ((t_env *)list)->next;
+	}
+	return (list);
 }
