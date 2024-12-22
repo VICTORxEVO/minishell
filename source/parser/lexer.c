@@ -56,6 +56,8 @@ static long long lexer_add_token(char type)
     addtolist(lexer, "t_lx", NULL);
     if (type == PIPE)
         getcore()->pipe_count++;
+    if (type == HERE_DOC)
+        getcore()->hd_mode = true;
     if (type == HERE_DOC || type == OUT_RDRT_APP)
         return (2);
     return (1);
