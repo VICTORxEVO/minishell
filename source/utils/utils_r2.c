@@ -1,15 +1,5 @@
 #include "minishell.h"
 
-void    addoldhistory(void)
-{
-    char *home;
-    
-
-    home = getenv("HOME");
-    if (!home)
-        exit (200);
-}
-
 static char	*ft_csubstr(char const *s, unsigned int start, size_t len)
 {
 	char	*sub;
@@ -24,7 +14,7 @@ static char	*ft_csubstr(char const *s, unsigned int start, size_t len)
 	{
 		sub = malloc(sizeof(char) * (s_l - start + 1));
 		if (!sub)
-			return (NULL);
+			pexit("malloc", MALLOC_CODE, EXIT);
 		ft_strlcpy(sub, &s[start], (s_l - start + 1));
 	}
 	else
