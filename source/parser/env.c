@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 12:03:10 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/12/22 19:42:48 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/12/22 19:42:48by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	update_env(t_env *env_list)
 	}
 }
 
-void	updatePath(void)
+void	updatepath(void)
 {
 	t_env	*env;
 
@@ -67,6 +67,6 @@ void	fill_env_list(char *env[])
 		env_node->value = strchrdup(ft_strchr(env[i], '=') + 1, NULL, CALLOC);
 		addtolist(env_node, "t_env", NULL);
 	}
-	updatePath();
+	updatepath();
 	update_env(getcore()->env_list);
 }

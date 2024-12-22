@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 11:48:26 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/12/22 11:48:27 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/12/22 19:45:51 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	ft_unset(t_cmd *cmd)
 	while (env && cmd->cmd[1])
 	{
 		if (ft_strcmp(env->key, cmd->cmd[1]) == 0)
-			return (ft_remove_node(cmd->cmd[1]), updatePath(), 0);
+			return (ft_remove_node(cmd->cmd[1]), updatepath(), 0);
 		env = env->next;
 	}
 	return (0);

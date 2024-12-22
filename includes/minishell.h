@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 13:32:29 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/12/22 16:13:52 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/12/22 19:45:51 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -636,6 +636,6 @@ void				fill_env_list(char *env[]);
  * Updates PATH environment variable in internal structures.
  * Called after environment modifications.
  */
-void				updatePath(void);
+void				updatepath(void);
 
 #endif

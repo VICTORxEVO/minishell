@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 11:46:09 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/12/22 11:46:10 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/12/22 19:45:51 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	ft_add_export(char *arg, bool has_plus)
 		ft_setenv(key, value, APPEND);
 	else
 		ft_setenv(key, value, OVERWRITE);
-	updatePath();
+	updatepath();
 	return (1);
 }
 
