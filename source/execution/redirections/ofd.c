@@ -9,6 +9,6 @@ int     ofd(char *filename, char mode)
     else
         fd = open(filename, O_WRONLY | O_APPEND | O_CREAT, 0666);
     if (fd < 0)
-        pexit(ft_strjoin("open: ", filename), GNRL_CODE, 0);
+        pexit(filename, GNRL_CODE, 0);
     return (fd);
 }
