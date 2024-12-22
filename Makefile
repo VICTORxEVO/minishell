@@ -2,7 +2,7 @@
 NAME = minishell
 
 #cc compiler with all flags
-FLAGS = -g -Wall -Wextra  -Werror 
+FLAGS = -Wall -Wextra -Werror 
 LDFLAGS = -lreadline
 
 # Directories
@@ -10,11 +10,71 @@ SRC_DIR := source
 OBJ_DIR := objects
 
 # Source and Object Files
-SRC := $(shell find $(SRC_DIR) -type f -name "*.c")
-OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+SRC :=	./source/clear/clear1.c \
+		./source/clear/clear.c \
+		./source/clear/galloc.c \
+		./source/clear/pexit.c \
+		./source/minishell.c \
+		./source/external/ft_strlcat.c \
+		./source/external/ft_itoa.c \
+		./source/external/ft_isascii.c \
+		./source/external/ft_strrchr.c \
+		./source/external/ft_isdigit.c \
+		./source/external/ft_strcmp.c \
+		./source/external/ft_strtrim.c \
+		./source/external/ft_strnstr.c \
+		./source/external/ft_putstr_fd.c \
+		./source/external/ft_split_malloc.c \
+		./source/external/ft_strchr.c \
+		./source/external/ft_strjoin.c \
+		./source/external/ft_isalpha.c \
+		./source/external/ft_memcpy.c \
+		./source/external/ft_strdup.c \
+		./source/external/ft_substr.c \
+		./source/external/ft_striteri.c \
+		./source/external/ft_strlcpy.c \
+		./source/external/ft_atoi.c \
+		./source/external/ft_strlen.c \
+		./source/external/ft_isprint.c \
+		./source/external/ft_split.c \
+		./source/external/ft_isalnum.c \
+		./source/external/ft_strncmp.c \
+		./source/utils/utils_r0.c \
+		./source/utils/utils_r5.c \
+		./source/utils/utils_r1.c \
+		./source/utils/utils_r4.c \
+		./source/utils/utils_r3.c \
+		./source/utils/signals.c \
+		./source/parser/expanding1.c \
+		./source/parser/parsing.c \
+		./source/parser/heredoc.c \
+		./source/parser/cmd1.c \
+		./source/parser/cmd.c \
+		./source/parser/final_touching.c \
+		./source/parser/expanding.c \
+		./source/parser/Utils/utils.c \
+		./source/parser/expanding2.c \
+		./source/parser/env.c \
+		./source/parser/lexer.c \
+		./source/execution/execution1.c \
+		./source/execution/execution.c \
+		./source/execution/redirections/ifd.c \
+		./source/execution/redirections/redirection.c \
+		./source/execution/builtin/ft_cd.c \
+		./source/execution/redirections/ofd.c \
+		./source/execution/builtin/ft_export_utils.c \
+		./source/execution/builtin/ft_unset.c \
+		./source/execution/builtin/ft_export_utils2.c \
+		./source/execution/builtin/ft_pwd.c \
+		./source/execution/builtin/ft_exit.c \
+		./source/execution/builtin/ft_export.c \
+		./source/execution/builtin/builtin.c \
+		./source/execution/builtin/ft_echo.c \
+		./source/execution/builtin/ft_env.c \
+		./source/execution/utils/utils.c \
+		./source/execution/utils/forker.c
 
-SRC_TEST := $(filter-out $(SRC_DIR)/minishell.c, $(SRC))
-OBJ_TEST :=$(SRC_TEST:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 #include header
 INC= -I./includes
@@ -68,12 +128,6 @@ $(NAME): $(OBJ)
 		@sleep 0.5
 		@echo "$(NAME) is ready"
 
-test: $(OBJ_TEST)
-		@cc $(FLAGS) $(OBJ_TEST) $(INC) -o $(NAME) $(LDFLAGS)
-		@echo "compiling test"
-		@sleep 0.5
-		@echo "$(NAME) test is ready"
-
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 		@mkdir -p $(@D)
 		@cc $(FLAGS) $(INC) -c $< -o $@
@@ -82,25 +136,13 @@ clean:
 		@rm -rf $(OBJ_DIR)
 		@echo "cleaning..."
 
-tclean:
-		@rm -rf $(OBJ_DIR)
-		@echo "cleaning test..."
-
 fclean: clean
 		@rm -f $(NAME)
 		@echo "cleaning program..."
 
-tfclean: tclean
-		@rm -f $(NAME)
-		@echo "cleaning test program..."
-
 re: fclean all
 
-tre: tfclean test
-
 clear: re clean
-
-tclear: tre test
 
 bclear: all clean
 
@@ -120,12 +162,10 @@ check_supp:
 		echo "Created/Updated readline.supp"; \
 	fi
 
-
 memtest: clear check_supp
 	@echo "$$READLINE_SUPP" > readline.supp
 	@$(MEMTEST_CMD)
 
-# Separate targets remain unchanged
 memtest-linux: clear
 	@$(VALGRIND_CMD)
 
