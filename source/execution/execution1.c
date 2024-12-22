@@ -51,17 +51,19 @@ void    exec_cmdchild(void *data)
     char *cmdpath;
 
     getcore()->exit_code = 0;
+    getcore()->subshell = true;
     cmd = (t_cmd *)data;
-    if (!prepare_ifof(cmd))
-        (clear(FREE_ALL), exit(getcore()->exit_code));
-    if (cmd->cmd && !is_builtin(cmd->cmd[0]))
+    if (prepare_ifof(cmd) == 0)
     {
-        cmdpath = getcmdpath(cmd->cmd[0]);
-        if (cmdpath)
+        if (cmd->cmd && !is_builtin(cmd->cmd[0]))
         {
-            execve(cmdpath, cmd->cmd, getcore()->env);
-            (close(cmd->ifd), close(cmd->ofd));
-            pexit("execve", 1, EXIT);
+            cmdpath = getcmdpath(cmd->cmd[0]);
+            if (cmdpath)
+            {
+                execve(cmdpath, cmd->cmd, getcore()->env);
+                pexit("execve", 1, 0);
+            }
+
         }
     }
     exec_builtin(cmd);
