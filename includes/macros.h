@@ -6,7 +6,7 @@
 /*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 13:40:27 by ysbai-jo          #+#    #+#             */
-/*   Updated: 2024/12/22 13:40:28 by ysbai-jo         ###   ########.fr       */
+/*   Updated: 2024/12/23 13:26:07 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ typedef enum e_overwrite_mode
 # define HD_WARNING ": warning: here-document delimited \
  by end-of-file (wanted `%s')\n"
 
-# define HD_TMP_FAIL ": heredoc: Warning: Failed to remove temporary file"
+# define HD_TMP_FAIL ": heredoc: Warning: Failed to remove temporary file\n"
 
 // Regular text colors
 # define BLACK "\033[0;30m"
